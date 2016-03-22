@@ -1,0 +1,12 @@
+機種:MacBook Pro 15(15-inch, Late2011)
+
+OS:OS X El Capitan
+
+CPU:プロセッサ2.2GHz Intel Core i7
+
+メモリ:8GB 1333 MHz DDR3
+
+起動ディスス:HD
+
+グラフィックス:Intel HD Graphics 3000 512 MB
+ 

@@ -17,7 +17,7 @@
             int X = Integer.parseInt(Number);           // xを整数に変換
             int Y = 0;                                  // 指数Yを初期化
             final int Z = X;                            // 表示用として保存
-            out.print("元の数値：" + Z + "<br>");
+            out.print("元の数値：" + Z + "<br>");         
             
             if ( X % 2 == 0){                   // 2で割れる場合
                 while ( X % 2 == 0 ){           // 2でできる限り割る
@@ -27,24 +27,23 @@
                 out.print(Z + "=" + "2^" + Y);   
                 
             } else if ( X % 2 != 0){            // 2で割れない場合
-              out.print(Z + "= 1" );             
-                }
+              out.print(Z + "= 1" );            //  
+              }
             
-             for (int i = 3; i < 8; i+=2){      // 3,5,7で割っていく
-                    Y = 0;                      // 各奇数の指数を初期化
-                    if ( X % i == 0){           
-                        
+            for (int i = 3; i < 8; i+=2){      // 3,5,7で割っていく
+                Y = 0;                      // 各奇数の指数を初期化
+                if ( X % i == 0){                   
                     while (X % i == 0){         
                         X = X / i;
                         Y++;                    //各奇数の指数をカウント
-                  
-                        } 
-                        out.print("*" + i + "^" + Y);
-                        }
+                    } 
+                    out.print("*" + i + "^" + Y);
                 }
-                if (X >= 10){                   //残った数字が10以上の場合
-                out.print(" * その他");
-                }     
+            }
+            
+            if (X >= 10){                   //残った数字が10以上の場合
+            out.print(" * その他");
+            }     
         %>
     </body>
 </html>

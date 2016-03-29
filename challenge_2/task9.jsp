@@ -13,6 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%@ page import="java.util.*"%>
         <%
             HashMap<String, String> hMap = new HashMap<>();
             
@@ -21,17 +22,23 @@
             hMap.put("soeda", "33");
             hMap.put("20", "20");
             
-            out.print(hMap.get("1"));
-            out.print("<br>");
+            for( Map.Entry <String,String> val : hMap.entrySet()){
+                out.print(val.getKey() + " ");
+                out.print("-> ");
+                out.print(val.getValue() + " // ");
+            }
             
-            out.print(hMap.get("hello"));
-            out.print("<br>");
+            //out.print(hMap.get("1"));
+            //out.print("<br>");
             
-            out.print(hMap.get("soeda"));
-            out.print("<br>");
+            //out.print(hMap.get("hello"));
+            //out.print("<br>");
             
-            out.print(hMap.get("20"));
-            out.print("<br>");
+            //out.print(hMap.get("soeda"));
+            //out.print("<br>");
+            
+            //out.print(hMap.get("20"));
+            //out.print("<br>");
         %>
     </body>
 </html>

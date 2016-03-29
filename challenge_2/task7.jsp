@@ -18,6 +18,25 @@
             for (int i = 0; i < score.length; i++){
                 out.println(score[i]);
             }
+            out.print("<br>");
         %>
+        
+    <%@ page import="java.util.ArrayList"%>
+    <%
+        ArrayList<String> al = 
+            new ArrayList<>();
+        
+        al.add("10");
+        al.add("100");
+        al.add("soeda");
+        al.add("hayashi");
+        al.add("-20");
+        al.add("118");
+        al.add("END");
+        
+        for(String val:al){
+            out.print(val + " ");
+        }
+    %>
     </body>
 </html>

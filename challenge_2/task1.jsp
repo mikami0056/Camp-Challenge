@@ -1,4 +1,4 @@
-<%--
+<%-- 
     Document   : task1.jsp
     Created on : 2016/03/28, 12:27:33
     Author     : SHO
@@ -13,7 +13,7 @@
     </head>
     <body>
         <%
-           int v = (int)(Math.random()*3) + 1;      //1〜3までの乱数を作成
+           int v = (int)(Math.random()*3) + 1;
            out.print("値 = " + v + "<br>");
             switch (v){
                 case 1:

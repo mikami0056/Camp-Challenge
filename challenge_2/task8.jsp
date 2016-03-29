@@ -24,6 +24,32 @@
             for (String value:score){
             out.println(value);
             }
+            out.print("<br><br>");
+        %>
+        
+        <%@page import = "java.util.*"%>
+        <%
+            ArrayList<String> al = new ArrayList<>();
+        
+            al.add("10");
+            al.add("100");
+            al.add("soeda");
+            al.add("hayashi");
+            al.add("-20");
+            al.add("118");
+            al.add("END");
+            
+            for(String val:al){
+            out.print(val + " ");
+            }
+            out.print("<br><br>");
+            
+            al.set(2, "33");
+            out.print("[soeda -> 33 ]に変更<br><br>");
+            
+            for(String val:al){
+            out.print(val + " ");
+            }
         %>
     </body>
 </html>

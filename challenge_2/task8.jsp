@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : task7
     Created on : 2016/03/28, 15:02:43
     Author     : SHO
@@ -13,24 +13,22 @@
     </head>
     <body>
         <%
+          //方法1
             String score[] ={"10", "100", "soeda", "hayashi", "-20", "118", "END"};
-            //String array[];
-            
+
             score[2] = "33";
-            //array = score;
-            //array[2] = "33";
-            
-            //for (String value:array){
+
             for (String value:score){
             out.println(value);
             }
             out.print("<br><br>");
         %>
-        
+
         <%@page import = "java.util.*"%>
         <%
+          //方法2
             ArrayList<String> al = new ArrayList<>();
-        
+
             al.add("10");
             al.add("100");
             al.add("soeda");
@@ -38,15 +36,15 @@
             al.add("-20");
             al.add("118");
             al.add("END");
-            
+
             for(String val:al){
             out.print(val + " ");
             }
             out.print("<br><br>");
-            
+
             al.set(2, "33");
             out.print("[soeda -> 33 ]に変更<br><br>");
-            
+
             for(String val:al){
             out.print(val + " ");
             }

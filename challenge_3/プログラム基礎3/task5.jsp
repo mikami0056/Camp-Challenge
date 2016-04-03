@@ -18,7 +18,7 @@
            受け取った後はid以外の値を表示する</p>
         <%
             String[] Array = getArray();
-            for (int i = 1; i < 4; i++){
+            for (int i = 1; i < Array.length; i++){
                 out.print(Array[i] + "<br>");
             }
             

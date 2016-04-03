@@ -17,41 +17,40 @@
            メソッドの呼び出し側でtrueを受け取れたら「この処理は正しく実行できました」<br>
            そうでないなら「正しく実行できませんでした」と表示する</p>
         <%
-            for (int i = 1; i < 11; i ++){
+            int a = 0;                                                          //10回終了の判断用変数
+            for (int i = 1; i < 11; i ++){   
                 out.print(i + " 回目 <br>");
-                out.print("私の名前は " + GetName() + " です。<br>");
-                out.print("生年月日は " + GetBirth() + " です。<br>");
-                out.print("現住所は " + GetAddress() + " です。<br>");
-                out.print("<br>");
-            }
-            if(GetType()){
-                    out.print("この処理は正しく実行出来ました。");
-                } else {
-                    out.print("正しく実行出来ませんでした。");
+                String[] Names = getInfo();
+                
+                for (int j = 0; j < Names.length; j++){
+                    out.print(Names[j] + "<br>");
+                    
                 }
+                a = i;
+                
+            }
+            boolean type = getType(a);
+                if(type){
+                    out.print("この処理は正しく実行出来ました。<br>");
+                        
+                } else {
+                    out.print("この処理は正しく実行出来ませんでした。<br>");
+         
+                }       
         %>
         
         <%!
-          String GetName(){
-            return "三上祥一郎";
+            String[] getInfo(){
+                String[] names = {"三上祥一郎", "平成3年5月6日", "千葉県印西市"};
+                return names;
+                
         }
         %>
         
         <%!
-          String GetBirth(){
-            return "平成3年5月6日";
-        }
-        %>
-        
-        <%!
-          String GetAddress(){
-            return "千葉県印西市";
-        }
-        %>
-        
-        <%!
-          boolean GetType(){
-            return false;
+            boolean getType(int i){
+                return i == 10;
+            
         }
         %>
     </body>

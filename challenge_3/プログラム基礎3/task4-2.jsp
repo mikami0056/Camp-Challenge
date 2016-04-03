@@ -27,8 +27,10 @@
                 
                     for (int j = 0; j < Names.length; j++){
                     out.print(Names[j] + "<br>");
+                    
                     }
                 out.print("<br><br>");
+                
                 }
                 
                 out.print("この処理は正しく処理されました。");

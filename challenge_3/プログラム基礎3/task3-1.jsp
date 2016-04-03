@@ -26,12 +26,11 @@
         <p>以下結果</p>
         
         <%
-            int v = (int)(Math.random()*10 + 1);
-            int c = 5;
+            int v = (int)(Math.random()*10 + 1);                                //適当な数値1を乱数で決定 1〜10まで
+            int c = 5;                                                          //数値2のデフォルト値を決定
             boolean type; type = false;  
             
-            out.print(getMulti(type, v, c));
-            
+            out.print(getMulti(type, v, c));   
         %>
         
         <%!
@@ -44,8 +43,10 @@
                 
             } else {
                 return sum;
+                
             }
             return sum;
+            
             }
         %>
         

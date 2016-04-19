@@ -37,35 +37,43 @@ public class task9 extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         
         //task9.jspより情報を取得
-        String id = request.getParameter("ID");
+        int id = Integer.parseInt(request.getParameter("ID"));
+        int age = Integer.parseInt(request.getParameter("age"));
         String name = request.getParameter("name");
         String tel = request.getParameter("tel");
-        String age = request.getParameter("age");
         String birthdate = request.getParameter("birthdate");
+        
+        //データベース接続準備
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.getStackTrace();
+        }
         
         //データベースとの接続準備及び初期化
         Connection con = null; 
         //SQL用
-        Statement db_st = null;
-        //結果取得用
+        PreparedStatement db_st = null;
+
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass"; 
         
         try{
-            //mysql接続用ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();  
-           
-           //各変数
-           String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-           String user = "sho";
-           String password = "shopass";
-           
-           //データベースへ接続
+           //データベースへ接続後, SQL文を登録
            con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
+           String sql = "INSERT INTO profiles VALUES (?, ?, ?, ?, ?)";
+           db_st = con.prepareStatement(sql);
            
-           //SQL文を登録
-           String sql = "INSERT INTO profiles VALUES (" + id + ", \'" + name + "\', \'" + tel + "\', " + age + ", \'"+ birthdate + "\'  )";
+           db_st.setInt(1, id);
+           db_st.setString(2, name);
+           db_st.setString(3, tel);
+           db_st.setInt(4, age);
+           db_st.setString(5, birthdate);
            
-           db_st.executeUpdate(sql);
+           //SQL文を実行           
+           db_st.executeUpdate();
            
            out.println("<!DOCTYPE html>");
            out.println("<html>");
@@ -74,7 +82,7 @@ public class task9 extends HttpServlet {
            out.println("</head>");
            out.println("<body>");
            out.println("<form action=\"./task9.jsp\">");
-           out.println(sql + "の実行が終了しました<br>");
+           out.println("SQL文の実行が終了しました<br>");
            out.println("<input type=\"submit\" value=\"戻る\">");                        
            out.println("</body>");
            out.println("</html>");

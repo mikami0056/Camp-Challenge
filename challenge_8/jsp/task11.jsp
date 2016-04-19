@@ -19,32 +19,32 @@
         <form action="./task11" method="post">
             <div>
             <font face = "sans-serif"><b>ID:</b></font>
-            <input type="text" name="ID" size="15"maxlength="15"/>
+            <input type="text" name="ID" size="15"maxlength="15" required/>
             </div>
         <h2>上書き内容</h2>
         <hr>
         <li>
            <div>
                <font face = "sans-serif"><b>名前:</b></font>
-               <input type="text" name="name" size="15"maxlength="15"/> 
+               <input type="text" name="name" size="15"maxlength="15" required/> 
            </div>
         </li>
         <li>
             <div>
                <font face = "sans-serif"><b>電話番号:</b></font>
-               <input type="tel" name="tel" size="15"maxlength="15" placeholder="例)000-1111-2222"/> 
+               <input type="tel" name="tel" size="15"maxlength="15" placeholder="例)000-1111-2222" required/> 
             </div>
         </li>
         <li>
             <div>
                <font face = "sans-serif"><b>年齢:</b></font>
-               <input type="number" name="age" size="15"maxlength="15"/>
+               <input type="number" name="age" size="15"maxlength="15" required />
             </div>
         </li>
         <li>
             <div>
                <font face = "sans-serif"><b>生年月日:</b></font>
-               <input type="text" name="birthdate" size="15"maxlength="15" placeholder="例)1990-01-01"/>
+               <input type="text" name="birthdate" size="15"maxlength="15" placeholder="例)1990-01-01" required/>
             </div>
         </li>
         <input type="submit" value="上書き登録">

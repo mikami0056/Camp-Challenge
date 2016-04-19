@@ -35,57 +35,78 @@ public class task10 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        //削除用IDを取得
-        String id = request.getParameter("ID");
+        //削除用IDを取得(判断用)
+        String ID = request.getParameter("ID");
         
-        //データベース接続準備
-        Connection con = null;
+        if("".equals(ID) != true){
         
-        //SQL用
-        Statement db_st = null;
+            //データベース接続準備
+            try{
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            }catch(ClassNotFoundException e){
+                e.getStackTrace();
+            }
         
-        try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection con = null;
+            PreparedStatement db_st = null;
+            int id = Integer.parseInt(ID); 
+            
+            //接続用各変数
             String url ="jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding = uft8";
             String name = "sho";
             String password = "shopass";
+        
+        
+            try{
+                con = DriverManager.getConnection(url,name,password);
+                String sql = "DELETE FROM profiles WHERE profilesID = ?";
+                db_st = con.prepareStatement(sql);
+                //パラメータに値を代入
+                db_st.setInt(1, id);
             
-            con = DriverManager.getConnection(url,name,password);
-            db_st = con.createStatement();
+                db_st.executeUpdate();
+                
+                //表示
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>task10</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<form action=\"./task10.jsp\">");
+                out.println("SQL文の実行が完了しました<br>");
+                out.println("<input type=\"submit\" value=\"戻る\">");                        
+                out.println("</body>");
+                out.println("</html>");
             
-            String sql = "DELETE FROM profiles WHERE profilesID = " + id;
-            db_st.execute(sql);
-
+                db_st.close();
+                con.close();
+            
+            }catch (SQLException e_sql) {
+                out.println("接続時にエラーが発生したました1：" + e_sql.toString());    
+            }catch (Exception e){
+                out.println("接続時にエラーが発生しました2：" + e.toString()); 
+            }finally {
+                if(con != null){
+                    try{
+                        con.close();
+                    } catch (Exception e_con){
+                        System.out.println(e_con.getMessage());
+                    }
+                }
+            }
+        } else if("".equals(ID) == true){
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>task10</title>");            
             out.println("</head>");
             out.println("<body>");
+            out.println("<p>削除対象IDが入力されていません.</p>");
             out.println("<form action=\"./task10.jsp\">");
-            out.println(sql + "の実行が完了しました<br>");
             out.println("<input type=\"submit\" value=\"戻る\">");                        
             out.println("</body>");
             out.println("</html>");
-            
-            db_st.close();
-            con.close();
-            
-        }catch (SQLException e_sql) {
-            out.println("接続時にエラーが発生したました1：" + e_sql.toString());  
-            
-        }catch (Exception e){
-            out.println("接続時にエラーが発生しました2：" + e.toString());
-            
-        }finally {
-            //out.println("接続成功!!");
-            if(con != null){
-                try{
-                    con.close();
-                } catch (Exception e_con){
-                    System.out.println(e_con.getMessage());
-                }
-            }
         }
     }
         

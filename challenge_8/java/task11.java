@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
@@ -37,55 +38,65 @@ public class task11 extends HttpServlet {
         PrintWriter out = response.getWriter();
         request.setCharacterEncoding("UTF-8");
         
-        String id = request.getParameter("ID");
+        //task11.jspより値を取得
+        int id = Integer.parseInt(request.getParameter("ID"));
+        int age = Integer.parseInt(request.getParameter("age"));
         String name = request.getParameter("name");
         String tel = request.getParameter("tel");
-        String age = request.getParameter("age");
         String birthdate = request.getParameter("birthdate"); 
+        
+        //mysql接続用ドライバクラスをロード
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.getStackTrace();
+        }
         
         //データベースとの接続準備及び初期化
         Connection con = null; 
         //SQL用
-        Statement db_st = null;
+        PreparedStatement db_st = null;
+        
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
         
         try{
-            //mysql接続用ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();  
+            //データベースへ接続
+            con = DriverManager.getConnection(url,user,password);
+            String sql = "UPDATE profiles SET name = ?, tell = ?, age = ?, birthday = ? WHERE profilesID = ? ";
+            db_st = con.prepareStatement(sql);
+            
+            //パラメータに値を代入
+            db_st.setString(1, name);
+            db_st.setString(2, tel);
+            db_st.setInt(3, age);
+            db_st.setString(4, birthdate);
+            db_st.setInt(5, id);
+            
+            //SQL文を実行
+            db_st.executeUpdate();
            
-           //各変数
-           String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-           String user = "sho";
-           String password = "shopass";
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>task10</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<form action=\"./task11.jsp\">");
+            out.print(sql + "の実行が終了しました<br>");
+            out.println("<input type=\"submit\" value=\"戻る\">");                        
+            out.println("</body>");
+            out.println("</html>");
            
-           //データベースへ接続
-           con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
-           
-           //SQL文を登録
-           String sql = "UPDATE profiles SET name = \'" + name + "\', tell = \'" + tel + "\', age = " + age + ", birthday = \'"+ birthdate + "\' WHERE profilesID = " + id;
-           db_st.executeUpdate(sql);
-           
-           out.println("<!DOCTYPE html>");
-           out.println("<html>");
-           out.println("<head>");
-           out.println("<title>task10</title>");            
-           out.println("</head>");
-           out.println("<body>");
-           out.println("<form action=\"./task11.jsp\">");
-           out.print(sql + "の実行が終了しました<br>");
-           out.println("<input type=\"submit\" value=\"戻る\">");                        
-           out.println("</body>");
-           out.println("</html>");
-           
-           db_st.close();
-           con.close();
+            db_st.close();
+            con.close();
            
         } catch (SQLException e_sql) {  
-            out.println("接続時にエラーが発生したました1：" + e_sql.toString());  
-            
+            out.println("接続時にエラーが発生したました1：" + e_sql.toString());    
         }catch (Exception e){
-            out.println("接続時にエラーが発生しました2：" + e.toString());
-            
+            out.println("接続時にエラーが発生しました2：" + e.toString());  
         }finally {
             if(con != null){
                 try{
@@ -95,7 +106,6 @@ public class task11 extends HttpServlet {
                 }
             }
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

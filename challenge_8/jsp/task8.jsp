@@ -18,7 +18,6 @@
         <font face = "sans-serif"><b>名前</b></font><br>
         <input type="text" name="name" size="15" maxlength="10" placeholder="名前を入力" >
         <br>
-        <form action="./task8" method="post">
         <input type="submit" value="検索">
         <br>
     </body>

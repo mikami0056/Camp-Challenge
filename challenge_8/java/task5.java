@@ -34,24 +34,33 @@ public class task5 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        //データベース接続準備
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        
         Connection con = null;
-        Statement db_st = null;
-        ResultSet db_data = null;
+        PreparedStatement db_st = null;
+        
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
         
         try{
-            //ドライバクラスをロード
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            
-            //各変数
-            String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-            String name = "sho";
-            String password = "shopass";
-            
             //データベースに接続
-            con = DriverManager.getConnection(url,name,password);
-            db_st = con.createStatement();
-            String sql = "SELECT * FROM profiles WHERE name LIKE \'%茂%\'";
-            db_data = db_st.executeQuery(sql);
+            con = DriverManager.getConnection(url,user,password);
+            
+            //SQL文をセット
+            String sql = "SELECT * FROM profiles WHERE name LIKE ?";
+            db_st = con.prepareStatement(sql);
+            
+            //値をSQL文にセット
+            db_st.setString(1, "%茂%");
+            ResultSet db_data = db_st.executeQuery();
+            
             while(db_data.next()){
                out.print("ID：" + db_data.getString("profilesID") + "<br>");
                out.print("名前：" + db_data.getString("name") + "<br>");
@@ -64,6 +73,7 @@ public class task5 extends HttpServlet {
             db_data.close();
             db_st.close();
             con.close();
+            
     }catch(SQLException e_sql){
         out.println("接続時にエラーが発生したました1：" + e_sql.toString());            
         }catch (Exception e){

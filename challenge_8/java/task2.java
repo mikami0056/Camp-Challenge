@@ -35,47 +35,53 @@ public class task2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        //DB接続準備
+        try{
+            //JDBCドライバクラスのロード
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        
         Connection con = null;
-        //PreparedStatement db_st = null;
-        Statement db_st = null;
-        ResultSet db_data = null;
+        PreparedStatement db_st = null;
+        
+        //接続時の変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
         
         try{
-            //ドライバクラスをロード
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //データベース(challenge_db)への接続
+            con = DriverManager.getConnection(url, user, password);
+            //VALUSE(profilesID, name, tell, age, birthday)
+            String sql = "INSERT INTO profiles VALUES (?, ?, ?, ?, ?)";
+            db_st = con.prepareStatement(sql);
             
-            //データベース接続用ローカル変数を宣言
-            //String url = "jdbc:mysql://localhost:3306/challenge_db?charachterEncoding=utf8";
-            String user = "sho";
-            String password = "shopass";
+            //値をSQLに代入
+            db_st.setInt(1, 12);
+            db_st.setString(2, "山田太郎");
+            db_st.setString(3, "111-222-3333");
+            db_st.setInt(4, 88);
+            db_st.setString(5, "2000-01-01");
             
-            //データベースへ接続
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8", user, password);
-            
-            //データの追加
-            db_st = con.createStatement();
-            //SQL代入用変数
-            int id = 1;
-            String name = "山田太郎";
-            String tell = "111-222-3333";
-            int age = 88;
-            String birthdate = "2000-01-01";
-            
-            String sql ="INSERT INTO profiles VALUES (" + id + ", \'" + name + "\', \'" + tell + "\', " + age + ", \'" + birthdate + "\')" ;
-            db_st.execute(sql);
-            out.print("SQL文「"+sql + "」の書き込みが終了しました");
+            //SQL文を実行
+            db_st.executeUpdate();
+            out.println("SQLの実行が終了しました。データベースを確認してください。");
             db_st.close();
             
-        }catch (SQLException e_sql){
-            out.println("接続時にエラーが発生したました1：" + e_sql.toString());            
-        }catch (Exception e){
+        }catch(SQLException e_sql){
+            e_sql.printStackTrace();
+            out.println("接続時にエラーが発生したました1：" + e_sql.toString());
+        }catch(Exception e){
+            e.printStackTrace();
             out.println("接続時にエラーが発生しました2：" + e.toString());
-        }finally {
-            //out.println("接続成功!!");
+        }finally{
             if(con != null){
                 try{
                     con.close();
-                } catch (Exception e_con){
+                } catch(SQLException e_con){
+                    e_con.printStackTrace();
                     System.out.println(e_con.getMessage());
                 }
             }

@@ -36,32 +36,37 @@ public class task7 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        //データベース接続準備
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.getStackTrace();
+        }
+        
         Connection con = null;
-        Statement db_st = null;
+        PreparedStatement db_st = null;
         ResultSet db_data = null;
         
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
+        
         try {
-            //ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //データベースへ接続
+            con = DriverManager.getConnection(url,user,password);
+            String sql = "UPDATE profiles SET name = ?, age = ?, birthday = ? WHERE profilesID= ?";
+            db_st = con.prepareStatement(sql);
            
-           //各変数
-            String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-            String user = "sho";
-            String password = "shopass";
+            //SQL代入用変数
+            db_st.setString(1, "松岡修造 ");
+            db_st.setInt(2, 48);
+            db_st.setString(3, "1967-11-06 ");
+            db_st.setInt(4, 1);
             
-           //データベースへ接続
-           con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
-           
-           //SQL代入用変数
-            int id = 1;
-            String name = "松岡修造";
-            String tell = "111-222-3333";
-            int age = 48;
-            String birthdate = "1967-11-06";
+            //SQL実行
+            db_st.executeUpdate();
             
-           String sql = "UPDATE profiles SET name = \'" + name + "\', age = " + age + ", birthday = \'" + birthdate + "\' WHERE profilesID=" + id;
-           db_st.execute(sql);
            sql = "SELECT * FROM profiles WHERE profilesID = 1";
            db_data = db_st.executeQuery(sql);
            while(db_data.next()){
@@ -76,6 +81,7 @@ public class task7 extends HttpServlet {
            db_data.close();
            db_st.close();
            con.close();
+           
         }catch(SQLException e_sql){
             out.println("接続時にエラーが発生したました1：" + e_sql.toString());            
         }catch (Exception e){

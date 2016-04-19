@@ -35,26 +35,33 @@ public class task6 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        //データベース接続準備
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.getStackTrace();
+        }
+        
         Connection con = null;
-        Statement db_st = null;
-        ResultSet db_data = null;
+        PreparedStatement db_st = null;
+        
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
         
         try {
-            //ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();
-           
-           //各変数
-            String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-            String user = "sho";
-            String password = "shopass";
-            
            //データベースへ接続
            con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
+           
+           //SQL文をセット
            String sql = "DELETE FROM profiles WHERE name LIKE \'%山田%\'";
-           db_st.execute(sql);
+           db_st = con.prepareStatement(sql);
+           
+           db_st.executeUpdate();
            sql = "SELECT * FROM profiles";
-           db_data = db_st.executeQuery(sql);
+           
+           ResultSet db_data = db_st.executeQuery(sql);
            while(db_data.next()){
                out.print("ID：" + db_data.getString("profilesID") + "<br>");
                out.print("名前：" + db_data.getString("name") + "<br>");

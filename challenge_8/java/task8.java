@@ -36,42 +36,52 @@ public class task8 extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         
         String name = request.getParameter("name");
+        
+        //データベース接続準備
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.getStackTrace();
+        }
+        
         Connection con = null;
-        Statement db_st = null;
+        PreparedStatement db_st = null;
         ResultSet db_data = null;
         
+        //各変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
+        
         try {
-            //ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();
-           
-           //各変数
-           String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-           String user = "sho";
-           String password = "shopass";
+            //データベースへ接続
+            con = DriverManager.getConnection(url,user,password);
+            String sql = "SELECT * FROM profiles WHERE name LIKE ?";
+            db_st = con.prepareStatement(sql);
             
-           //データベースへ接続
-           con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
-           String sql = "SELECT * FROM profiles WHERE name LIKE \'%"+ name +"%\'";
-           db_data = db_st.executeQuery(sql);
+            //パラメータに値を代入
+            db_st.setString(1, "%" + name + "%");
+            
+            //
+            db_data = db_st.executeQuery();
            
-           out.println("<!DOCTYPE html>");
-           out.println("<html>");
-           out.println("<head>");
-           out.println("<title>task8</title>");            
-           out.println("</head>");
-           out.println("<body>");
-           out.println("<form action=\"./task8.jsp\">");
-           out.println("<p>検索内容:「" + name + "」</p>");
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>task8</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<form action=\"./task8.jsp\">");
+            out.println("<p>検索内容:「" + name + "」</p>");
            
-           while(db_data.next()){
-               out.print("ID：" + db_data.getString("profilesID") + "<br>");
-               out.print("名前：" + db_data.getString("name") + "<br>");
-               out.print("電話番号：" + db_data.getString("tell") + "<br>");
-               out.print("年齢：" + db_data.getString("age") + "<br>");
-               out.print("誕生日：" + db_data.getString("birthday") + "<br>");
-               out.print("<br>");
-           }
+            while(db_data.next()){
+                out.print("ID：" + db_data.getString("profilesID") + "<br>");
+                out.print("名前：" + db_data.getString("name") + "<br>");
+                out.print("電話番号：" + db_data.getString("tell") + "<br>");
+                out.print("年齢：" + db_data.getString("age") + "<br>");
+                out.print("誕生日：" + db_data.getString("birthday") + "<br>");
+                out.print("<br>");
+            }
            
            out.println("<input type=\"submit\" value=\"戻る\">");                        
            out.println("</body>");

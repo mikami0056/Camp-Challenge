@@ -36,36 +36,48 @@ public class task3 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        //データベース接続準備
+        try{
+            //データベースドライバのロード
+            Class.forName("com.mysql.jdbc.Driver");
+            
+        //データベースドライバがない場合    
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        
         Connection con = null;
-        Statement db_st = null;
-        ResultSet db_data = null;
+        PreparedStatement db_st = null;
+        
+        //接続時の変数
+        String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
+        String user = "sho";
+        String password = "shopass";
         
         try {
-            //ドライバクラスをロード
-           Class.forName("com.mysql.jdbc.Driver").newInstance();
-           
-           //各変数
-            String url = "jdbc:mysql://localhost:3306/challenge_db?useUnicode=true&characterEncoding=utf8";
-            String user = "sho";
-            String password = "shopass";
+            //データベース(challenge_db)に接続
+            con = DriverManager.getConnection(url, user, password);
             
-           //データベースへ接続
-           con = DriverManager.getConnection(url,user,password);
-           db_st = con.createStatement();
-           String sql = "SELECT * FROM profiles";
-           db_data = db_st.executeQuery(sql);
-           while(db_data.next()){
-               out.print("ID：" + db_data.getString("profilesID") + "<br>");
-               out.print("名前：" + db_data.getString("name") + "<br>");
-               out.print("電話番号：" + db_data.getString("tell") + "<br>");
-               out.print("年齢：" + db_data.getString("age") + "<br>");
-               out.print("誕生日：" + db_data.getString("birthday") + "<br>");
-               out.print("<br>");
-           }
-           
-           db_data.close();
-           db_st.close();
-           con.close();
+            //SQL文をセット
+            String sql = "SELECT * FROM profiles";
+            
+            //SELECT文実行後, Resultsetインスタンスに結果を渡す
+            db_st = con.prepareStatement(sql);
+            ResultSet db_data = db_st.executeQuery(sql);
+            
+            while(db_data.next()){
+                out.print("ID：" + db_data.getString("profilesID") + "<br>");
+                out.print("名前：" + db_data.getString("name") + "<br>");
+                out.print("電話番号：" + db_data.getString("tell") + "<br>");
+                out.print("年齢：" + db_data.getString("age") + "<br>");
+                out.print("誕生日：" + db_data.getString("birthday") + "<br>");
+                out.print("<br>");
+            }
+            
+            db_data.close();
+            db_st.close();
+            con.close();
+            
         }catch(SQLException e_sql){
             out.println("接続時にエラーが発生したました1：" + e_sql.toString());            
         }catch (Exception e){

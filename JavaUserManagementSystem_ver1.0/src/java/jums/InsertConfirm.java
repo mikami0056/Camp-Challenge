@@ -29,13 +29,17 @@ public class InsertConfirm extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         try{
             HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
             String accesschk = request.getParameter("ac");
             if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-                throw new Exception("不正なアクセスです");
+                throw new Exception("A:不正なアクセスです");
             }
+            
+            //追加点(課題7):セッションスコープ登録用インスタンス
+            RegisteredUser user = new RegisteredUser();
             
             //フォームからの入力を取得
             String name = request.getParameter("name");
@@ -45,88 +49,104 @@ public class InsertConfirm extends HttpServlet {
             String type = request.getParameter("type");
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
+            String empty = "";
             
             //追加点(課題6):カレンダー用のint型変数を宣言
-            int y=0, m=0, d=0;
+            //int y=0, m=0, d=0;
             
-            //追加点(課題3):フォーム入力有無確認用
-            Boolean check = true; 
+            //追加点(課題3):フォーム入力有無確認用(漏れが有ればfalseとなる)
+            //Boolean check = true; 
             //追加点(課題3):フォーム未入力時警告用
-            String caution = "";
+            //String caution = "";
             //追加点(課題4):インスタンスの有無確認用を取得
             Boolean existing = (Boolean)session.getAttribute("existing");   
             
             //セッションに格納
-            session.setAttribute("name", name);
+            
+            //変更点(課題7):インスタンス内に格納. 以下, 入力判別用if文はコメントアウトし, 全てRegisteredUserクラスに移行.
+            user.setCaution(empty);    //事前に保存された警告文の削除
+            user.setName(name);
+            user.setYear(year);
+            user.setMonth(month);
+            user.setDay(day);
+            user.setType(type);
+            user.setTell(tell);
+            user.setComment(comment);
+            
+            session.setAttribute("user", user);
+            
+            //session.setAttribute("name", name);
             //追加点(課題3):未入力または半角空欄が入力されている場合, 以下同じ
-            if("".equals(name) || name.trim().length() == 0){
-                check = false;
-                caution = "・名前<br>";
-            } 
+            //if("".equals(name) || name.trim().length() == 0){
+            //    check = false;
+            //    caution = "・名前<br>";
+            //} 
             
-            session.setAttribute("year", year);
+            //session.setAttribute("year", year);
             //追加点(課題3)
-            if("".equals(year)){
-                check = false;
-                caution += "・年<br>";
-            } else {
+            //if("".equals(year)){
+            //    check = false;
+            //    caution += "・年<br>";
+            //} else {
                 //追加点(課題6):カレンダー用の変数を用意
-                y = Integer.parseInt(year);
-            }
+            //    y = Integer.parseInt(year);
+            //}
             
-            session.setAttribute("month",month);
-            //追加点(課題3)
-            if("".equals(month)){
-                check = false;
-                caution += "・月<br>";
-            } else {
-                //追加点(課題6):カレンダー用の変数を用意
-                m = Integer.parseInt(month) - 1;
-            }
             
-            session.setAttribute("day", day);
+            //session.setAttribute("month",month);
             //追加点(課題3)
-            if("".equals(day)){
-                check = false;
-                caution += "・日<br>";
-            } else {
+            //if("".equals(month)){
+            //    check = false;
+            //    caution += "・月<br>";
+            //} else {
                 //追加点(課題6):カレンダー用の変数を用意
-                d = Integer.parseInt(day);
-            }
+            //    m = Integer.parseInt(month) - 1;
+            //}
+            
+            //session.setAttribute("day", day);
+            //追加点(課題3)
+            //if("".equals(day)){
+            //    check = false;
+            //    caution += "・日<br>";
+            //} else {
+                //追加点(課題6):カレンダー用の変数を用意
+            //    d = Integer.parseInt(day);
+            //}
             
             //追加点(課題6):カレンダー用のインスタンスをセッションスコープに保存
-            if( y!=0 && m!=0 && d!=0 ){
-                Calendar cbirth = Calendar.getInstance();
-                cbirth.set(y, m, d);
-                Date birthday = cbirth.getTime();
-                session.setAttribute("birthday", birthday);
-            }
+            //f( y!=0 && m!=0 && d!=0 ){
+            //    Calendar cbirth = Calendar.getInstance();
+            //    cbirth.set(y, m, d);
+            //    Date birthday = cbirth.getTime();
+            //    session.setAttribute("birthday", birthday);
+            //}
             
-            session.setAttribute("type", type);
+            //session.setAttribute("type", type);
             //追加点(課題3)
-            if("".equals(type)){
-                check = false;
-                caution += "・職種<br>";
-            }
+            //if("".equals(type)){
+            //    check = false;
+            //    caution += "・職種<br>";
+            //}
             
-            session.setAttribute("tell", tell);
+            //session.setAttribute("tell", tell);
             //追加点(課題3)
-            if("".equals(tell) || tell.trim().length() == 0){
-                check = false;
-                caution += "・電話<br>";
-            }
+            //if("".equals(tell) || tell.trim().length() == 0){
+            //    check = false;
+            //    caution += "・電話<br>";
+            //}
             
-            session.setAttribute("comment", comment);
+            //session.setAttribute("comment", comment);
             //追加点(課題3)
-            if("".equals(comment)){
-                check = false;
-                caution += "・自己紹介<br>";
-            }
+            //if("".equals(comment)){
+            //    check = false;
+            //    caution += "・自己紹介<br>";
+            //}
 
             //追加点(課題3):フォーム入力有無確認用
-            session.setAttribute("check", check);
+            //session.setAttribute("check", check);
             //追加点(課題3):フォーム未入力時警告用
-            session.setAttribute("caution", caution);
+            //session.setAttribute("caution", caution);
+            
             //追加点(課題4):各インスタンス有無確認用
             existing = true;
             session.setAttribute("existing", existing);

@@ -12,7 +12,8 @@ import java.util.Date;
 public class UserDataDTO {
     private int userID;
     private String name;
-    private Date birthday;  
+    //変更点(課題7):Date型からboolean型に変更. タイムスタンプ取得のため.
+    private long birthday;  
     private String tell;
     private int type;
     private String comment;
@@ -33,10 +34,11 @@ public class UserDataDTO {
         this.name = name;
     }
     
-    public Date getBirthday(){
+    //変更点(課題7)
+    public long getBirthday(){
         return birthday;
     }
-    public void setBirthday(Date birthday){
+    public void setBirthday(long birthday){
         this.birthday = birthday;
     }
     

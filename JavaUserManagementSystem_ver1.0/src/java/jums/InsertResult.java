@@ -34,6 +34,7 @@ public class InsertResult extends HttpServlet {
         
         //セッションスタート
         HttpSession session = request.getSession();
+        RegisteredUser user = (RegisteredUser)session.getAttribute("user");
         
         //追加点(課題2)
         try{
@@ -42,17 +43,18 @@ public class InsertResult extends HttpServlet {
             if(accesschk == null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
-        //追加点(課題2)
         
         try{
+            //変更点(課題7)userdataに代入するインスタンスを, 全てuserから取得
             //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
             UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)session.getAttribute("name"));
-            Calendar birthday = Calendar.getInstance();
-            userdata.setBirthday((Date)session.getAttribute("birthday"));     //
-            userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
-            userdata.setTell((String)session.getAttribute("tell"));
-            userdata.setComment((String)session.getAttribute("comment"));
+            userdata.setName(user.getName());
+            //Calendar birthday = Calendar.getInstance();
+            //userdata.setBirthday((Date)session.getAttribute("birthday"));
+            userdata.setBirthday(user.getBirthday());
+            userdata.setType(Integer.parseInt(user.getType()));
+            userdata.setTell(user.getTell());
+            userdata.setComment(user.getComment());
             
             //DBへデータの挿入
             UserDataDAO .getInstance().insert(userdata);

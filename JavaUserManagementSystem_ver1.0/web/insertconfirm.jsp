@@ -1,7 +1,14 @@
+<%@page import="jums.RegisteredUser"%>
 <%@page import="jums.JumsHelper"%>                                              <!-- 追加点(課題1) -->
 <%@page import="javax.servlet.http.HttpSession" %>
 <%
     HttpSession hs = request.getSession();
+    //追加点(課題7)
+    Boolean existing = (Boolean)hs.getAttribute("existing");
+    RegisteredUser user = new RegisteredUser();
+    if(existing){
+        user = (RegisteredUser)hs.getAttribute("user");
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,14 +18,14 @@
         <title>JUMS登録確認画面</title>
     </head>
     <body>
-    <!-- 変更点(課題3) 以下のif文の条件文を変更 -->
-    <% if((Boolean)hs.getAttribute("check")){ %>
+    <!-- 変更点(課題3, 7) 以下のif文の条件文を変更 -->
+    <% if((Boolean)user.isCheck()){ %>
         <h1>登録確認</h1>
-        名前:<%= hs.getAttribute("name")%><br>
-        生年月日:<%= hs.getAttribute("year")+"年"+hs.getAttribute("month")+"月"+hs.getAttribute("day")+"日"%><br>
-        種別:<%= hs.getAttribute("type")%><br>
-        電話番号:<%= hs.getAttribute("tell")%><br>
-        自己紹介:<%= hs.getAttribute("comment")%><br>
+        名前:<%= user.getName() %><br>
+        生年月日:<%= user.getYear()+"年"+user.getMonth()+"月"+user.getDay()+"日" %><br>
+        種別:<%= user.getType() %><br>
+        電話番号:<%= user.getTell() %><br>
+        自己紹介:<%= user.getComment()%><br>
         上記の内容で登録します。よろしいですか？
         <form action="insertresult" method="POST">
             <input type="submit" name="yes" value="はい">
@@ -26,10 +33,9 @@
         </form>
     <% }else{ %>
         <h1>入力が不完全です</h1>
-        <!-- 追加点(課題3)ここから -->
         <p>以下の内容が未入力です</p>
-        <%= hs.getAttribute("caution")%><!-- 未入力内容を表示 -->
-        <!-- 追加点(課題3)ここまで -->
+        <!-- 追加点(課題3, 7):未入力内容を表示 -->
+        <%= user.getCaution()%>
     <% } %>
         <form action="insert" method="POST">
             <input type="submit" name="no" value="登録画面に戻る">

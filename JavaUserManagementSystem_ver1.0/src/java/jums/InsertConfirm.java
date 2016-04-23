@@ -24,6 +24,7 @@ public class InsertConfirm extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
@@ -42,15 +43,65 @@ public class InsertConfirm extends HttpServlet {
             String type = request.getParameter("type");
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
-
+            
+            Boolean check = true;   //追加点(課題3):フォーム入力有無確認用 
+            String caution = "";    //追加点(課題3):フォーム未入力時警告用
+            
             //セッションに格納
             session.setAttribute("name", name);
+            //追加点(課題3):未入力または半角空欄が入力されている場合, 以下同じ
+            if("".equals(name) || name.trim().length() == 0){
+                check = false;
+                caution = "・名前<br>";
+            }
+            
             session.setAttribute("year", year);
+            //追加点(課題3)
+            if("".equals(year)){
+                check = false;
+                caution += "・年<br>";
+            }
+            
             session.setAttribute("month",month);
+            //追加点(課題3)
+            if("".equals(month)){
+                check = false;
+                caution += "・月<br>";
+            }
+            
             session.setAttribute("day", day);
+            //追加点(課題3)
+            if("".equals(day)){
+                check = false;
+                caution += "・日<br>";
+            }
+            
             session.setAttribute("type", type);
+            //追加点(課題3)
+            if("".equals(type)){
+                check = false;
+                caution += "・職種<br>";
+            }
+            
             session.setAttribute("tell", tell);
+            //追加点(課題3)
+            if("".equals(tell) || tell.trim().length() == 0){
+                check = false;
+                caution += "・電話<br>";
+            }
+            
             session.setAttribute("comment", comment);
+            //追加点(課題3)
+            if("".equals(comment)){
+                check = false;
+                caution += "・自己紹介<br>";
+            }
+            
+            //追加点(課題3):フォーム入力有無確認用
+            session.setAttribute("check", check);
+            //追加点(課題3):フォーム未入力時警告用
+            session.setAttribute("caution", caution);
+            
             System.out.println("Session updated!!");
             
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);
@@ -60,7 +111,6 @@ public class InsertConfirm extends HttpServlet {
         }
             
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

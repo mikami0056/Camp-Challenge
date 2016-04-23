@@ -33,6 +33,7 @@ public class InsertResult extends HttpServlet {
         
         //セッションスタート
         HttpSession session = request.getSession();
+        
         //追加点(課題2)
         try{
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更

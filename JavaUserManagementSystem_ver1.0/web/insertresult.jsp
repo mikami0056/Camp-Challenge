@@ -20,6 +20,8 @@
         自己紹介:<%= hs.getAttribute("comment")%><br>
         以上の内容で登録しました。<br>
         <!-- 追加点(課題1) -->
-        <%=JumsHelper.getInstance().home()%>  
+        <%=JumsHelper.getInstance().home()%>
+        <!-- 追加点(課題5):セッションスコープを破棄 -->
+        <!-- <% hs.invalidate(); %> -->
     </body>
 </html>

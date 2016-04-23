@@ -75,6 +75,7 @@
 
         自己紹介文
         <br>
+        <!-- 変更点:スコープ内にcommentインスタンスがあれば取得 -->
         <textarea name="comment" rows=10 cols=50 style="resize:none" wrap="hard" placeholder="よろしくお願いします。"><% if(hs.getAttribute("comment") != null){ out.print(hs.getAttribute("comment")); } %></textarea><br><br>
         
         <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">

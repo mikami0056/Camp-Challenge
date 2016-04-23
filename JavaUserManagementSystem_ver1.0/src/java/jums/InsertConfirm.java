@@ -1,6 +1,8 @@
 package jums;
 
 import java.io.IOException;
+import java.util.Calendar;  //追加点(課題6)
+import java.util.Date;      //追加点(課題6)
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +46,9 @@ public class InsertConfirm extends HttpServlet {
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
             
+            //追加点(課題6):カレンダー用のint型変数を宣言
+            int y=0, m=0, d=0;
+            
             //追加点(課題3):フォーム入力有無確認用
             Boolean check = true; 
             //追加点(課題3):フォーム未入力時警告用
@@ -57,13 +62,16 @@ public class InsertConfirm extends HttpServlet {
             if("".equals(name) || name.trim().length() == 0){
                 check = false;
                 caution = "・名前<br>";
-            }
+            } 
             
             session.setAttribute("year", year);
             //追加点(課題3)
             if("".equals(year)){
                 check = false;
                 caution += "・年<br>";
+            } else {
+                //追加点(課題6):カレンダー用の変数を用意
+                y = Integer.parseInt(year);
             }
             
             session.setAttribute("month",month);
@@ -71,6 +79,9 @@ public class InsertConfirm extends HttpServlet {
             if("".equals(month)){
                 check = false;
                 caution += "・月<br>";
+            } else {
+                //追加点(課題6):カレンダー用の変数を用意
+                m = Integer.parseInt(month) - 1;
             }
             
             session.setAttribute("day", day);
@@ -78,6 +89,17 @@ public class InsertConfirm extends HttpServlet {
             if("".equals(day)){
                 check = false;
                 caution += "・日<br>";
+            } else {
+                //追加点(課題6):カレンダー用の変数を用意
+                d = Integer.parseInt(day);
+            }
+            
+            //追加点(課題6):カレンダー用のインスタンスをセッションスコープに保存
+            if( y!=0 && m!=0 && d!=0 ){
+                Calendar cbirth = Calendar.getInstance();
+                cbirth.set(y, m, d);
+                Date birthday = cbirth.getTime();
+                session.setAttribute("birthday", birthday);
             }
             
             session.setAttribute("type", type);
@@ -100,8 +122,7 @@ public class InsertConfirm extends HttpServlet {
                 check = false;
                 caution += "・自己紹介<br>";
             }
-            
-            
+
             //追加点(課題3):フォーム入力有無確認用
             session.setAttribute("check", check);
             //追加点(課題3):フォーム未入力時警告用
@@ -109,8 +130,7 @@ public class InsertConfirm extends HttpServlet {
             //追加点(課題4):各インスタンス有無確認用
             existing = true;
             session.setAttribute("existing", existing);
-            
-            
+           
             System.out.println("Session updated!!");
             
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);

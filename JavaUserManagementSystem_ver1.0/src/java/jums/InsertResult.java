@@ -3,6 +3,7 @@ package jums;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -48,7 +49,7 @@ public class InsertResult extends HttpServlet {
             UserDataDTO userdata = new UserDataDTO();
             userdata.setName((String)session.getAttribute("name"));
             Calendar birthday = Calendar.getInstance();
-            userdata.setBirthday(birthday.getTime());
+            userdata.setBirthday((Date)session.getAttribute("birthday"));     //
             userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
             userdata.setTell((String)session.getAttribute("tell"));
             userdata.setComment((String)session.getAttribute("comment"));

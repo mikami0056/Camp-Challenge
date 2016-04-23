@@ -12,7 +12,7 @@ import java.util.Date;
 public class UserDataDTO {
     private int userID;
     private String name;
-    private Date birthday;
+    private Date birthday;  
     private String tell;
     private int type;
     private String comment;

@@ -25,7 +25,12 @@ public class Insert extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("ac", (int) (Math.random() * 1000));
+        
+        //追加点(課題4):セッションスコープ保存用の乱数
+        Integer id = (Integer)(int)(Math.random() * 1000);
+        //変更点(課題4):セッションスコープに保存する型を[int]から[Integer]に変更
+        session.setAttribute("ac", id);
+        
         request.getRequestDispatcher("/insert.jsp").forward(request, response);   
     }
 

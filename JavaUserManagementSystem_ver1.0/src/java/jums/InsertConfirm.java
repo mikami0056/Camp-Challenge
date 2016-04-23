@@ -44,8 +44,12 @@ public class InsertConfirm extends HttpServlet {
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
             
-            Boolean check = true;   //追加点(課題3):フォーム入力有無確認用 
-            String caution = "";    //追加点(課題3):フォーム未入力時警告用
+            //追加点(課題3):フォーム入力有無確認用
+            Boolean check = true; 
+            //追加点(課題3):フォーム未入力時警告用
+            String caution = "";
+            //追加点(課題4):インスタンスの有無確認用を取得
+            Boolean existing = (Boolean)session.getAttribute("existing");   
             
             //セッションに格納
             session.setAttribute("name", name);
@@ -97,10 +101,15 @@ public class InsertConfirm extends HttpServlet {
                 caution += "・自己紹介<br>";
             }
             
+            
             //追加点(課題3):フォーム入力有無確認用
             session.setAttribute("check", check);
             //追加点(課題3):フォーム未入力時警告用
             session.setAttribute("caution", caution);
+            //追加点(課題4):各インスタンス有無確認用
+            existing = true;
+            session.setAttribute("existing", existing);
+            
             
             System.out.println("Session updated!!");
             

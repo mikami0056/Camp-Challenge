@@ -1,4 +1,5 @@
-<%@page import="jums.JumsHelper"%>                                              <!-- 追加点(課題1) -->
+<!-- 追加点(課題1) -->
+<%@page import="jums.JumsHelper"%>                                              
 <%@page import="javax.servlet.http.HttpSession" %>
 <%
     HttpSession hs = request.getSession();
@@ -18,6 +19,7 @@
         電話番号:<%= hs.getAttribute("tell")%><br>
         自己紹介:<%= hs.getAttribute("comment")%><br>
         以上の内容で登録しました。<br>
-        <%=JumsHelper.getInstance().home()%>                                    <!-- 追加点(課題1) -->
+        <!-- 追加点(課題1) -->
+        <%=JumsHelper.getInstance().home()%>  
     </body>
 </html>

@@ -1,4 +1,4 @@
-<%@page import="jums.JumsHelper"%>
+<%@page import="jums.JumsHelper"%>                                              <!-- 追加点(課題1) -->
 <%@page import="javax.servlet.http.HttpSession" %>
 <%
     HttpSession hs = request.getSession();
@@ -28,6 +28,6 @@
         <form action="insert" method="POST">
             <input type="submit" name="no" value="登録画面に戻る">
         </form>
-        <%= JumsHelper.getInstance().home() %>
+        <%= JumsHelper.getInstance().home() %>                                  <!-- 追加点(課題1) -->
     </body>
 </html>

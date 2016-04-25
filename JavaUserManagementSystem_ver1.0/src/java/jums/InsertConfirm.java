@@ -35,7 +35,7 @@ public class InsertConfirm extends HttpServlet {
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
             String accesschk = request.getParameter("ac");
             if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-                throw new Exception("A:不正なアクセスです");
+                throw new Exception("不正なアクセスです");
             }
             
             //追加点(課題7):セッションスコープ登録用インスタンス
@@ -59,7 +59,7 @@ public class InsertConfirm extends HttpServlet {
             //追加点(課題3):フォーム未入力時警告用
             //String caution = "";
             //追加点(課題4):インスタンスの有無確認用を取得
-            Boolean existing = (Boolean)session.getAttribute("existing");   
+            Boolean isExisting = (Boolean)session.getAttribute("isExisting");   
             
             //セッションに格納
             
@@ -148,8 +148,8 @@ public class InsertConfirm extends HttpServlet {
             //session.setAttribute("caution", caution);
             
             //追加点(課題4):各インスタンス有無確認用
-            existing = true;
-            session.setAttribute("existing", existing);
+            isExisting = true;
+            session.setAttribute("isExisting", isExisting);
            
             System.out.println("Session updated!!");
             

@@ -2,10 +2,12 @@ package jums;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,21 +26,25 @@ public class UpdateResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateResult</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateResult at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+        HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
+        
+        //UserDataDTO udd = (UserDataDTO)session.getAttribute("updateData");
+        //JumsHelper jh = JumsHelper.getInstance();
+        //ArrayList<String> chkList = new ArrayList<String>();
+        
+        try{
+            
+            UserDataDTO udd = (UserDataDTO)session.getAttribute("updateData");
+            UserDataDTO updateResult = (UserDataDTO)UserDataDAO.getInstance().update(udd);
+            session.setAttribute("updateResult", updateResult);
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/updateresult.jsp");
+            dispatcher.forward(request, response);
+
+        } catch(Exception e){
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

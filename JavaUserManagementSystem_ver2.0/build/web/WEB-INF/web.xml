@@ -40,6 +40,10 @@
         <servlet-name>DeleteResult</servlet-name>
         <servlet-class>jums.DeleteResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateConfirm</servlet-name>
+        <servlet-class>jums.UpdateConfirm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>insert</servlet-name>
         <url-pattern>/insert</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>DeleteResult</servlet-name>
         <url-pattern>/DeleteResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateConfirm</servlet-name>
+        <url-pattern>/UpdateConfirm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

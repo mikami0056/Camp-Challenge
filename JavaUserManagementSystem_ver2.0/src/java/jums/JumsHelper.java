@@ -26,7 +26,8 @@ public class JumsHelper {
      * @param chkList　UserDataBeansで生成されるリスト。未入力要素の名前が格納されている
      * @return 未入力の項目に対応する文字列
      */
-    public String chkinput(ArrayList<String> chkList){
+    //変更点(名称変更):chkinputからchkInputに変更
+    public String chkInput(ArrayList<String> chkList){
         String output = "";
         for(String val : chkList){
                 if(val.equals("name")){
@@ -60,12 +61,13 @@ public class JumsHelper {
      * @param i
      * @return 
      */
+    //変更点:職種と番号の組み合わせを, 課題1と対応に変更
     public String exTypenum(int i){
         switch(i){
             case 1:
-                return "営業";
-            case 2:
                 return "エンジニア";
+            case 2:
+                return "営業";
             case 3:
                 return "その他";
         }

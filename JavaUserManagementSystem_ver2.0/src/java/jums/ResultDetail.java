@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,12 +30,20 @@ public class ResultDetail extends HttpServlet {
 
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
-            searchData.setUserID(2);
-
-            UserDataDTO resultData = UserDataDAO .getInstance().searchByID(searchData);
-            request.setAttribute("resultData", resultData);
+            HttpSession session = request.getSession();
             
-            request.getRequestDispatcher("/resultdetail.jsp").forward(request, response);  
+            //追加点:if文の追加, detele.jspより遷移した際に使用
+            if(request.getParameter("NO") == null){
+                //変更点:setUserIDメソッドの引数を変更
+                int id = Integer.parseInt(request.getParameter("id"));
+                searchData.setUserID(id);
+                UserDataDTO resultData = UserDataDAO.getInstance().searchByID(searchData);
+                //変更点:インスタンス保存先をセッションスコープに変更
+                session.setAttribute("resultData", resultData);
+            }
+            
+            request.getRequestDispatcher("/resultdetail.jsp").forward(request, response);
+            
         }catch(Exception e){
             //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
             request.setAttribute("error", e.getMessage());

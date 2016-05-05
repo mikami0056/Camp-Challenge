@@ -3,6 +3,7 @@ package jums;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +34,16 @@ public class SearchResult extends HttpServlet {
             udb.setName(request.getParameter("name"));
             udb.setYear(request.getParameter("year"));
             udb.setType(request.getParameter("type"));
+            //追加点:検索方法用
+            udb.setSearchMethod(request.getParameter("searchMethod"));
 
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
             udb.UD2DTOMapping(searchData);
-
-            UserDataDTO resultData = UserDataDAO .getInstance().search(searchData);
+            
+            //変更点:型変更, [UserDataDTO]から[ArrayList], 複数のユーザー情報を保存するため
+            ArrayList<UserDataDTO> resultData = new ArrayList<UserDataDTO>();
+            resultData = UserDataDAO.getInstance().search(searchData);
             request.setAttribute("resultData", resultData);
             
             request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  

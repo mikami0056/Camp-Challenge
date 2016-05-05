@@ -124,9 +124,10 @@ public class UserDataBeans implements Serializable{
             this.searchMethod = v;
         }
     }
-    //追加点(仕様書上に規定無し)
+    //追加点(仕様書上に規定無し)ここまで
     
-    public ArrayList<String> chkproperties(){
+    //変更点:メソッド名を変更, chkpropertiesからchkPropertiesに変更
+    public ArrayList<String> chkProperties(){
         ArrayList<String> chkList = new ArrayList<String>();
         if(this.name.equals("")){
             chkList.add("name");

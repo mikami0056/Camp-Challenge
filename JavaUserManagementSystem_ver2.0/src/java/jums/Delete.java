@@ -25,6 +25,7 @@ public class Delete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");      
         //追加点:ページ遷移処理を追加
         RequestDispatcher dispatcher = request.getRequestDispatcher("/delete.jsp");
         dispatcher.forward(request, response);

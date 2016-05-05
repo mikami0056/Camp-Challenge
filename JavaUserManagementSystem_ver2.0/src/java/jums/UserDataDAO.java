@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javafx.geometry.Side;
 
 /**
@@ -58,15 +59,30 @@ public class UserDataDAO {
      * @throws SQLException 呼び出し元にcatchさせるためにスロー 
      * @return 検索結果
      */
-    public UserDataDTO search(UserDataDTO ud) throws SQLException{
+    //変更点:返り値の型, [UserDataDTO]から[ArrayList], 取得情報が複数の際に対応するため
+    public ArrayList<UserDataDTO> search(UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
+        //追加点:複数のユーザー情報保存用(検索の度にインスタンスを生成するのは無駄かも?)
+        ArrayList<UserDataDTO> searchList = new ArrayList<UserDataDTO>();
+        
         try{
-            con = DBManager.getConnection();
-            
-            //
+            con = DBManager.getConnection();       
+ 
             String sql = "SELECT * FROM user_t";
+            String method = ""; //追加点:検索方法判別用変数
             boolean flag = false;
+            
+            //追加点:検索方法(AND, OR)の判別
+            switch(ud.getSearchMethod()){
+                case 1:
+                    method = " AND ";
+                    break;
+                case 2:
+                    method = " OR ";
+                    break;
+            }
+            
             if (!ud.getName().equals("")) {
                 sql += " WHERE name like ?";
                 flag = true;
@@ -76,35 +92,47 @@ public class UserDataDAO {
                     sql += " WHERE birthday like ?";
                     flag = true;
                 }else{
-                    sql += " AND birthday like ?";
+                    //変更点:変数methodを追加
+                    sql += method + "birthday like ?";
                 }
             }
             if (ud.getType()!=0) {
                 if(!flag){
                     sql += " WHERE type like ?";
                 }else{
-                    sql += " AND type like ?";
+                    //変更点:変数methodを追加
+                    sql += method + "type like ?";
                 }
             }
+            //追加点:画面表示の際にID順に表示させるため
+            sql += " ORDER BY userID DESC";
+            
             st =  con.prepareStatement(sql);
             st.setString(1, "%"+ud.getName()+"%");
             st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
             st.setInt(3, ud.getType());
             
             ResultSet rs = st.executeQuery();
-            rs.next();
-            UserDataDTO resultUd = new UserDataDTO();
-            resultUd.setUserID(rs.getInt(1));
-            resultUd.setName(rs.getString(2));
-            resultUd.setBirthday(rs.getDate(3));
-            resultUd.setTell(rs.getString(4));
-            resultUd.setType(rs.getInt(5));
-            resultUd.setComment(rs.getString(6));
-            resultUd.setNewDate(rs.getTimestamp(7));
-            
+            //追加点:while文を追加, 複数ユーザー情報を取得するため
+            while(rs.next()){
+                int index = 0; //ArrayList要素数用
+                
+                UserDataDTO resultUd = new UserDataDTO();
+                resultUd.setUserID(rs.getInt("userID"));
+                resultUd.setName(rs.getString("name"));
+                resultUd.setBirthday(rs.getDate("birthday"));
+                resultUd.setTell(rs.getString("tell"));
+                resultUd.setType(rs.getInt("type"));
+                resultUd.setComment(rs.getString("comment"));
+                resultUd.setNewDate(rs.getTimestamp("newDate"));
+                
+                searchList.add(index, resultUd);
+                index++;
+            }
             System.out.println("search completed");
-
-            return resultUd;
+            //変更点:戻り値をsearchListに変更
+            return searchList;
+            
         }catch(SQLException e){
             System.out.println(e.getMessage());
             throw new SQLException(e);
@@ -157,4 +185,83 @@ public class UserDataDAO {
         }
 
     }
+    
+    //追加点:updateメソッド, deleteメソッドをそれぞれ追加 ここから
+    /**
+     * ユーザーIDによる1件のデータの更新処理を行う。
+     * @param ud 対応したデータを保持しているJavaBeans
+     * @throws SQLException 呼び出し元にcatchさせるためにスロー 
+     * @return 更新結果
+     */
+    public UserDataDTO update(UserDataDTO ud) throws SQLException{
+        Connection con = null;
+        PreparedStatement st = null;
+        try{
+            con = DBManager.getConnection();
+            
+            String sql = "UPDATE user_t SET name=?, birthday=?, tell=?, type=?, comment=?, newDate=? WHERE userID=?";
+            
+            st =  con.prepareStatement(sql);
+            st.setString(1, ud.getName());
+            st.setDate(2, new java.sql.Date(ud.getBirthday().getTime()));
+            st.setString(3, ud.getTell());
+            st.setInt(4, ud.getType());
+            st.setString(5, ud.getComment());
+            st.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            st.setInt(7, ud.getUserID());
+
+            st.executeUpdate();
+            
+            UserDataDTO resultUd = new UserDataDTO();
+            resultUd = this.searchByID(ud);
+            
+            System.out.println("update completed");
+
+            return resultUd;
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new SQLException(e);
+            
+        }finally{
+            if(con != null){
+                con.close();
+                
+            }
+        }
+    }
+    
+    /**
+     * ユーザーIDによる1件のデータの物理削除処理を行う。
+     * @param ud 対応したデータを保持しているJavaBeans
+     * @throws SQLException 呼び出し元にcatchさせるためにスロー 
+     * @return 無し
+     */
+    public void delete(UserDataDTO ud) throws SQLException{
+        Connection con = null;
+        PreparedStatement st = null;
+        try{
+            con = DBManager.getConnection();
+            
+            String sql = "DELETE FROM user_t WHERE userID=?";
+            
+            st =  con.prepareStatement(sql);
+            st.setInt(1, ud.getUserID());
+            
+            st.executeUpdate();
+            
+            System.out.println("delete completed");
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new SQLException(e);
+            
+        }finally{
+            if(con != null){
+                con.close();
+                
+            }
+        }
+    }
+    //追加点:updateメソッド, deleteメソッドをそれぞれ追加 ここまで
 }

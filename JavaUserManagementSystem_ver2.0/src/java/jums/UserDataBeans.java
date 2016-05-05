@@ -17,6 +17,8 @@ public class UserDataBeans implements Serializable{
     private String tell;
     private int type ;
     private String comment;
+    //追加点(仕様書に規定無し):検索方法判断用変数 search.jspより入力された値を保持する役割
+    private int searchMethod;
     
     public UserDataBeans(){
         this.name = "";
@@ -26,6 +28,8 @@ public class UserDataBeans implements Serializable{
         this.tell = "";
         this.type = 0;
         this.comment= "";
+        //追加点(仕様書に規定無し):検索方法判断用変数を初期化
+        this.searchMethod = 0;
     }
     
     public String getName() {
@@ -108,6 +112,20 @@ public class UserDataBeans implements Serializable{
         }
     }
     
+    //追加点(仕様書に規定無し):検索方法の判別用(search.jspより)
+    public int getSearchMethod(){
+        return this.searchMethod;
+    }
+    public void setSearchMethod(String value){
+        if("".equals(value) || value == null){
+            this.searchMethod = 1; //未入力時はANDで検索, 不必要なチェックかもしれない
+        } else {
+            int v = Integer.parseInt(value);
+            this.searchMethod = v;
+        }
+    }
+    //追加点(仕様書上に規定無し)
+    
     public ArrayList<String> chkproperties(){
         ArrayList<String> chkList = new ArrayList<String>();
         if(this.name.equals("")){
@@ -151,6 +169,7 @@ public class UserDataBeans implements Serializable{
         udd.setTell(this.tell);
         udd.setType(this.type);
         udd.setComment(this.comment);
+        udd.setSearchMethod(this.searchMethod); //追加点
     }
     
 }

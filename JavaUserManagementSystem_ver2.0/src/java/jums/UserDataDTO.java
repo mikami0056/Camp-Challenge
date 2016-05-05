@@ -1,6 +1,8 @@
 package jums;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar; //追加点
 import java.util.Date;
 
 /**
@@ -17,6 +19,7 @@ public class UserDataDTO {
     private int type;
     private String comment;
     private Timestamp newDate;
+    private int searchMethod;
     
     
     public int getUserID() {
@@ -35,6 +38,12 @@ public class UserDataDTO {
     
     public Date getBirthday(){
         return birthday;
+    }
+    //追加点:UpdateConfirm用のgetter 余計なメソッドかもしれない ここから
+    public String getStrBirthday(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String strBirthday = sdf.format(this.birthday);
+        return strBirthday;
     }
     public void setBirthday(Date birthday){
         this.birthday = birthday;
@@ -67,5 +76,14 @@ public class UserDataDTO {
     public void setNewDate(Timestamp newDate) {
         this.newDate = newDate;
     }
+    
+    //追加点(仕様書に規定無し):検索方法の判別用(search.jspより)ここから
+    public int getSearchMethod(){
+        return this.searchMethod;
+    }
+    public void setSearchMethod(int value){
+        this.searchMethod = value;
+    }
+    //追加点(仕様書に規定無し) ここまで
 
 }

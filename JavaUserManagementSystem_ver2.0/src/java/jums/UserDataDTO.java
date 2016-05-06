@@ -15,6 +15,7 @@ public class UserDataDTO {
     private int userID;
     private String name;
     private Date birthday;
+    private Calendar cBirth; //追加点 
     private String tell;
     private int type;
     private String comment;
@@ -47,6 +48,24 @@ public class UserDataDTO {
     }
     public void setBirthday(Date birthday){
         this.birthday = birthday;
+        //追加点
+        this.cBirth = Calendar.getInstance();
+        this.cBirth.setTime(birthday);
+    }
+    
+    public int getYear(){
+        int year;
+        return year = cBirth.get(Calendar.YEAR);
+    }
+    
+    public int getMonth(){
+        int month;
+        return month = cBirth.get(Calendar.MONTH);
+    }
+    
+    public int getDay(){
+        int day;
+        return day = cBirth.get(Calendar.DAY_OF_MONTH);
     }
     
     public String getTell(){

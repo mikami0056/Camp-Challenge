@@ -12,9 +12,11 @@
         <title>JUMSユーザー情報検索画面</title>
     </head>
     <body>
-         <form action="SearchResult" method="POST">
+        <h1>検索フォーム</h1>
+        <!-- 変更点:methodを[POST]から[GET]へ変更 -->
+        <form action="SearchResult" method="GET">
         名前:
-        <input type="text" name="name">
+        <input type="text" name="name" placeholder="氏名を入力">
         <br><br>
 
         生年:　
@@ -29,9 +31,22 @@
         種別:
         <br>
             <% for(int i = 1; i<=3; i++){ %>
-            <input type="radio" name="type" value="<%=i%>"><%=jh.exTypenum(i)%><br>
+            <input type="radio" name="type" value="<%=i%>" <%out.print("id="+i);%>>
+            <label <%out.print("for="+i);%>><%=jh.exTypeNum(i)%></label>
             <% } %>
         <br>
+        
+        <!-- 追加点(仕様書に規定無し) ここから-->
+        検索方法:
+        <br> 
+            <label for="and">
+            <input type="radio" name="searchMethod" value="1" id="and" checked>AND  
+            </label>
+            <label for="or">
+            <input type="radio" name="searchMethod" value="2" id="or">OR
+            </label>
+        <br><br>
+        <!-- 追加点(仕様書に規定無し) ここまで-->
 
         <input type="submit" name="btnSubmit" value="検索">
     </form>

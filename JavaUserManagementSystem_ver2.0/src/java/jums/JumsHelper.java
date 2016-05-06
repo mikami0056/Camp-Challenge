@@ -62,7 +62,7 @@ public class JumsHelper {
      * @return 
      */
     //変更点:職種と番号の組み合わせを, 課題1と対応に変更
-    public String exTypenum(int i){
+    public String exTypeNum(int i){
         switch(i){
             case 1:
                 return "エンジニア";

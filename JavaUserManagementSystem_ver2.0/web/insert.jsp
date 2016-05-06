@@ -49,7 +49,7 @@
         種別:
         <br>
             <% for(int i = 1; i<=3; i++){ %>
-            <input type="radio" name="type" value="<%=i%>"<%if(reinput && udb.getType() == i){out.print("checked = \"checked\"");}%>><%=jh.exTypenum(i)%><br>
+            <input type="radio" name="type" value="<%=i%>"<%if(reinput && udb.getType() == i){out.print("checked = \"checked\"");}%>><%=jh.exTypeNum(i)%><br>
             <% } %>
         <br>
 

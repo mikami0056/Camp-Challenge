@@ -37,7 +37,7 @@ public class UserDataBeans implements Serializable{
     }
     public void setName(String name) {
         //空文字(未入力)の場合空文字をセット
-        if(name.trim().length()==0){
+        if("".equals(name) || name.trim().length()==0){
             this.name = "";
         }else{
             this.name = name;
@@ -93,7 +93,7 @@ public class UserDataBeans implements Serializable{
         return type;
     }
     public void setType(String type) {
-        if(type == null){
+        if(type == null){ 
             this.type = 0;
         }else{
             this.type = Integer.parseInt(type);
@@ -156,7 +156,8 @@ public class UserDataBeans implements Serializable{
 
     public void UD2DTOMapping(UserDataDTO udd){
         udd.setName(this.name);
-        if(this.year != 0 || this.month != 0 || this.day != 0){
+        //変更点:if文の条件を年の有無のみに変更
+        if(this.year != 0){
             Calendar birthday = Calendar.getInstance();
             if(this.month == 0 || this.day == 0){
                 birthday.set(this.year,0,1);

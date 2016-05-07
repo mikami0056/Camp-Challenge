@@ -20,6 +20,7 @@ public class DBManager {
             con = DriverManager.getConnection(url, user, pass);
             System.out.println("DBConnected!!");
             return con;
+            
         }catch(ClassNotFoundException e){
             throw new IllegalMonitorStateException();
         } catch (SQLException e) {

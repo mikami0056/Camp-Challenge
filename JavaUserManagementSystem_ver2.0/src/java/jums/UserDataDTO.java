@@ -49,8 +49,10 @@ public class UserDataDTO {
     public void setBirthday(Date birthday){
         this.birthday = birthday;
         //追加点
+        if(birthday != null){
         this.cBirth = Calendar.getInstance();
         this.cBirth.setTime(birthday);
+        }
     }
     
     public int getYear(){

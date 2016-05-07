@@ -19,7 +19,7 @@
         <input type="text" name="name" placeholder="氏名を入力">
         <br><br>
 
-        生年:　
+        生年:
         <select name="year">
             <option value="">----</option>
             <% for(int i=1950; i<=2010; i++){ %>
@@ -29,26 +29,27 @@
         <br><br>
 
         種別:
-        <br>
             <% for(int i = 1; i<=3; i++){ %>
             <input type="radio" name="type" value="<%=i%>" <%out.print("id="+i);%>>
             <label <%out.print("for="+i);%>><%=jh.exTypeNum(i)%></label>
             <% } %>
-        <br>
+        <br><br>
         
         <!-- 追加点(仕様書に規定無し) ここから-->
-        検索方法:
-        <br> 
+        方法:
             <label for="and">
             <input type="radio" name="searchMethod" value="1" id="and" checked>AND  
             </label>
             <label for="or">
             <input type="radio" name="searchMethod" value="2" id="or">OR
             </label>
+            <label for="all">
+            <input type="radio" name="searchMethod" value="3" id="all">全件表示
+            </label>
         <br><br>
         <!-- 追加点(仕様書に規定無し) ここまで-->
-
-        <input type="submit" name="btnSubmit" value="検索">
+        
+        <input type="submit" name="btnSubmit" value="検索" style="width:100px">
     </form>
         <br>
         <%=jh.home()%>

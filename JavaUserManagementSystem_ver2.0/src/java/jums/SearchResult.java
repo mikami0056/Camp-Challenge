@@ -26,17 +26,18 @@ public class SearchResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            String errorTest = "";
         try{
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
-        
-            //フォームからの入力を取得して、JavaBeansに格納
+            
+            //フォームからの入力を取得し, JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
             udb.setName(request.getParameter("name"));
             udb.setYear(request.getParameter("year"));
             udb.setType(request.getParameter("type"));
             //追加点:検索方法用
             udb.setSearchMethod(request.getParameter("searchMethod"));
-
+            
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
             udb.UD2DTOMapping(searchData);
@@ -44,12 +45,13 @@ public class SearchResult extends HttpServlet {
             //変更点:型変更, [UserDataDTO]から[ArrayList], 複数のユーザー情報を保存するため
             ArrayList<UserDataDTO> resultData = new ArrayList<UserDataDTO>();
             resultData = UserDataDAO.getInstance().search(searchData);
-            request.setAttribute("resultData", resultData);
+            request.setAttribute("resultData", resultData); 
             
             request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  
         }catch(Exception e){
             //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
-            request.setAttribute("error", e.getMessage());
+            //request.setAttribute("error", e.getMessage());
+            request.setAttribute("error", errorTest);
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }

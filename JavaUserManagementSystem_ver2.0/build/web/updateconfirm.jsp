@@ -53,16 +53,18 @@
                 <td><%= ud.getName() %></td>
                 <td><%= ud.getStrBirthday() %></td>
                 <td><%= jh.exTypeNum(ud.getType())%></td>
-                <td></td>
+                <td>DB登録時に打刻される時刻</td>
             </tr>
             </tbody>
         </table>
+            <div style="display:inline-flex">
             <form action="UpdateResult" method="POST">
                 <input type="submit" name="updateData" value="更新" style="width:100px"><br>
             </form>
             <form action="Update" method="POST">
                 <input type="submit" name="return" value="戻る" style="width:100px">
             </form>
+            </div>
         <% } else { %>
             以下の内容が入力されていません.<br>
             <%= caution %><br>

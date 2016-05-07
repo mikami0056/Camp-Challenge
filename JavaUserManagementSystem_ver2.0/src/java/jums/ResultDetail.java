@@ -39,6 +39,7 @@ public class ResultDetail extends HttpServlet {
                 searchData.setUserID(id);
                 UserDataDTO resultData = UserDataDAO.getInstance().searchByID(searchData);
                 //変更点:インスタンス保存先をセッションスコープに変更
+                //注意点:SearchResult.javaでセッションスコープに保存したresultDataとは別物
                 session.setAttribute("resultData", resultData);
             }
             

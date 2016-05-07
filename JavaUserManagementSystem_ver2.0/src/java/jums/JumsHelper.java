@@ -26,6 +26,7 @@ public class JumsHelper {
      * @param chkList　UserDataBeansで生成されるリスト。未入力要素の名前が格納されている
      * @return 未入力の項目に対応する文字列
      */
+    
     //変更点(名称変更):chkinputからchkInputに変更
     public String chkInput(ArrayList<String> chkList){
         String output = "";
@@ -73,4 +74,6 @@ public class JumsHelper {
         }
         return "";
     }
+    
+    
 }

@@ -63,9 +63,9 @@ public class UserDataDAO {
     public ArrayList<UserDataDTO> search(UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
-        //追加点:複数のユーザー情報保存用(検索の度にインスタンスを生成するのは無駄かも?)
+        //追加点:DBから得た複数のユーザー情報保存用
         ArrayList<UserDataDTO> searchList = new ArrayList<UserDataDTO>();
-        
+        String errorTest ="なし";
         try{
             con = DBManager.getConnection();       
  
@@ -84,38 +84,44 @@ public class UserDataDAO {
             }
             
             if (!ud.getName().equals("")) {
-                sql += " WHERE name like ?";
+                sql += " WHERE name like \'%" +ud.getName()+ "%\'";
                 flag = true;
             }
+            
+            System.out.println(errorTest);
             if (ud.getBirthday()!=null) {
                 if(!flag){
-                    sql += " WHERE birthday like ?";
+                    sql += " WHERE birthday like \'%" +new SimpleDateFormat("yyyy").format(ud.getBirthday())+ "%\'";
                     flag = true;
                 }else{
                     //変更点:変数methodを追加
-                    sql += method + "birthday like ?";
+                    sql += method + "birthday like \'%" +new SimpleDateFormat("yyyy").format(ud.getBirthday())+ "%\'";
                 }
             }
+            System.out.println(errorTest);
             if (ud.getType()!=0) {
                 if(!flag){
-                    sql += " WHERE type like ?";
+                    sql += " WHERE type like " +ud.getType();
                 }else{
                     //変更点:変数methodを追加
-                    sql += method + "type like ?";
+                    sql += method + "type like " +ud.getType();
                 }
             }
+            
             //追加点:画面表示の際にID順に表示させるため
-            sql += " ORDER BY userID DESC";
+            //sql += " ORDER BY userID DESC";
             
             st =  con.prepareStatement(sql);
+            /*
             st.setString(1, "%"+ud.getName()+"%");
             st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
             st.setInt(3, ud.getType());
+            */
             
             ResultSet rs = st.executeQuery();
             //追加点:while文を追加, 複数ユーザー情報を取得するため
             while(rs.next()){
-                int index = 0; //ArrayList要素数用
+                //int index = 0; //ArrayList要素数用
                 
                 UserDataDTO resultUd = new UserDataDTO();
                 resultUd.setUserID(rs.getInt("userID"));
@@ -126,9 +132,9 @@ public class UserDataDAO {
                 resultUd.setComment(rs.getString("comment"));
                 resultUd.setNewDate(rs.getTimestamp("newDate"));
                 
-                searchList.add(index, resultUd);
-                index++;
+                searchList.add(resultUd);
             }
+            System.out.println(errorTest);
             System.out.println("search completed");
             //変更点:戻り値をsearchListに変更
             return searchList;
@@ -212,6 +218,7 @@ public class UserDataDAO {
 
             st.executeUpdate();
             
+            //変更後の情報を表示するためにsearchByIDメソッドを使用
             UserDataDTO resultUd = new UserDataDTO();
             resultUd = this.searchByID(ud);
             

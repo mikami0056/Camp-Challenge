@@ -43,12 +43,9 @@
             <label for="or">
             <input type="radio" name="searchMethod" value="2" id="or">OR
             </label>
-            <label for="all">
-            <input type="radio" name="searchMethod" value="3" id="all">全件表示
-            </label>
         <br><br>
         <!-- 追加点(仕様書に規定無し) ここまで-->
-        
+        <font color="#ff0000">※全件表示させたい際は, 何も記入せずに検索ボタンを押してください.</font><br>
         <input type="submit" name="btnSubmit" value="検索" style="width:100px">
     </form>
         <br>

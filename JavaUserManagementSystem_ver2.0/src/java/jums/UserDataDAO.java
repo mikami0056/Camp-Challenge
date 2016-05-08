@@ -73,7 +73,7 @@ public class UserDataDAO {
             String method = ""; //追加点:検索方法判別用変数
             boolean flag = false;
             
-            //追加点:検索方法(AND, OR)の判別
+            //追加点:検索方法(AND, OR, 全件検索)の判別
             switch(ud.getSearchMethod()){
                 case 1:
                     method = " AND ";
@@ -82,14 +82,16 @@ public class UserDataDAO {
                     method = " OR ";
                     break;
             }
-            
-            if (!ud.getName().equals("")) {
+
+            //名前に関するSQL
+            if (!ud.getName().equals("") || ud.getName().length()!=0) {
                 sql += " WHERE name like \'%" +ud.getName()+ "%\'";
                 flag = true;
             }
-            
-            System.out.println(errorTest);
+                
+            //誕生日に関するSQL
             if (ud.getBirthday()!=null) {
+                System.out.println("B"+new SimpleDateFormat("yyyy").format(ud.getBirthday()));
                 if(!flag){
                     sql += " WHERE birthday like \'%" +new SimpleDateFormat("yyyy").format(ud.getBirthday())+ "%\'";
                     flag = true;
@@ -98,8 +100,10 @@ public class UserDataDAO {
                     sql += method + "birthday like \'%" +new SimpleDateFormat("yyyy").format(ud.getBirthday())+ "%\'";
                 }
             }
-            System.out.println(errorTest);
+                
+            //職種に関するSQL
             if (ud.getType()!=0) {
+                System.out.println("C"+ud.getType());
                 if(!flag){
                     sql += " WHERE type like " +ud.getType();
                 }else{
@@ -109,7 +113,8 @@ public class UserDataDAO {
             }
             
             //追加点:画面表示の際にID順に表示させるため
-            //sql += " ORDER BY userID DESC";
+            sql += " ORDER BY userID DESC";
+            System.out.println(sql);
             
             st =  con.prepareStatement(sql);
             /*
@@ -134,7 +139,7 @@ public class UserDataDAO {
                 
                 searchList.add(resultUd);
             }
-            System.out.println(errorTest);
+            
             System.out.println("search completed");
             //変更点:戻り値をsearchListに変更
             return searchList;

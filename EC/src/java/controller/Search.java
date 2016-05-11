@@ -12,8 +12,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -82,13 +84,15 @@ public class Search extends HttpServlet {
             response.sendRedirect("/EC/index.jsp?flag=error");
             
         } else { 
-            
+            //商品が格納されたMapを取得
             Map<String, ItemDetails> itemSearchList = ItemSearch.getInstance().execute(query, sort, categoryID);
             session.setAttribute("itemSearchList", itemSearchList);
             
-            List<String> productIDList = new ArrayList<>();
-            session.setAttribute("productIDList", productIDList);
-            
+            if((Set<String>)session.getAttribute("productIDList") == null){
+                Set<String> productIDList = new LinkedHashSet<>();
+                session.setAttribute("productIDList", productIDList);
+                System.out.println("商品コード保存用インスタンスを生成しました");
+            }
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/search.jsp");
             dispatcher.forward(request, response);
         }

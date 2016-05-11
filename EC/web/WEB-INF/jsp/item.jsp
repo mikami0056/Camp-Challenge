@@ -51,7 +51,7 @@
         名前:<%= itemDetails.getName()%><br>
         値段:<%= itemDetails.getPrice()%><br>
         在庫:<%= stock%><br>
-        <form action="./Add" method="POST">
+        <form action="/EC/Add" method="POST">
             <select name="buyNumber">
             <%for(int i = 1; i < 30; i++){ %>
             <option value="<%= i%>"><%= i%></option>
@@ -60,8 +60,9 @@
             <input type="submit" name="add" value="カートに追加">
             <input type="hidden" name="productID" value="<%= productID%>">
         </form>
-        <form action="./Search" method="POST">
+        <form action="/EC/Search" method="POST">
             <input type="submit" name="Search" value="一覧へ戻る">
+            
         </form>
     </body>
 </html>

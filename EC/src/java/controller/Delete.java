@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,7 +23,7 @@ import model.ItemDetails;
  *
  * @author SHO
  */
-public class Cart extends HttpServlet {
+public class Delete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,6 +36,31 @@ public class Cart extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        LinkedHashMap<String, ItemDetails> itemsInCart = (LinkedHashMap<String, ItemDetails>)session.getAttribute("itemsInCart");
+        
+        request.setCharacterEncoding("UTF-8");
+
+        System.out.println("Delete.java");
+        String productID = request.getParameter("ItemProductID");
+        System.out.println("1");
+        itemsInCart.remove(productID);
+        System.out.println("2");
+        //商品IDが入っている配列をセッションから取得
+        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
+        //削除対象商品のIDを探し, 消去する
+        System.out.println("3");
+        for(String codeID : productIDList){
+            System.out.println("4");
+            if(productID.equals(codeID)){
+                System.out.println("5");
+                session.removeAttribute(productID);
+                productIDList.remove(codeID);
+                System.out.println("6");
+            }
+        }
+        response.sendRedirect("/EC/Cart");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,10 +75,7 @@ public class Cart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        System.out.println("deleteから来ますた");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
-        dispatcher.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -68,26 +89,7 @@ public class Cart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession();
-        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
-        //カート用配列, この中に購入した商品が追加される
-        LinkedHashMap<String, ItemDetails> itemsInCart = new LinkedHashMap<>();
-        
-        for(String productID : productIDList){
-            ItemDetails item = (ItemDetails)session.getAttribute(productID);
-            if(item != null){
-                System.out.println(item.getProductID());
-                itemsInCart.put(item.getProductID(), item);
-            } else {
-                System.out.println("該当する商品がねぇよ");
-            }
-        }
-        System.out.println("商品IDの大きさ:" + productIDList.size());
-        session.setAttribute("itemsInCart", itemsInCart); 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
-        dispatcher.forward(request, response);
-        
+        processRequest(request, response);
     }
 
     /**

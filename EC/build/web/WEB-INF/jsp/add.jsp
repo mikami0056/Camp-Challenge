@@ -36,7 +36,7 @@
             out.print(mh.loginJumper("ログイン"));
         }%></p>
         <%= request.getAttribute("name")%>を<%= request.getAttribute("buyNumber")%>個カートに追加しました。<br>
-        <form action="/EC/Cart" method="GET">
+        <form action="/EC/Cart" method="POST">
             <input type="submit" name="cart" value="カートを確認">
         </form>
     </body>

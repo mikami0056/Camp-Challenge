@@ -78,7 +78,8 @@ public class ItemSearch {
                     
                     String index = el.getAttribute("index");
                     ItemDetails itemDetails = new ItemDetails();
-                    itemDetails.setPropaty("ProductID",getElementByName(el, "ProductId"));
+                    //ProductIDからCodeに変更
+                    itemDetails.setPropaty("ProductID",getElementByName(el, "Code"));
                     itemDetails.setPropaty("Name",getElementByName(el, "Name"));
                     Element image = getElementByName(el, "Image");
                     itemDetails.setPropaty("Medium",getElementByName(image, "Medium"));
@@ -94,6 +95,7 @@ public class ItemSearch {
             Logger.getLogger(ItemSearch.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             urllCon.disconnect();
+            //商品を格納したMapを返す
             return itemDetailList;
         }
         

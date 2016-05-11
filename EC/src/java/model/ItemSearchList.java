@@ -22,7 +22,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import model.ItemSearch;
 import model.Common;
-import model.Product;
 import org.xml.sax.SAXException;
 
 /**
@@ -107,9 +106,6 @@ public class ItemSearchList {
         return (Document)docBuilder.parse(is);
     }
     
-    public ArrayList<Product> getProducts(){
-        ArrayList<Product> products = new ArrayList<>();
-        return products;
-    }
+    
     
 }

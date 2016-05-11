@@ -12,6 +12,7 @@
 
 <%
     Common con = new Common();
+    System.out.println("======ECサイトスタート=======");
     ModelHelper mh = ModelHelper.getInstance();
     Map<String, String> categories = con.getCategories();
     Map<String, String> sortOrder = con.getSortOrder();

@@ -56,15 +56,20 @@ public class Item extends HttpServlet {
         try{
             request.setCharacterEncoding("UTF-8");
             HttpSession session = request.getSession();
-            //クエリストリングからindexを取得
-            String index = request.getParameter("index");
-
+            //セッションから商品一覧を取得
             Map<String, ItemDetails> itemSearchList = (Map<String, ItemDetails>)session.getAttribute("itemSearchList");
             
-            ItemDetails item = itemSearchList.get(index);            
-  
+            //クエリストリングからindexを取得し, 商品一覧から特定の商品を取得
+            ItemDetails item = itemSearchList.get(request.getParameter("index"));            
             request.setAttribute("productID",item.getProductID());
-            session.setAttribute(item.getProductID(), item);
+            
+            //商品IDと商品を紐付けてセッションスコープに保存(ない場合)
+            if((ItemDetails)session.getAttribute(item.getProductID()) == null){
+                System.out.println("商品をセッションに追加:[商品名]["+item.getName() + "]");
+                session.setAttribute(item.getProductID(), item);
+            } else {
+                System.out.println("商品名["+item.getName() + "]はもうセッション内にあります");
+            }
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/item.jsp");
             dispatcher.forward(request, response);

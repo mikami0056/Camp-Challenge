@@ -17,7 +17,7 @@ public class ItemDetails implements Serializable {
     private String index;
     private String productID;
     private String name;
-    private String price;
+    private Integer price;
     private String imgUrl;
     private String stock;
     private Integer number;
@@ -45,11 +45,7 @@ public class ItemDetails implements Serializable {
     }
     
     public void setNumber(Integer n){
-        if(n == 0){
-            this.number += 1;
-        } else {
-            this.number += n;
-        }
+        this.number += n;
     }
     public Integer getNumber(){
         return this.number;
@@ -59,7 +55,7 @@ public class ItemDetails implements Serializable {
         return this.name;
     }
     
-    public String getPrice(){
+    public Integer getPrice(){
         return this.price;
     }
     
@@ -70,7 +66,7 @@ public class ItemDetails implements Serializable {
     public String getStock(){
         return this.stock;
     }
-    
+    /*
     public void setDetails(Map<String, Element> item){
         
         for(String key : item.keySet()){
@@ -104,7 +100,7 @@ public class ItemDetails implements Serializable {
         }
         
     }
-    
+    */
     public void setPropaty(String elName, Element el){
         switch(elName){
                 
@@ -117,7 +113,7 @@ public class ItemDetails implements Serializable {
             break;
                 
             case "Price":
-            this.price = el.getTextContent();
+            this.price = Integer.parseInt(el.getTextContent());
             break;
                 
             case "Medium":

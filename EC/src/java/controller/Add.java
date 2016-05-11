@@ -7,7 +7,9 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -65,13 +67,17 @@ public class Add extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
+        //item.jspからhiddenで送られた商品コードを取得
         String productID = request.getParameter("productID");
         System.out.println("プロダクトコードを取得:" + productID + "at Add.java");
+        
+        //商品コードを元にセッションスコープから商品を取得
         ItemDetails itemDetails = (ItemDetails)session.getAttribute(productID);
         System.out.println("プロダクトコードと紐付いている商品を取得 " + itemDetails.getName());
-
-        List<String> productIDList = (List<String>)session.getAttribute("productIDList");
+        
+        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
         productIDList.add(productID);
+        
         //購入個数を商品情報に代入
         Integer number = Integer.parseInt(request.getParameter("buyNumber"));
         itemDetails.setNumber(number);

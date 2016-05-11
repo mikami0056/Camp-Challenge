@@ -51,6 +51,7 @@
         <%out.print(index + ":<br>");%>
         <img src="<%= itemDetailsList.get(index).getImgUrl()%>"><br>
         <a href="Item?index=<%= index%>"><%= itemDetailsList.get(index).getName()%></a><br>
+        商品ID<%= itemDetailsList.get(index).getProductID()%>
         <%= itemDetailsList.get(index).getPrice() + "円<br>"%>
         <% } %>
     </body>

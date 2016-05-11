@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/SHO/NetBeansProjects/EC/web/index.jsp</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/controller/Search.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/web/WEB-INF/jsp/add.jsp</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/web/WEB-INF/jsp/cart.jsp</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/controller/Delete.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/controller/Item.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/web/WEB-INF/jsp/item.jsp</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/model/ItemSearch.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/controller/Cart.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/controller/Add.java</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/web/WEB-INF/jsp/search.jsp</file>
+            <file>file:/Users/SHO/NetBeansProjects/EC/src/java/model/ItemDetails.java</file>
+        </group>
     </open-files>
 </project-private>

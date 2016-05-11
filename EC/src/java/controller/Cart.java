@@ -8,7 +8,10 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +51,17 @@ public class Cart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        
+        HttpSession session = request.getSession();
+        ArrayList<String> productIDList = (ArrayList<String>)session.getAttribute("productIDList");
+        //LinkedHashSet<ItemDetails> itemsInCart = new LinkedHashSet<>();
+        LinkedHashMap<String, ItemDetails> itemsInCart = new LinkedHashMap<>();
+        for(int i = 0; i < productIDList.size(); i++){
+            ItemDetails item = (ItemDetails)session.getAttribute(productIDList.get(i));
+            itemsInCart.put(item.getProductID(), item);
+        }
+        session.setAttribute("itemsInCart", itemsInCart);        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
+        dispatcher.forward(request, response);
         //processRequest(request, response);
     }
 
@@ -63,12 +76,20 @@ public class Cart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession session = request.getSession();
-        ArrayList<String> productIDList = (ArrayList<String>)session.getAttribute("productIDList");
-        for(int i = 0; i < productIDList.size(); i++){
-            ItemDetails item = (ItemDetails)session.getAttribute(productIDList.get(i));
+        LinkedHashMap<String, ItemDetails> itemsInCart = (LinkedHashMap<String, ItemDetails>)session.getAttribute("itemsInCart");
+
+        request.setCharacterEncoding("UTF-8");
+        String delete = request.getParameter("delete");
+        
+        if("delete".equals(delete)){
+            String productID = request.getParameter("ItemProductID");
+            itemsInCart.remove(productID);
         }
-        //processRequest(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
+        dispatcher.forward(request, response);
+        
     }
 
     /**

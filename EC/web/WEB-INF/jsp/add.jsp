@@ -10,7 +10,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.LinkedHashMap"%>
-<%@page import="model.Cart"%>
 <%@page import="model.ItemDetails"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
@@ -37,14 +36,8 @@
             out.print(mh.loginJumper("ログイン"));
         }%></p>
         <%= request.getAttribute("name")%>を<%= request.getAttribute("buyNumber")%>個カートに追加しました。<br>
-        <form action="../Cart" method="POST">
+        <form action="/EC/Cart" method="GET">
             <input type="submit" name="cart" value="カートを確認">
         </form>
-        
-        <%--<% for(String productID : itemList.keySet()){%>
-            名前:<%= itemList.get(productID).getName()%><br>
-            個数:<%= itemList.get(productID).getNumber()%><br>
-            ああああわからん<br>
-        <%}%> --%>
     </body>
 </html>

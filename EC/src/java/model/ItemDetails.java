@@ -81,7 +81,6 @@ public class ItemDetails implements Serializable {
                 this.productID = productID.getTextContent();
                 break;
                 
-                
                 case "Name":
                 Element name = item.get(key);
                 this.name = name.getTextContent();
@@ -106,4 +105,28 @@ public class ItemDetails implements Serializable {
         
     }
     
+    public void setPropaty(String elName, Element el){
+        switch(elName){
+                
+            case "ProductID":
+            this.productID = el.getTextContent();
+            break;
+                
+            case "Name":
+            this.name = el.getTextContent();
+            break;
+                
+            case "Price":
+            this.price = el.getTextContent();
+            break;
+                
+            case "Medium":
+            this.imgUrl = el.getTextContent();
+            break;
+                
+            case "Stock":
+            this.stock = el.getTextContent();
+            break;
+        }
+    }
 }

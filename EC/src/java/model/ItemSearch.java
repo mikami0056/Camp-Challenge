@@ -27,6 +27,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import model.Common;
+import model.ItemDetails;
 /**
  *
  * @author SHO
@@ -35,100 +37,124 @@ public class ItemSearch {
     private URL url;
     private String query;
     private String sort;
-    private String categoryID;
+    private Integer categoryID;
     private String keywords4URL;
     
     private final static String appID = "dj0zaiZpPXplbVJNd3J4UXR4WCZzPWNvbnN1bWVyc2VjcmV0Jng9ZjI-";
     private final static String baseURL = "http://shopping.yahooapis.jp/ShoppingWebService/V1/itemSearch";
+    private Common con = null;
     
-    public ItemSearch(){}
+    public ItemSearch(){
+        String query = "";
+        String sort = "";
+        Integer categoryID = 0;
+        con = new Common();
+    }
     
     public static ItemSearch getInstance(){
         return new ItemSearch();
     }
     
-    public void setQuery(String query){
-        //入力フォーム内容のチェック
-        if(!query.isEmpty() || !("".equals(query))){
-            this.query = query;
-        } else {
-            this.query = "";
-        }
-    }
-    public String getQuery(){
-        return this.query;
-    }
-    
-    public void setSort(String sort, Map sortOrder){
-        //ソート内容のチェック
-        if(!sort.isEmpty() && sortOrder.containsKey(sort)){
-            this.sort = sort;
-        }else{
-            this.sort = "-score";
-        }
-    }
-    public String getSort(){
-        return this.sort;
-    }
-    
-    public void setCategory(String categoryID, Map categories){
-        //カテゴリIDの内容をチェック
-        if(categoryID.matches("[0-9]+") && categories.containsKey(categoryID)){
-            this.categoryID = categoryID;
-        } else {
-            this.categoryID = "1";
-        } 
-    }
-    public String getCategory(){
-        return this.categoryID;
-    }
-    
-    //テスト
-    public LinkedHashMap<String, HashMap<String, Element>> returnElements() throws MalformedURLException, IOException, SAXException, Exception{
+    public Map<String, ItemDetails> execute (String query, String category, String sort) throws MalformedURLException, IOException{
         
-        LinkedHashMap<String, HashMap<String, Element>> abc = new LinkedHashMap<>();
-        convertURL(this.query, this.sort, this.categoryID);
-        
-        System.out.println("テスト:"+this.url.toString());
-        HttpURLConnection urlCon = (HttpURLConnection)this.url.openConnection();
-        urlCon.setRequestMethod("GET");
-        urlCon.setInstanceFollowRedirects(false);
-        urlCon.connect();
-        System.out.println("XMLドキュメントを取得しました");
+        //入力された各項目の確認
+        checkKeyWords(query, category, sort);
+        //フォームから取得した情報をURL
+        URL urll = new URL(convertURL(this.query, this.sort, this.categoryID));
+        //URLで接続
+        HttpURLConnection urllCon = connection2Yahoo(urll);
+        //取得した商品を格納するMap
+        Map<String, ItemDetails> itemDetailList = new LinkedHashMap<>();
         
         try {
-            
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(urlCon.getInputStream());
+            //YahooからXMLドキュメントを取得
+            Document doc = getDocumentFromYahoo(urllCon);
             
             if(doc.hasChildNodes()){
-                List<Element> Hits = new ArrayList<>();
-                Hits = getElementsNamedHit(doc);
-                
+                //XMLドキュメント内のHit要素を取得
+                List<Element> Hits = getElementsNamedHit(doc);
+                //Hit要素内の各子要素を取得
                 for(Element el : Hits){
+                    
                     String index = el.getAttribute("index");
-                    HashMap<String, Element> hitsChildren = new HashMap<>();
-                    hitsChildren.put("Name", findChildByTag(el, "Name"));
+                    ItemDetails itemDetails = new ItemDetails();
+                    itemDetails.setPropaty("ProductID",getElementByName(el, "ProductId"));
+                    itemDetails.setPropaty("Name",getElementByName(el, "Name"));
+                    Element image = getElementByName(el, "Image");
+                    itemDetails.setPropaty("Medium",getElementByName(image, "Medium"));
+                    itemDetails.setPropaty("Price",getElementByName(el, "Price"));
+                    itemDetails.setPropaty("Stock",getElementByName(el, "Availability"));
                     
-                    Element image = findChildByTag(el, "Image");
-                    hitsChildren.put("Medium", findChildByTag(image, "Medium"));
-                    
-                    hitsChildren.put("Price",findChildByTag(el, "Price"));
-                    hitsChildren.put("ProductID",findChildByTag(el, "ProductId"));
-                    hitsChildren.put("Stock",findChildByTag(el, "Availability"));
-                    
-                    abc.put(index, hitsChildren);
+                    //取得した商品を格納するMapにindexと商品を紐付けて保存
+                    itemDetailList.put(index, itemDetails);
                 }
             }
             
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(ItemSearch.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            urlCon.disconnect();
-            return abc;
+            urllCon.disconnect();
+            return itemDetailList;
         }
+        
     }
+   
+    public void checkKeyWords(String query, String category, String sort){
+        System.out.println("入力フォームの確認を始めます");
+        Map<String, String> sortList = con.getSortOrder();
+        Map<String, String> categoryList = con.getCategories();
+        
+        //キーワードの確認
+        if(!query.isEmpty() || !("".equals(query))){
+            this.query = query;
+        } else {
+            this.query = "";
+        }
+        System.out.println("キーワードOK");
+        
+        //並び順の確認
+        if(!sort.isEmpty() && sortList.containsKey(sort)){
+            this.sort = sort;
+        }else{
+            this.sort = "-score";
+        }
+        System.out.println("並び順OK");
+        
+        //カテゴリーの確認
+        if(category.matches("[0-9]+") && categoryList.containsKey(category)){
+            this.categoryID = Integer.parseInt(category);
+        } else {
+            this.categoryID = 1;
+        }
+        System.out.println("カテゴリーOK");
+        System.out.println("入力フォームの確認が終了しました");
+    }
+    
+    private String convertURL(String query, String sort, Integer categoryID) throws MalformedURLException{
+        System.out.println("URLの文字列からの変換を始めます");
+        String strURL = baseURL + "?appid=" + this.appID + "&query=" + query + "&category_id=" + categoryID + "&sort=" + sort;
+        //this.url = new URL(strURL);
+        System.out.println("URLの文字列からの変換が終了しました");
+        return strURL;
+        
+    }
+    
+    public HttpURLConnection connection2Yahoo(URL url) throws IOException{
+        HttpURLConnection urllCon = (HttpURLConnection)url.openConnection();
+        urllCon.setRequestMethod("GET");
+        urllCon.setInstanceFollowRedirects(false);
+        urllCon.connect();
+        System.out.println("XMLドキュメントを取得しました");
+        return urllCon;
+    }
+    
+    public Document getDocumentFromYahoo(HttpURLConnection urllCon) throws ParserConfigurationException, SAXException, IOException{
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(urllCon.getInputStream());
+        return doc;
+    }
+    
     /*
     private String convert(String inputStr){
         return inputStr.replace("&", "&amp;")
@@ -138,21 +164,15 @@ public class ItemSearch {
                        .replace("'", "&#39;");           
     }
     */
-    
-    private void convertURL(String query, String sort, String categoryID) throws MalformedURLException{
-        String strURL = baseURL + "?appid=" + this.appID + "&query=" + query + "&category_id=" + categoryID + "&sort=" + sort;
-        this.url = new URL(strURL);
         
-    }
-    
     private ArrayList<Element> getElementsNamedHit (Document doc) throws Exception{
         Element ResultSet = doc.getDocumentElement();
-        Element Result = findChildByTag(ResultSet, "Result");
-        ArrayList<Element> Hits = getElementsByTag(Result, "Hit");
+        Element Result = getElementByName(ResultSet, "Result");
+        ArrayList<Element> Hits = getElementsListByName(Result, "Hit");
         return Hits;
     }
 
-    private static Element findChildByTag(Element el, String name) throws Exception{
+    private static Element getElementByName(Element el, String name) throws Exception{
         NodeList children =el.getChildNodes();
         for(int i = 0; i < children.getLength(); i++){
             if(children.item(i) instanceof Element){
@@ -166,7 +186,7 @@ public class ItemSearch {
         return null;
     }
     
-    private static ArrayList<Element> getElementsByTag(Element el, String name) throws Exception{
+    private static ArrayList<Element> getElementsListByName(Element el, String name) throws Exception{
         NodeList children =el.getChildNodes();
         ArrayList<Element> arrayHits = new ArrayList<>();
         for(int i = 0; i < children.getLength(); i++){
@@ -180,6 +200,10 @@ public class ItemSearch {
         
         return arrayHits;
     }
+    
+    
+
+
     
     
 }

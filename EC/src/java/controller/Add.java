@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Cart;
 
 import model.ItemDetails;
 
@@ -67,23 +66,19 @@ public class Add extends HttpServlet {
         
         HttpSession session = request.getSession();
         String productID = request.getParameter("productID");
+        System.out.println("プロダクトコードを取得:" + productID + "at Add.java");
         ItemDetails itemDetails = (ItemDetails)session.getAttribute(productID);
-        
+        System.out.println("プロダクトコードと紐付いている商品を取得 " + itemDetails.getName());
+
         List<String> productIDList = (List<String>)session.getAttribute("productIDList");
         productIDList.add(productID);
-        
-        if(!"".equals(request.getParameter("buyNumber"))){
-            Integer number = Integer.parseInt(request.getParameter("buyNumber"));
-            request.setAttribute("buyNumber", number);
-            itemDetails.setNumber(number);
-        }else{
-            itemDetails.setNumber(1);
-        }
-        
-        String name = itemDetails.getName();
-        request.setAttribute("name", name);
-        session.setAttribute("productID", productID);
-        
+        //購入個数を商品情報に代入
+        Integer number = Integer.parseInt(request.getParameter("buyNumber"));
+        itemDetails.setNumber(number);
+        request.setAttribute("buyNumber", number);
+        request.setAttribute("name", itemDetails.getName());
+        //session.setAttribute(productID, itemDetails);
+                
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/add.jsp");
         dispatcher.forward(request, response);
         //processRequest(request, response);

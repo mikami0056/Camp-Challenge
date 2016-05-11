@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.parsers.ParserConfigurationException;
 
 import model.Common;
+import model.ItemDetails;
 import model.ItemSearch;
 import model.ItemSearchList;
 import org.w3c.dom.Element;
@@ -47,8 +48,7 @@ public class Search extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-     
+        //doGet, doPostメソッドにそれぞれ記述しています
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,7 +68,6 @@ public class Search extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         
-        Common com = new Common();
         String query = request.getParameter("query");
         String sort = request.getParameter("sort");
         String categoryID = request.getParameter("category");
@@ -76,32 +75,19 @@ public class Search extends HttpServlet {
         request.setAttribute("query", query);
         request.setAttribute("sort", sort);
         request.setAttribute("category", categoryID);
-        
+               
         //入力チェック
         if("".equals(query.trim())){
             System.out.println("キーワードが未入力でした");
             response.sendRedirect("/EC/index.jsp?flag=error");
             
         } else { 
-        
-            ItemSearch test = new ItemSearch();
             
-            test.setQuery(query);
-            test.setSort(sort, com.getSortOrder());
-            test.setCategory(categoryID, com.getCategories());
+            Map<String, ItemDetails> itemSearchList = ItemSearch.getInstance().execute(query, sort, categoryID);
+            session.setAttribute("itemSearchList", itemSearchList);
             
-            try {
-                //LinkedHashMap<String, HashMap<String, Element>> abc = test.returnElements();
-                List<String> productIDList = new ArrayList<>();
-                
-                session.setAttribute("abc", test.returnElements());
-                session.setAttribute("productIDList", productIDList);
-                
-            } catch (SAXException ex) {
-                Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            List<String> productIDList = new ArrayList<>();
+            session.setAttribute("productIDList", productIDList);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/search.jsp");
             dispatcher.forward(request, response);

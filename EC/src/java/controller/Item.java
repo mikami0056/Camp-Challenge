@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,20 +56,15 @@ public class Item extends HttpServlet {
         try{
             request.setCharacterEncoding("UTF-8");
             HttpSession session = request.getSession();
-            
+            //クエリストリングからindexを取得
             String index = request.getParameter("index");
 
-            LinkedHashMap<String, HashMap<String, Element>> abc;
-            abc = (LinkedHashMap<String, HashMap<String, Element>>)session.getAttribute("abc");
+            Map<String, ItemDetails> itemSearchList = (Map<String, ItemDetails>)session.getAttribute("itemSearchList");
             
-            HashMap<String, Element> item = abc.get(index);            
-            ItemDetails itemDetails = new ItemDetails();
-            
-            itemDetails.setIndex(index);
-            itemDetails.setDetails(item);
-            
-            request.setAttribute("productID",itemDetails.getProductID());
-            session.setAttribute(itemDetails.getProductID(), itemDetails);
+            ItemDetails item = itemSearchList.get(index);            
+  
+            request.setAttribute("productID",item.getProductID());
+            session.setAttribute(item.getProductID(), item);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/item.jsp");
             dispatcher.forward(request, response);

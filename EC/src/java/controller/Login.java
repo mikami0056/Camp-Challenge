@@ -55,14 +55,8 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+               
         HttpSession session = request.getSession();
-        /*
-        StringBuffer sb = new StringBuffer();
-        sb = request.getRequestURL();
-        session.setAttribute("sb", sb);
-        System.out.println("テストさん:" + sb);
-        */
         
         if((UserDataBeans)session.getAttribute("loginAccount") != null){
 
@@ -108,6 +102,8 @@ public class Login extends HttpServlet {
             String userName = request.getParameter("userName");
             String passWord = request.getParameter("passWord");
             
+            //LoginLogicのインスタンスを取得後, ユーザー名とパスワードを使用してログインを実行
+            //loginExecuteでは, UserDataBeans, UserDataDTO, UserDataDAOを使用してデータベースに接続している
             UserDataBeans loginAccount = LoginLogic.getInstance().loginExecute(userName, passWord);
             
             if(loginAccount != null){
@@ -115,6 +111,7 @@ public class Login extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/loginsuccess.jsp");
                 dispatcher.forward(request, response);
             } else {
+                //loginAccountがnullの場合で良いのでは?
                 //request.setAttribute("notExist", "notExist");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp?flag=notExist");
                 dispatcher.forward(request, response);

@@ -39,7 +39,7 @@
         </form>
         <form action="/EC/RegisterUser" method="GET">
             ユーザー新規登録の方はこちら
-            <input type="submit" name="register" value="新規登録">
+            <input type="submit" name="register" value="新規登録"><br>
         </form>
         <%}%>
         <%= mh.indexJumper()%>

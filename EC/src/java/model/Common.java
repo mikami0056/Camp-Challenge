@@ -14,9 +14,13 @@ import java.util.Map;
  */
 public class Common {
     
-    private final static Map<String, String> categories = new HashMap<>();
-    private final static Map<String, String> sortOrder = new HashMap<>();
+    private Map<String, String> categories = new HashMap<>();
+    private Map<String, String> sortOrder = new HashMap<>();
     
+    public static model.Common getInstance(){
+        return new model.Common();
+    }
+ 
     public Common(){
         
         this.categories.put("1", "全てのカテゴリから");
@@ -61,7 +65,5 @@ public class Common {
     
     
     
-    public static model.Common getInstance(){
-        return new model.Common();
-    }
+    
 }

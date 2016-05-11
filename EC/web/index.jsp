@@ -22,6 +22,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>かごいっぱいのゆめ</title>
+        <!-- 名前変更 [index.jsp] から [top.jsp]-->
     </head>
     <body>
         <h1>検索フォーム</h1>
@@ -33,7 +34,7 @@
             <select name="category">
                 <option value="">----</option>
                 <%for(String key : categories.keySet()){%>
-                <option value="<%String category = categories.get(key);%>"><%=category%></option>
+                <option value="<%= key%>"><%= categories.get(key)%></option>
                 <%}%>
             </select></p>
             
@@ -41,7 +42,7 @@
             <select name="sort">
                 <option value="">----</option>
                 <%for(String key : sortOrder.keySet()){%>
-                <option value="<%String sort = sortOrder.get(key);%>"><%=sort%></option>
+                <option value="<%=key%>"><%= sortOrder.get(key)%></option>
                 <%}%>
             </select></p>
             <input type="submit" name="search" value="検索">

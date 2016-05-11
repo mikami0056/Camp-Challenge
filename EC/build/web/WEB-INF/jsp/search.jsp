@@ -13,6 +13,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.net.URL"%>
 <%@page import="model.ItemSearch"%>
+<%@page import="model.ItemDetails"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession hs = request.getSession();
@@ -22,7 +23,12 @@
         flag = true;
     }
     ModelHelper mh = ModelHelper.getInstance();
-    LinkedHashMap<String, HashMap<String, Element>> abc = (LinkedHashMap<String, HashMap<String, Element>>)hs.getAttribute("abc");
+    Map<String, ItemDetails> itemDetailsList = (LinkedHashMap<String, ItemDetails>)hs.getAttribute("itemSearchList");
+    if(itemDetailsList == null){
+        System.out.println("中身がないっす");
+    }else {
+        System.out.println("あったわ");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -40,16 +46,12 @@
             out.print(mh.loginJumper("ログイン"));
         }%></p>
         
-        検索条件:<%= request.getAttribute("query")%><br>
-        <% for(String index : abc.keySet()){
-            out.print(index+ ":<br>");
-            Element medium = (abc.get(index)).get("Medium");
-            Element name = (abc.get(index)).get("Name");
-            Element price = (abc.get(index)).get("Price");
-        %>
-        <img src="<%= medium.getTextContent()%>"><br>
-        <a href="Item?index=<%= index%>"><%= name.getTextContent()%></a><br>
-        <%= price.getTextContent() + "円<br>"%>
+        検索条件:<%= request.getAttribute("query")%><%= request.getAttribute("sort")%><%= request.getAttribute("category")%><br>
+        <% for(String index : itemDetailsList.keySet()){%>
+        <%out.print(index + ":<br>");%>
+        <img src="<%= itemDetailsList.get(index).getImgUrl()%>"><br>
+        <a href="Item?index=<%= index%>"><%= itemDetailsList.get(index).getName()%></a><br>
+        <%= itemDetailsList.get(index).getPrice() + "円<br>"%>
         <% } %>
     </body>
 </html>

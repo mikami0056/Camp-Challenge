@@ -4,19 +4,32 @@
     Author     : SHO
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="model.UserDataBeans"%>
 <%@page import="model.ModelHelper"%>
 <%@page import="model.Common"%>
 <%@page import="model.ItemSearch"%>
 <%@page import="java.util.Map"%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    Common con = new Common();
     System.out.println("======ECサイトスタート=======");
-    ModelHelper mh = ModelHelper.getInstance();
+    HttpSession hs = request.getSession();
+    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
+    if(mh == null){
+        mh = new ModelHelper();
+        hs.setAttribute("mh", mh);
+    }
+    Common con = (Common)hs.getAttribute("con");
+    if(con == null){
+        con = new Common();
+        hs.setAttribute("con", con);
+    }
     Map<String, String> categories = con.getCategories();
     Map<String, String> sortOrder = con.getSortOrder();
-    String place = "index";
+    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
+    boolean exist = mh.existAccount(loginAccount);
+    hs.setAttribute("URL", request.getRequestURL());
 %>
 <!DOCTYPE html>
 <html>
@@ -27,21 +40,29 @@
     </head>
     <body>
         <h1>検索フォーム</h1>
+        <p align="right"><%= mh.loginJumper("")%>
+        <%if(exist){
+            out.print(mh.userPageJumper(loginAccount.getName()));
+            out.print(mh.cartJumper());
+            out.print(mh.loginJumper("ログアウト"));
+        } else {
+            out.print(mh.loginJumper("ログイン"));
+        }%></p>
         <form action="Search" method="GET">
             <p>キーワード:
-            <input type="text" name="query" placeholder="キーワードを入力"></p>
+            <input type="text" name="query" placeholder="キーワードを入力" required></p>
             
             <p>分類:
             <select name="category">
-                <option value="">----</option>
+                <option value="指定なし">----</option>
                 <%for(String key : categories.keySet()){%>
                 <option value="<%= key%>"><%= categories.get(key)%></option>
                 <%}%>
             </select></p>
             
-            <p>列び順:
+            <p>並び順:
             <select name="sort">
-                <option value="">----</option>
+                <option value="指定なし">----</option>
                 <%for(String key : sortOrder.keySet()){%>
                 <option value="<%=key%>"><%= sortOrder.get(key)%></option>
                 <%}%>

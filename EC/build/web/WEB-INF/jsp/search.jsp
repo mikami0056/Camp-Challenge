@@ -17,18 +17,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession hs = request.getSession();
+    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
     UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
-    boolean flag = false;
-    if(loginAccount != null){
-        flag = true;
-    }
-    ModelHelper mh = ModelHelper.getInstance();
+    boolean exist = mh.existAccount(loginAccount);
     Map<String, ItemDetails> itemDetailsList = (LinkedHashMap<String, ItemDetails>)hs.getAttribute("itemSearchList");
-    if(itemDetailsList == null){
-        System.out.println("中身がないっす");
-    }else {
-        System.out.println("あったわ");
-    }
 %>
 <!DOCTYPE html>
 <html>
@@ -39,20 +31,26 @@
     <body>
         <h1>検索結果</h1>
         <p align="right"><%= mh.loginJumper("")%>
-        <%if(flag){
-            out.print(loginAccount.getName()+"さん, こんにちは<br>");
+        <%if(exist){
+            out.print(mh.userPageJumper(loginAccount.getName()));
+            out.print(mh.cartJumper());
             out.print(mh.loginJumper("ログアウト"));
         } else {
             out.print(mh.loginJumper("ログイン"));
         }%></p>
-        
-        検索条件:<%= request.getAttribute("query")%><%= request.getAttribute("sort")%><%= request.getAttribute("category")%><br>
-        <% for(String index : itemDetailsList.keySet()){%>
+        <hr>
+        検索条件<br>
+        キーワード：<b><%= request.getAttribute("query")%></b>・分類：<b><%= request.getAttribute("sort")%></b>・並び順：<b><%= request.getAttribute("category")%></b>
+        での検索結果を表示しています        
+        <hr>
+        <%for(String index : itemDetailsList.keySet()){%>
+        <div>
         <%out.print(index + ":<br>");%>
-        <img src="<%= itemDetailsList.get(index).getImgUrl()%>"><br>
+        <a href="Item?index=<%= index%>"><img src="<%= itemDetailsList.get(index).getImgUrl()%>"></a><br>
         <a href="Item?index=<%= index%>"><%= itemDetailsList.get(index).getName()%></a><br>
-        商品ID<%= itemDetailsList.get(index).getProductID()%>
         <%= itemDetailsList.get(index).getPrice() + "円<br>"%>
-        <% } %>
+        <hr>
+        </div>
+        <%}%>
     </body>
 </html>

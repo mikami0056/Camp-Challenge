@@ -6,16 +6,9 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -24,14 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.ParserConfigurationException;
 
-import model.Common;
 import model.ItemDetails;
 import model.ItemSearch;
-import model.ItemSearchList;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -66,38 +54,43 @@ public class Search extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, MalformedURLException {
         
-        //基本事項
-        request.setCharacterEncoding("UTF-8");
-        HttpSession session = request.getSession();
-        
-        String query = request.getParameter("query");
-        String sort = request.getParameter("sort");
-        String categoryID = request.getParameter("category");
-        
-        request.setAttribute("query", query);
-        request.setAttribute("sort", sort);
-        request.setAttribute("category", categoryID);
-               
-        //入力チェック
-        if("".equals(query.trim())){
-            System.out.println("キーワードが未入力でした");
-            response.sendRedirect("/EC/index.jsp?flag=error");
+        try {
+            //基本事項
+            request.setCharacterEncoding("UTF-8");
+            HttpSession session = request.getSession();
             
-        } else { 
-            //商品が格納されたMapを取得
-            Map<String, ItemDetails> itemSearchList = ItemSearch.getInstance().execute(query, sort, categoryID);
-            session.setAttribute("itemSearchList", itemSearchList);
+            //パラメータ取得
+            String query = request.getParameter("query");
+            String sort = request.getParameter("sort");
+            String categoryID = request.getParameter("category");
+            String search = request.getParameter("search");
             
-            if((Set<String>)session.getAttribute("productIDList") == null){
-                Set<String> productIDList = new LinkedHashSet<>();
-                session.setAttribute("productIDList", productIDList);
-                System.out.println("商品コード保存用インスタンスを生成しました");
+            //search.jsp表示用にリクエストスコープに保存
+            request.setAttribute("query", query);
+            request.setAttribute("sort", sort);
+            request.setAttribute("category", categoryID);
+            
+            //入力チェック, 未入力ならindexに遷移
+            if("".equals(query.trim())){
+                System.out.println("キーワードが未入力でした");
+                response.sendRedirect("/EC/index.jsp?flag=error");
+                return;
             }
+            
+            //商品が格納されたMapを取得
+            Map<String, ItemDetails> itemSearchList = ItemSearch.getInstance().execute(query, categoryID, sort);
+            session.setAttribute("itemSearchList", itemSearchList);
+            StringBuffer url = request.getRequestURL().append("?query="+query)
+                                                      .append("&category="+categoryID)
+                                                      .append("&sort="+sort)
+                                                      .append("&search="+search);
+            session.setAttribute("URL", url);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/search.jsp");
             dispatcher.forward(request, response);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //processRequest(request, response);
     }
 
     /**

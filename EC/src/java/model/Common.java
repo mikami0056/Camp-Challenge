@@ -6,6 +6,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Map;
  */
 public class Common {
     
-    private Map<String, String> categories = new HashMap<>();
-    private Map<String, String> sortOrder = new HashMap<>();
+    private Map<String, String> categories = new LinkedHashMap<>();
+    private Map<String, String> sortOrder = new LinkedHashMap<>();
     
     public static model.Common getInstance(){
         return new model.Common();

@@ -6,11 +6,14 @@
 <%@page import="model.ModelHelper"%>
 <%@page import="model.UserDataBeans"%>
 <%
-    ModelHelper mh = ModelHelper.getInstance();
     HttpSession hs = request.getSession();
-    boolean flag = false;
+    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
+    if(mh == null){
+        mh = new ModelHelper();
+    }
+    boolean logout = false;
     if((String)request.getAttribute("logout") != null){
-        flag = true;
+        logout = true;
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,12 +21,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%if(logout){out.print("<meta http-equiv=\"refresh\" content=\"3;URL=http://localhost:8084/EC/index.jsp\">");}%>
         <title>かごゆめログイン画面</title>
     </head>
     <body>
-        <%if(flag){%>
+        <%if(logout){%>
         <h2>ログアウト</h2>
         <p>ログアウトしました</p>
+        3秒後にトップページへジャンプします
         <%= mh.loginJumper()%>
         <%} else {%>
         <h2>ログイン</h2>

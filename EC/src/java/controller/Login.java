@@ -10,6 +10,10 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.ItemDetails;
 import model.LoginLogic;
 import model.UserDataBeans;
 import model.UserDataDAO;
@@ -55,21 +60,21 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               
-        HttpSession session = request.getSession();
         
+        System.out.println("[Notice]Login.java start");       
+        HttpSession session = request.getSession();
+        //セッションスコープからログイン情報を保有しているインスタンスを取得
+        //ある場合はloginsuccess.jsp, ない場合はlogin.jspに飛ばす
         if((UserDataBeans)session.getAttribute("loginAccount") != null){
 
-            String done = "ログインしています";
-            request.setAttribute("done", done);
+            request.setAttribute("done", "done");
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/loginsuccess.jsp");
             dispatcher.forward(request, response);
+            
         } else {
-            //StringBuffer fromPlace = request.getRequestURL();
-            //StringBuffer fromPlace =request.
-            //System.out.println("ああああ"+fromPlace);
-            //session.setAttribute("fromPlace", fromPlace);
+            //System.out.println("あああ："+request.getParameter("source"));
+            //session.setAttribute("source",request.getParameter("source"));
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
             dispatcher.forward(request, response);
         }
@@ -87,13 +92,13 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //login.jspからユーザー名, パスワードが送られる
         HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
-                
+        //ログアウトした場合        
         if(request.getParameter("logout") != null){
             session.invalidate();
-            String logout = "logout";
-            request.setAttribute("logout", logout);
+            request.setAttribute("logout", "logout");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
             dispatcher.forward(request, response);
         }
@@ -107,10 +112,21 @@ public class Login extends HttpServlet {
             UserDataBeans loginAccount = LoginLogic.getInstance().loginExecute(userName, passWord);
             
             if(loginAccount != null){
+                System.out.println("[Status]loginAccount exists");
                 session.setAttribute("loginAccount", loginAccount);
+                
+                Map<String, Set> Cart = (LinkedHashMap<String, Set>)session.getAttribute("Cart");
+                System.out.println("ユーザID[A1]:"+loginAccount.getName());
+                if(Cart != null && Cart.containsKey("defaultID")){
+                    Set<ItemDetails> items = Cart.get("defaultID");
+                    System.out.println("ユーザID[A2]:"+loginAccount.getName());
+                    Cart.put(loginAccount.getName(), items);
+                    Cart.remove("default");
+                }
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/loginsuccess.jsp");
                 dispatcher.forward(request, response);
             } else {
+                System.out.println("[Status]loginAccount is NULL");
                 //loginAccountがnullの場合で良いのでは?
                 //request.setAttribute("notExist", "notExist");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp?flag=notExist");

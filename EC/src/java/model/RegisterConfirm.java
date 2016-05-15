@@ -68,24 +68,27 @@ public class RegisterConfirm extends HttpServlet {
                 System.out.println("[WARNING]:unauthorized access!! Please return to index.jsp. At RegisterConfirm.java");
                 throw new Exception("不正なアクセスです");
             }
-           
+            
             String userName = request.getParameter("userName").trim();
             String passWord = request.getParameter("password");
             String mail = request.getParameter("mail");
             String address = request.getParameter("address");
             
-            UserDataBeans udb = new UserDataBeans();
-            udb.setName(userName);
-            udb.setPassWord(passWord);
-            udb.setMail(mail);
-            udb.setAddress(address);
-            System.out.println("[Notice]:USER's information had been iserted to UDB completely. At RegisterConfirm.java");
-            
+            UserDataBeans udb = new UserDataBeans(userName, passWord, mail, address);
+
             session.setAttribute("udb", udb);
+            String caution = ModelHelper.getInstance().caution(userName, passWord, mail, address);
+            
+            if(!caution.isEmpty()){
+                request.setAttribute("caution", caution);
+                response.sendRedirect("/WEB-INF/jsp/registeruser.jsp");
+                return;
+            }
+            
+            System.out.println("[Notice]:USER's information had been iserted to UDB completely. At RegisterConfirm.java");
             System.out.println("[Notice]:UDB which has information is inputed in the session At RegisterConfirm.java");
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerconfirm.jsp");
-            System.out.println("[Notice]:dispacher generated");
             dispatcher.forward(request, response);
         
         }catch(Exception e){

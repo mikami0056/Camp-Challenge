@@ -69,7 +69,11 @@ public class RegisterUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        request.setAttribute("REINPUT", request.getParameter("no"));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registeruser.jsp");
+        dispatcher.forward(request, response);
+        
     }
 
     /**

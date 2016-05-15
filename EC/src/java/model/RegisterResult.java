@@ -71,11 +71,7 @@ public class RegisterResult extends HttpServlet {
             }
             
             UserDataBeans udb = (UserDataBeans)session.getAttribute("udb");
-            System.out.println("A");
             UserDataDAO.getInstance().insertInformation(udb);
-            System.out.println("B");
-            session.invalidate();
-            System.out.println("C");
             request.setAttribute("udb", udb);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerresult.jsp");

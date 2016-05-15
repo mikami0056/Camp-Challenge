@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -72,17 +73,21 @@ public class Add extends HttpServlet {
         System.out.println("プロダクトコードを取得:" + productID + "at Add.java");
         
         //商品コードを元にセッションスコープから商品を取得
-        ItemDetails itemDetails = (ItemDetails)session.getAttribute(productID);
-        System.out.println("プロダクトコードと紐付いている商品を取得 " + itemDetails.getName());
-        
-        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
-        productIDList.add(productID);
-        
+        ItemDetails item = (ItemDetails)session.getAttribute(productID);
+        System.out.println("プロダクトコードと紐付いている商品を取得 " + item.getName());
+        /*
+        List<String> productIDList = (ArrayList<String>)session.getAttribute("productIDList");
+        if(!productIDList.contains(productID)){
+            productIDList.add(productID);
+        }
+        */
         //購入個数を商品情報に代入
         Integer number = Integer.parseInt(request.getParameter("buyNumber"));
-        itemDetails.setNumber(number);
+        item.setNumber(number);
         request.setAttribute("buyNumber", number);
-        request.setAttribute("name", itemDetails.getName());
+        request.setAttribute("name", item.getName());
+        request.setAttribute("productID", item.getProductID());
+        session.setAttribute(item.getProductID(), item);
         //session.setAttribute(productID, itemDetails);
                 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/add.jsp");

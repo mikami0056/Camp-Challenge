@@ -45,7 +45,11 @@ public class ItemDetails implements Serializable {
     }
     
     public void setNumber(Integer n){
-        this.number += n;
+        if(n == 0){
+            this.number = 0;
+        }else{
+            this.number += n;
+        }        
     }
     public Integer getNumber(){
         return this.number;

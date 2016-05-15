@@ -60,7 +60,9 @@ public class Item extends HttpServlet {
             Map<String, ItemDetails> itemSearchList = (Map<String, ItemDetails>)session.getAttribute("itemSearchList");
             
             //クエリストリングからindexを取得し, 商品一覧から特定の商品を取得
-            ItemDetails item = itemSearchList.get(request.getParameter("index"));            
+            String index = request.getParameter("index");
+            ItemDetails item = itemSearchList.get(index);
+            //item.jspに商品IDを渡す
             request.setAttribute("productID",item.getProductID());
             
             //商品IDと商品を紐付けてセッションスコープに保存(ない場合)
@@ -70,6 +72,9 @@ public class Item extends HttpServlet {
             } else {
                 System.out.println("商品名["+item.getName() + "]はもうセッション内にあります");
             }
+            
+            StringBuffer url = request.getRequestURL().append("?index=" + index);
+            session.setAttribute("URL", url);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/item.jsp");
             dispatcher.forward(request, response);

@@ -36,6 +36,18 @@
         <servlet-name>Delete</servlet-name>
         <servlet-class>controller.Delete</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BuyConfirm</servlet-name>
+        <servlet-class>controller.BuyConfirm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyData</servlet-name>
+        <servlet-class>controller.MyData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyUpdate</servlet-name>
+        <servlet-class>controller.MyUpdate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Search</servlet-name>
         <url-pattern>/Search</url-pattern>
@@ -71,6 +83,18 @@
     <servlet-mapping>
         <servlet-name>Delete</servlet-name>
         <url-pattern>/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuyConfirm</servlet-name>
+        <url-pattern>/BuyConfirm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyData</servlet-name>
+        <url-pattern>/MyData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyUpdate</servlet-name>
+        <url-pattern>/MyUpdate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.ItemDetails;
+import model.UserDataBeans;
 
 /**
  *
@@ -69,25 +71,58 @@ public class Cart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        System.out.println("[Notice]Cart.java start");
         HttpSession session = request.getSession();
-        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
-        //カート用配列, この中に購入した商品が追加される
-        LinkedHashMap<String, ItemDetails> itemsInCart = new LinkedHashMap<>();
         
-        for(String productID : productIDList){
-            ItemDetails item = (ItemDetails)session.getAttribute(productID);
-            if(item != null){
-                System.out.println(item.getProductID());
-                itemsInCart.put(item.getProductID(), item);
+        //add.jspから追加した商品IDを取得
+        String productID = request.getParameter("productID");
+        //セッションスコープから商品IDと紐付いている商品インスタンスを取得
+        ItemDetails item = (ItemDetails)session.getAttribute(productID);
+        //ログイン状態を確認
+        //ログイン確認用変数
+        boolean loginStatus = false;
+        UserDataBeans loginAccount = null;
+        if(session.getAttribute("loginAccount") != null){
+        loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+        loginStatus = true;
+        }
+        //セッションスコープからカート情報を取得
+        Map<String, Set> Cart = (LinkedHashMap<String, Set>)session.getAttribute("Cart");
+        //商品保存用配列, この中に購入した商品が追加される
+        Set<ItemDetails> items = null;
+        
+        if(Cart == null){
+            System.out.println("カートと商品用リストがないので作成します");
+            //カート用Map. これにはユーザーIDと商品保存用コレクションが保存される.
+            Cart = new LinkedHashMap<>();
+            //商品保存用コレクション
+            items = new LinkedHashSet<>();
+      
+        }else {
+            System.out.println("カートがありました");
+            if(loginStatus){
+                items = Cart.get(loginAccount.getName());
             } else {
-                System.out.println("該当する商品がねぇよ");
+                items = Cart.get("defaultID");
             }
         }
-        System.out.println("商品IDの大きさ:" + productIDList.size());
-        session.setAttribute("itemsInCart", itemsInCart); 
+        //商品を保存
+        items.add(item);
+        
+        if(loginStatus){
+            //ログインしている場合, ユーザーIDと商品カートを紐付ける
+            Cart.put(loginAccount.getName(), items);
+        } else {
+            //ログインされていない場合, デフォルトIDと商品カートを紐付ける
+            Cart.put("defaultID", items);
+        }
+        //カート情報をセッションに保存
+        session.setAttribute("Cart", Cart);
+        session.setAttribute("URL", request.getRequestURL());
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
         dispatcher.forward(request, response);
-        
+    
     }
 
     /**

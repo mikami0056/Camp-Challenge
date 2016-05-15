@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.ItemDetails;
+import model.UserDataBeans;
 
 /**
  *
@@ -36,30 +39,6 @@ public class Delete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        LinkedHashMap<String, ItemDetails> itemsInCart = (LinkedHashMap<String, ItemDetails>)session.getAttribute("itemsInCart");
-        
-        request.setCharacterEncoding("UTF-8");
-
-        System.out.println("Delete.java");
-        String productID = request.getParameter("ItemProductID");
-        System.out.println("1");
-        itemsInCart.remove(productID);
-        System.out.println("2");
-        //商品IDが入っている配列をセッションから取得
-        Set<String> productIDList = (LinkedHashSet<String>)session.getAttribute("productIDList");
-        //削除対象商品のIDを探し, 消去する
-        System.out.println("3");
-        for(String codeID : productIDList){
-            System.out.println("4");
-            if(productID.equals(codeID)){
-                System.out.println("5");
-                session.removeAttribute(productID);
-                productIDList.remove(codeID);
-                System.out.println("6");
-            }
-        }
-        response.sendRedirect("/EC/Cart");
         
     }
 
@@ -89,7 +68,49 @@ public class Delete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("[Notice]Delete.java start");
+        //基本事項
+        HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
+        
+        //ログイン状態を確認
+        //ログイン確認用変数
+        boolean loginStatus = false;
+        UserDataBeans loginAccount = null;
+        if(session.getAttribute("loginAccount") != null){
+        loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+        loginStatus = true;
+        }
+        //セッションスコープから商品カートを取得
+        //Map<String, List> CartWithUserID = (LinkedHashMap<String, List>)session.getAttribute("Cart");
+        Map<String, Set> Cart = (LinkedHashMap<String, Set>)session.getAttribute("Cart");
+
+        //cart.jspから取得した削除する商品IDを取得
+        String productID = request.getParameter("productID");
+        //商品リストから商品IDと一致する商品を削除する
+        //List<ItemDetails> itemsInCart = null;
+        Set<ItemDetails> items = null;
+        if(loginStatus){
+            //itemsInCart = CartWithUserID.get(loginAccount.getName());
+            items = Cart.get(loginAccount.getName());
+        } else {
+            //itemsInCart = CartWithUserID.get("defaultID");
+            items = Cart.get("defaultID");
+        }
+        
+        for(ItemDetails item : items){
+            if(item.getProductID().equals(productID)){
+                System.out.println("削除前"+item.getNumber());
+                item.setNumber(0);
+                System.out.println("削除後"+item.getNumber());
+                items.remove(item);
+                break;
+            }
+        }
+        
+        System.out.println("削除処理終了");
+        response.sendRedirect("/EC/Cart");
+        //processRequest(request, response);
     }
 
     /**

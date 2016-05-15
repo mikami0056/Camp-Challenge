@@ -14,12 +14,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% 
     HttpSession hs = request.getSession();
-    ModelHelper mh = ModelHelper.getInstance();
+    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
     UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
-    boolean flag = false;
-    if(loginAccount != null){
-        flag = true;
-    }
+    boolean exist = mh.existAccount(loginAccount);
 %>
 <!DOCTYPE html>
 <html>
@@ -29,8 +26,9 @@
     </head>
     <body>
         <p align="right"><%= mh.loginJumper("")%>
-        <%if(flag){
-            out.print(loginAccount.getName()+"さん, こんにちは<br>");
+        <%if(exist){
+            out.print(mh.userPageJumper(loginAccount.getName()));
+            out.print(mh.cartJumper());
             out.print(mh.loginJumper("ログアウト"));
         } else {
             out.print(mh.loginJumper("ログイン"));
@@ -38,6 +36,8 @@
         <%= request.getAttribute("name")%>を<%= request.getAttribute("buyNumber")%>個カートに追加しました。<br>
         <form action="/EC/Cart" method="POST">
             <input type="submit" name="cart" value="カートを確認">
+            <input type="hidden" name="productID" value="<%= request.getAttribute("productID")%>">
         </form>
+        <%= mh.indexJumper()%>
     </body>
 </html>

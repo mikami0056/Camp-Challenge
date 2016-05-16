@@ -7,10 +7,16 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ItemDataBeans;
+import model.UserDataBeans;
 
 /**
  *
@@ -30,18 +36,7 @@ public class Delete extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Delete</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Delete at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,7 +65,43 @@ public class Delete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("[Notice]Delete.java start");
+        //基本事項
+        HttpSession session = request.getSession();
+        request.setCharacterEncoding("UTF-8");
+        
+        //ログイン状態を確認
+        //ログイン確認用変数
+        boolean loginStatus = false;
+        UserDataBeans loginAccount = null;
+        if(session.getAttribute("loginAccount") != null){
+        loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+        loginStatus = true;
+        }
+        //セッションスコープから商品カートを取得
+        Map<String, Set> Cart = (LinkedHashMap<String, Set>)session.getAttribute("Cart");
+
+        //cart.jspから取得した削除する商品IDを取得
+        String productID = request.getParameter("productID");
+        //商品リストから商品IDと一致する商品を削除する
+        Set<ItemDataBeans> items = null;
+        if(loginStatus){
+            items = Cart.get(loginAccount.getName());
+        } else {
+            items = Cart.get("defaultID");
+        }
+        
+        for(ItemDataBeans item : items){
+            if(item.getProductID().equals(productID)){
+                item.setNumber(0);
+                items.remove(item);
+                break;
+            }
+        }
+        
+        System.out.println("削除処理終了");
+        request.setAttribute("delete", "delete");
+        response.sendRedirect("/kagoyume/Cart");
     }
 
     /**

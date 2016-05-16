@@ -20,9 +20,11 @@ public class ItemDataBeans implements Serializable{
     private String imgUrl;
     private String stock;
     private Integer number;
+    private Integer type;
     
     public ItemDataBeans(){
         this.number = 0;
+        this.type = 0;
     }
     
     public static ItemDataBeans getInstance(){
@@ -68,6 +70,13 @@ public class ItemDataBeans implements Serializable{
     
     public String getStock(){
         return this.stock;
+    }
+    
+    public void setType(int type){
+        this.type = type;
+    }
+    public Integer getType(){
+        return this.type;
     }
     
     public void setPropaty(String elName, Element el){

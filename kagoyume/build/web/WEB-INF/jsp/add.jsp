@@ -1,0 +1,34 @@
+<%-- 
+    Document   : add
+    Created on : 2016/05/16, 10:51:45
+    Author     : SHO
+--%>
+
+<%@page import="model.ModelHelper"%>
+<%@page import="model.UserDataBeans"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="model.ItemDataBeans"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% 
+    HttpSession hs = request.getSession();
+    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>かごいっぱいのゆめ</title>
+    </head>
+    <body>
+        <jsp:include page="/WEB-INF/jsp/loginheader.jsp"/>
+        <%= request.getAttribute("name")%>を<%= request.getAttribute("buyNumber")%>個カートに追加しました。<br>
+        <form action="/kagoyume/Cart" method="POST">
+            <input type="submit" value="カートを確認">
+            <input type="hidden" name="productID" value="<%= request.getAttribute("productID")%>">
+        </form>
+        <%= mh.indexJumper()%>
+    </body>
+</html>

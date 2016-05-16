@@ -119,20 +119,21 @@ public class UserDataDAO {
         System.out.println("[Notice]updateTotalMoney2User finished");
     }
     
-    public void insertTotalMoneyByParchase(UserDataDTO dto) throws SQLException{
+    public void insertTotalMoneyByParchase(ItemDataDTO idd) throws SQLException{
         
         Connection con = null;
         PreparedStatement pst = null;
-        String sql = "INSERT INTO buy_t(userID, total, buyDate) VALUES(?,?,?)";
+        String sql = "INSERT INTO buy_t(userID, total, type, buyDate) VALUES(?,?,?,?)";
         System.out.println("[Notice]insertTotalMoneyByParchase start");
         
         try{
             
             con = DBManager.getConnection();
             pst = con.prepareStatement(sql);
-            pst.setInt(1, dto.getUserID());
-            pst.setInt(2, dto.getSum());
-            pst.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            pst.setInt(1, idd.getUserID());
+            pst.setInt(2, idd.getTotal());
+            pst.setInt(3, idd.getType());
+            pst.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             pst.executeUpdate();
             
         }catch(Exception e){

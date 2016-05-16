@@ -40,9 +40,10 @@
             個数:<%= item.getNumber()%><br>
             値段:<%= item.getPrice()%><br>
 
-            <form action="/kagoyume/BuyConfirm" method="POST">
-                <input type="submit" name="buy" value="購入"><%if(!exist){out.println("未ログインのため, ログイン画面にジャンプします");}%>
+            <form action="/kagoyume/Buy" method="POST">
+                <input type="submit" name="buy" value="購入確認"><%if(!exist){out.println("未ログインのため, ログイン画面にジャンプします");}%>
                 <input type="hidden" name="productID" value="<%= item.getProductID()%>">
+                <input type="hidden" name="confirm" value="confirm">
             </form>
             <form action="/kagoyume/Delete" method="POST">
                 <input type="submit" name="delete" value="削除">

@@ -122,6 +122,7 @@ public class MyData extends HttpServlet {
             System.out.println("DELETE");
             MyDeleteLogic.getInstance().deleteUserData(loginAccount);
             session.removeAttribute("loginAccount");
+            session.invalidate();
             destination = "/WEB-INF/jsp/mydeleteresult.jsp";    
             break;
             

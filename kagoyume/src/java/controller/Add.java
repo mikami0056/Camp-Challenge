@@ -7,10 +7,13 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ItemDataBeans;
 
 /**
  *
@@ -29,19 +32,7 @@ public class Add extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Add</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Add at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,7 +47,7 @@ public class Add extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -70,7 +61,27 @@ public class Add extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        HttpSession session = request.getSession();
+        //item.jspからhiddenで送られた商品コードを取得
+        String productID = request.getParameter("productID");
+        System.out.println("プロダクトコードを取得:" + productID + "at Add.java");
+        
+        //商品コードを元にセッションスコープから商品を取得
+        ItemDataBeans item = (ItemDataBeans)session.getAttribute(productID);
+        System.out.println("プロダクトコードと紐付いている商品を取得 " + item.getName());
+        
+        //購入個数を商品情報に代入
+        Integer number = Integer.parseInt(request.getParameter("buyNumber"));
+        item.setNumber(number);
+        //add.jsp表示用の一時的なインスタンス(購入数, 名前, 商品ID)
+        request.setAttribute("buyNumber", number);
+        request.setAttribute("name", item.getName());
+        request.setAttribute("productID", item.getProductID());
+        session.setAttribute(item.getProductID(), item);
+                
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/add.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**

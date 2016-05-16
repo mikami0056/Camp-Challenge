@@ -7,10 +7,17 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ItemDataBeans;
+import model.SearchLogic;
 
 /**
  *
@@ -29,19 +36,6 @@ public class Search extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Search</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Search at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,7 +50,44 @@ public class Search extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        try {
+            //基本事項
+            request.setCharacterEncoding("UTF-8");
+            HttpSession session = request.getSession();
+            
+            //パラメータ取得
+            String query = request.getParameter("query");
+            String sort = request.getParameter("sort");
+            String category = request.getParameter("category");
+            String search = request.getParameter("search");
+            
+            //search.jsp表示用にリクエストスコープに保存
+            request.setAttribute("query", query);
+            request.setAttribute("sort", sort);
+            request.setAttribute("category", category);
+            
+            //入力チェック, 未入力ならindexに遷移
+            if("".equals(query.trim())){
+                System.out.println("キーワードが未入力でした");
+                response.sendRedirect("/EC/index.jsp?flag=error");
+                return;
+            }
+            
+            //商品が格納されたMapを取得
+            Map<String, ItemDataBeans> itemSearchList = SearchLogic.getInstance().execute(query, category, sort);
+            session.setAttribute("itemSearchList", itemSearchList);
+            StringBuffer url = request.getRequestURL().append("?query="+query)
+                                                      .append("&category="+category)
+                                                      .append("&sort="+sort)
+                                                      .append("&search="+search);
+            session.setAttribute("URL", url);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/search.jsp");
+            dispatcher.forward(request, response);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +101,9 @@ public class Search extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+        //processRequest(request, response);
     }
 
     /**

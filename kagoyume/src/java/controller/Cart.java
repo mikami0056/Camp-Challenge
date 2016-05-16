@@ -52,7 +52,10 @@ public class Cart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        if(request.getParameter("delete") != null){
         System.out.println("deleteから来ますた");
+        }
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");
         dispatcher.forward(request, response);
     }
@@ -99,8 +102,10 @@ public class Cart extends HttpServlet {
         }else {
             System.out.println("カートがありました");
             if(loginStatus){
+                System.out.println("ログインしている");
                 items = Cart.get(loginAccount.getName());
             } else {
+                System.out.println("ログインしていない");
                 items = Cart.get("defaultID");
             }
         }
@@ -108,7 +113,7 @@ public class Cart extends HttpServlet {
         items.add(item);
         
         if(loginStatus){
-            //ログインしている場合, ユーザーIDと商品カートを紐付ける
+            //ログインしている場合, ユーザー名と商品カートを紐付ける
             Cart.put(loginAccount.getName(), items);
         } else {
             //ログインされていない場合, デフォルトIDと商品カートを紐付ける

@@ -60,7 +60,7 @@
                 <option value="<%=key%>"><%= sortOrder.get(key)%></option>
                 <%}%>
             </select></p>
-            <input type="submit" name="search" value="検索">
+            <input type="submit" value="検索">
             <br><br>
             <%-- クエリストリングではなくリクエストスコープの方がいいかも --%>
             <%

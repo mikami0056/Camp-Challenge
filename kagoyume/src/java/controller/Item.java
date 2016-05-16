@@ -7,10 +7,14 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ItemDataBeans;
 
 /**
  *
@@ -29,19 +33,6 @@ public class Item extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Item</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Item at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,7 +47,42 @@ public class Item extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //遷移先用変数
+        String destination = "";
+        
+        try{
+            request.setCharacterEncoding("UTF-8");
+            HttpSession session = request.getSession();
+            //セッションから商品一覧を取得
+            Map<String, ItemDataBeans> itemSearchList = (Map<String, ItemDataBeans>)session.getAttribute("itemSearchList");
+            
+            //クエリストリングからindexを取得し, 商品一覧から特定の商品を取得
+            String index = request.getParameter("index");
+            ItemDataBeans item = itemSearchList.get(index);
+            //item.jspに商品IDを渡す
+            request.setAttribute("productID",item.getProductID());
+            
+            //商品IDと商品を紐付けてセッションスコープに保存(ない場合)
+            if((ItemDataBeans)session.getAttribute(item.getProductID()) == null){
+                System.out.println("商品をセッションに追加:[商品名]["+item.getName() + "]");
+                session.setAttribute(item.getProductID(), item);
+            } else {
+                System.out.println("商品名["+item.getName() + "]はもうセッション内にあります");
+            }
+            
+            //ログイン後遷移用URLをセッション内に保存
+            StringBuffer url = request.getRequestURL().append("?index=" + index);
+            session.setAttribute("URL", url);
+            
+            destination = "/WEB-INF/jsp/item.jsp";
+            
+        } catch (Exception e){
+            request.setAttribute("error", e.getMessage());
+            destination = "/error.jsp";
+        }
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+        dispatcher.forward(request, response);
     }
 
     /**

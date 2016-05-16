@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author SHO
  */
 public class UserDataBeans implements Serializable{
-    private int userID;
+    private Integer userID;
     private String name;
     private String passWord;
     private String mail;

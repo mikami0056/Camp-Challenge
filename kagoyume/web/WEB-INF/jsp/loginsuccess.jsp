@@ -11,6 +11,7 @@
 <%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
 <jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=loginsuccess"/><%-- ログ出力用 --%>
 <%
+    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
     StringBuffer url = (StringBuffer)hs.getAttribute("URL");
     String login = (String)request.getAttribute("done");
 %>
@@ -28,7 +29,7 @@
         <p>ログインが成功しました</p>
         <%if(url != null){out.println("3秒後に元のページへジャンプします<br>");}%>
         <%}%>
-        <p>こんにちは, <c:out value="${sessionScope.loginAccount.name}"/>さん</p>
+        <p>こんにちは, <%= loginAccount.getName()%>さん</p>
         <form action="/kagoyume/Login" method="POST">
             <input type="submit" value="ログアウト">
             <input type="hidden" name="logout" value="logout">

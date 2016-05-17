@@ -3,33 +3,22 @@
     Created on : 2016/04/27, 15:26:04
     Author     : SHO
 --%>
-<%@page import="java.util.Set"%>
-<%@page import="java.util.LinkedHashMap"%>
-<%@page import="model.UserDataBeans"%>
-<%@page import="model.ModelHelper"%>
-<%@page import="model.Common"%>
-<%@page import="model.SearchLogic"%>
-<%@page import="java.util.Map"%>
+<%@page 
+import="java.util.Set"
+import="java.util.Map"
+import="java.util.LinkedHashMap"
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=index"/><%-- ログ出力用 --%>
 <%
     System.out.println("======ECサイトスタート=======");
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-    if(mh == null){
-        mh = new ModelHelper();
-        hs.setAttribute("mh", mh);
-    }
-    Common con = (Common)hs.getAttribute("con");
-    if(con == null){
-        con = new Common();
-        hs.setAttribute("con", con);
-    }
     Map<String, String> categories = con.getCategories();
     Map<String, String> sortOrder = con.getSortOrder();
-    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
-    boolean exist = mh.existAccount(loginAccount);
     hs.setAttribute("URL", request.getRequestURL());
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +32,14 @@
         <jsp:include page="/WEB-INF/jsp/loginheader.jsp"/>
         <form action="Search" method="GET">
             <p>キーワード:
-            <input type="text" name="query" placeholder="キーワードを入力" required></p>
+            <input type="text" name="query" placeholder="キーワードを入力" required>
+            <%
+                String flag = request.getParameter("flag");
+                if("error".equals(flag)){
+                    out.print("検索フォームに何も入力されていません");
+                }
+            %>
+            </p>
             
             <p>分類:
             <select name="category">
@@ -61,14 +57,7 @@
                 <%}%>
             </select></p>
             <input type="submit" value="検索">
-            <br><br>
-            <%-- クエリストリングではなくリクエストスコープの方がいいかも --%>
-            <%
-                String flag = request.getParameter("flag");
-                if("error".equals(flag)){
-                    out.print("検索フォームに何も入力されていません");
-                }
-            %>
+            <br><br>            
         </form>
     </body>
 </html>

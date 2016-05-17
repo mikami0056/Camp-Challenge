@@ -6,9 +6,9 @@
 <%@page import="model.UserDataBeans"%>
 <%@page import="model.ModelHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=login"/><%-- ログ出力用 --%>
 <%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
     boolean logout = false;
     if((String)request.getAttribute("logout") != null){
         logout = true;

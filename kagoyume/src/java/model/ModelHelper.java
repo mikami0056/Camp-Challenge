@@ -54,6 +54,15 @@ public class ModelHelper {
         return exist;
     }
     
+    public String existAccountName(UserDataBeans loginAccount){
+        String userName = "default";
+        if(loginAccount != null){
+        userName = loginAccount.getName();
+        }
+        return userName;
+    }
+    
+    
     public String getUserID(UserDataBeans loginAccount){
         String userID="";
         if(loginAccount != null){

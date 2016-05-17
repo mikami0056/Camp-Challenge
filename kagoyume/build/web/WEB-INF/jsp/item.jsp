@@ -4,6 +4,7 @@
     Author     : SHO
 --%>
 
+<%@page import="java.net.URL"%>
 <%@page import="model.ModelHelper"%>
 <%@page import="model.UserDataBeans"%>
 <%@page import="java.util.LinkedHashMap"%>
@@ -12,9 +13,10 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="model.ItemDataBeans"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=item"/><%-- ログ出力用 --%>
 <%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
     //商品IDをItem.javaから取得
     String productID = (String)request.getAttribute("productID");
     ItemDataBeans item = (ItemDataBeans)hs.getAttribute(productID);
@@ -29,7 +31,7 @@
     <body>
         <h1>商品詳細</h1>
         <jsp:include page="/WEB-INF/jsp/loginheader.jsp"/>
-        <img src="<%= item.getImgUrl()%>"><br>
+        <img src="<%= item.getImgUrl()%>">
         名前:<%= item.getName()%><br>
         値段:<%= item.getPrice()%><br>
         在庫:<%= stockStatus%><br>
@@ -42,6 +44,9 @@
             <input type="submit" name="add" value="カートに追加">
             <input type="hidden" name="productID" value="<%= productID%>">
         </form>
-            <input type="submit" onClick='history.back();' value="一覧へ戻る">
+        <form action="/kagoyume/Search" method="POST">
+            <input type="submit" value="一覧へ戻る">
+            <input type="hidden" name="flag" value="return">
+        </form>
     </body>
 </html>

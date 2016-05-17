@@ -4,6 +4,7 @@
     Author     : SHO
 --%>
 
+<%@page import="model.LogWriter"%>
 <%@page import="model.UserDataBeans"%>
 <%@page import="model.ModelHelper"%>
 <%@page import="java.util.HashMap"%>
@@ -14,12 +15,11 @@
 <%@page import="java.net.URL"%>
 <%@page import="model.SearchLogic"%>
 <%@page import="model.ItemDataBeans"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=search"/><%-- ログ出力用 --%>
 <%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
-    boolean exist = mh.existAccount(loginAccount);
     Map<String, ItemDataBeans> itemDetailsList = (LinkedHashMap<String, ItemDataBeans>)hs.getAttribute("itemSearchList");
 %>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
         <h1>検索結果</h1>
         <jsp:include page="/WEB-INF/jsp/loginheader.jsp"/>
         検索条件<br>
-        キーワード：<b><%= request.getAttribute("query")%></b>・分類：<b><%= request.getAttribute("sort")%></b>・並び順：<b><%= request.getAttribute("category")%></b>
+        キーワード：<b><c:out value="${sessionScope.query}"/></b>・分類：<b><c:out value="${sessionScope.sort}"/></b>・並び順：<b><c:out value="${sessionScope.category}"/></b>
         での検索結果を表示しています        
         <hr>
         <%for(String index : itemDetailsList.keySet()){%>

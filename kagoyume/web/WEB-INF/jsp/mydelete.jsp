@@ -7,9 +7,10 @@
 <%@page import="model.UserDataBeans"%>
 <%@page import="model.ModelHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=mydata"/><%-- ログ出力用 --%>
 <%
-    ModelHelper mh = new ModelHelper();
-    HttpSession hs = request.getSession();
     UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
 %>
 <!DOCTYPE html>

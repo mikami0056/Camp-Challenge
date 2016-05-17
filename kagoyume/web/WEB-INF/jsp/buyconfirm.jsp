@@ -5,19 +5,15 @@
 --%>
 
 <%@page import="java.util.Set"%>
-<%@page import="model.UserDataBeans"%>
 <%@page import="java.util.Map"%>
-<%@page import="model.ModelHelper"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.LinkedHashSet"%>
-<%@page import="model.ItemDataBeans"%>
 <%@page import="java.util.List"%>
+<%@page import="model.ItemDataBeans"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-    ItemDataBeans item = (ItemDataBeans)request.getAttribute("buyItem");
-%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=buyconfirm"/><%-- ログ出力用 --%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,10 +24,10 @@
         <h1>購入確認</h1>
         <jsp:include page="/WEB-INF/jsp/loginheader.jsp"/>
         <h2>以下の商品を購入します</h2>
-        <p>名前：<%= item.getName()%></p>
-        <p>個数：<%= item.getNumber()%></p>
-        <p>価格：<%= item.getPrice()%></p>
-        <p>合計：<%= item.getNumber()*item.getPrice()%></p>
+        <p>名前：<c:out value="${requestScope.buyItem.name}"/></p>
+        <p>個数：<c:out value="${requestScope.buyItem.number}"/></p>
+        <p>価格：<c:out value="${requestScope.buyItem.price}"/></p>
+        <p>合計：<c:out value="${requestScope.buyItem.number * requestScope.buyItem.price}"/></p>
         <form action="/kagoyume/Buy" method="POST">
             <label for="1">
             <input type="radio" name="type" value="1" id="1" checked>通常発送
@@ -43,7 +39,7 @@
             <input type="radio" name="type" value="3" id="3">特急発送
             </label>
             <input type="submit" value="購入">
-            <input type="hidden" name="productID" value="<%= item.getProductID()%>">
+            <input type="hidden" name="productID" value="<c:out value="${requestScope.buyItem.productID}"/>">
         </form>
     </body>
     <%= mh.indexJumper()%>

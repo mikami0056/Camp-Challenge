@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -72,6 +73,9 @@ public class Item extends HttpServlet {
             
             //ログイン後遷移用URLをセッション内に保存
             StringBuffer url = request.getRequestURL().append("?index=" + index);
+            //item.jspの[一覧に戻る]ボタン用
+            request.setAttribute("URL", (StringBuffer)session.getAttribute("URL"));
+            System.out.println("テスト3"+(StringBuffer)session.getAttribute("URL"));
             session.setAttribute("URL", url);
             
             destination = "/WEB-INF/jsp/item.jsp";

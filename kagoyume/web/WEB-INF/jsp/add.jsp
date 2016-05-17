@@ -12,10 +12,8 @@
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="model.ItemDataBeans"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% 
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=add"/><%-- ログ出力用 --%>
 <!DOCTYPE html>
 <html>
     <head>

@@ -7,10 +7,10 @@
 <%@page import="model.ModelHelper"%>
 <%@page import="model.UserDataBeans"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=loginsuccess"/><%-- ログ出力用 --%>
 <%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
     StringBuffer url = (StringBuffer)hs.getAttribute("URL");
     String login = (String)request.getAttribute("done");
 %>
@@ -28,7 +28,7 @@
         <p>ログインが成功しました</p>
         <%if(url != null){out.println("3秒後に元のページへジャンプします<br>");}%>
         <%}%>
-        <p>こんにちは, <%= loginAccount.getName()%>さん</p>
+        <p>こんにちは, <c:out value="${sessionScope.loginAccount.name}"/>さん</p>
         <form action="/kagoyume/Login" method="POST">
             <input type="submit" value="ログアウト">
             <input type="hidden" name="logout" value="logout">

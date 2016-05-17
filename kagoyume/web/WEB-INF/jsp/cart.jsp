@@ -12,9 +12,9 @@
 <%@page import="model.ItemDataBeans"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
 <%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
     Map<String, Set> Cart = (LinkedHashMap<String, Set>)hs.getAttribute("Cart");    
     UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
     //ログイン状態であればそのユーザーIDを, していなければdefaultIDを設定
@@ -39,7 +39,6 @@
             商品名:<%= item.getName()%><br>
             個数:<%= item.getNumber()%><br>
             値段:<%= item.getPrice()%><br>
-
             <form action="/kagoyume/Buy" method="POST">
                 <input type="submit" name="buy" value="購入確認"><%if(!exist){out.println("未ログインのため, ログイン画面にジャンプします");}%>
                 <input type="hidden" name="productID" value="<%= item.getProductID()%>">
@@ -49,6 +48,7 @@
                 <input type="submit" name="delete" value="削除">
                 <input type="hidden" name="productID" value="<%= item.getProductID()%>">
             </form>
+            <hr>
             <%}%>
             <%= mh.indexJumper()%>
         <%}else{%>

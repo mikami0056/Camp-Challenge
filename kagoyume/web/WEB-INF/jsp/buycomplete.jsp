@@ -13,16 +13,8 @@
 <%@page import="model.ItemDataBeans"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    HttpSession hs = request.getSession();
-    ModelHelper mh = (ModelHelper)hs.getAttribute("mh");
-    Map<String, Set> Cart = (LinkedHashMap<String, Set>)hs.getAttribute("Cart");    
-    UserDataBeans loginAccount = (UserDataBeans)hs.getAttribute("loginAccount");
-    //ログイン状態であればそのユーザーIDを, していなければdefaultIDを設定
-    String userID = mh.getUserID(loginAccount);
-    boolean exist = mh.existAccount(loginAccount);
-    ItemDataBeans item = (ItemDataBeans)request.getAttribute("buyItem");
-%>
+<%@include file="/WEB-INF/jsp/jsphelper.jsp" %><%-- セッションの取得や, ModelHelperの取得を行う --%>
+<jsp:include page="/WEB-INF/jsp/logwriter.jsp?where=buyconplete"/><%-- ログ出力用 --%>
 <!DOCTYPE html>
 <html>
     <head>

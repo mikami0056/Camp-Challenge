@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -137,7 +138,9 @@ public class SearchLogic {
     */
     private String convertURL() throws MalformedURLException, UnsupportedEncodingException{
         System.out.println("URLの文字列からの変換を始めます");
+        this.sort = URLEncoder.encode(this.sort,"utf-8");
         String strURL = this.baseURL + "?appid=" + this.appID + "&query=" + this.query + "&category_id=" + this.categoryID + "&sort=" + this.sort;
+        System.out.println("URLテスト1:"+strURL);
         System.out.println("URLの文字列からの変換が終了しました");
         return strURL;
     }
@@ -235,4 +238,34 @@ public class SearchLogic {
         return null;
     }
     
+    
+    /*
+    @カテゴリーマップからキー名に対応する値を取得するメソッド
+    @search.jsp表示の際に条件を表示するのに使用
+    */
+    public String getValueFromCategory(Common con, String keyName){
+        Map<String, String> categories = con.getCategories();
+        String reValue="";
+            for(String key : categories.keySet()){
+                if(keyName.equals(key)){
+                    reValue = categories.get(key);
+                }
+            }
+        return reValue;    
+    }
+    
+    /*
+    @ソートマップからキー名に対応する値を取得するメソッド
+    @search.jsp表示の際に条件を表示するのに使用
+    */
+    public String getValueFromSort(Common con, String keyName){
+        Map<String, String> sortOrder = con.getSortOrder();
+        String reValue="";
+            for(String key : sortOrder.keySet()){
+                if(keyName.equals(key)){
+                    reValue = sortOrder.get(key);
+                }
+            }
+        return reValue;    
+    }
 }

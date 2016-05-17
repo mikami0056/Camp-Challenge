@@ -52,8 +52,11 @@ public class Cart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
+        
         if(request.getParameter("delete") != null){
         System.out.println("deleteから来ますた");
+        session.removeAttribute("delete");
         }
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/cart.jsp");

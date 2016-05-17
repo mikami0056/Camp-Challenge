@@ -98,9 +98,9 @@ public class Delete extends HttpServlet {
                 break;
             }
         }
-        
+       
         System.out.println("削除処理終了");
-        request.setAttribute("delete", "delete");
+        session.setAttribute("delete", "delete");
         response.sendRedirect("/kagoyume/Cart");
     }
 

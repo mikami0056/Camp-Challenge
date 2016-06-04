@@ -1,0 +1,191 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/05/28, 11:32:59
+    Author     : gest
+*/
+
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,400italic);
+
+img {
+    margin: 20px;
+    max-width: 320px;
+    max-height: 320px;
+}
+/*
+#page .image-left{
+    float: left;
+}
+*/
+#page #login #g{
+    margin: 0 0 0 50px;
+}
+.pageHead #siteTitle{
+    font-size: 30px;
+    background-color: #F2F2E5;
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+    border-bottom-color: #E3E4D9;
+    font-family: 'Arimo', sans-serif; 
+}
+/* ページ文字色 */
+body{
+    color: #333333;
+    font-family: sans-serif;
+    background-image: url("../image/03-light-carpet.png");
+}
+
+/* 見出し 
+#siteTitle{
+    font-size: 30px;
+    background-color: #F2F2E5;
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+    border-bottom-color: #E3E4D9;
+    font-family: 'Arimo', sans-serif; 
+}
+*/
+.pageTitle{font-size: 18px;}
+
+/* 文 */
+p{font-size: 14px;}
+
+/* ログイン*/
+#login{
+    background-color: #FFFFF0;
+    border: solid 10px #FFFAFA;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    margin: 0 auto;
+    left: 30%;
+    right: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
+}
+#login,p{
+    margin: 5px;
+    font-size: 20px;
+}
+#login .formTitle{
+    margin: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #CCCCCC;
+}
+.username{
+    margin-top: 20px;
+}
+.g-recaptcha{
+    text-align: center;
+}
+.username, .password{
+    text-align: center;
+    margin-bottom: 20px;
+}
+input[type="text"],
+input[type="password"]{
+    width: 250px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.cap{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+}
+
+/* ページ */
+#page{
+    width: 980px;
+    margin: 0 auto;
+}
+
+/*グローバルナビ*/
+#pageHead .global{
+    border: solid #CCCCCC;
+    border-width: 1px 0;
+    padding: 10px 0;
+}
+
+#pageHead .global ul {
+    margin: 0;
+    padding: 0;
+}
+
+#pageHead .global ul:after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+#pageHead .global ul li{
+    list-style: none;
+    width: 245px;
+    float: left;
+    border-left: solid 1px #CCCCCC;
+    padding: 0 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.429;
+}
+
+#pageHead .global ul li:first-child{
+    border-left: none;
+}
+
+#pageHead .global ul li a{
+    color: #333333;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+#pageHead .global ul li a:hover{
+    background-color: #F2F2E5;
+}
+#pageHead .global ul li.current a{
+    background-color: #F2F2E5;
+}
+
+#pageBodySub{
+    margin: 10px 0;
+    width: 245px;
+    float: left;
+    border-right: solid 1px #CCCCCC;
+}
+#pageBodySub .search p input[type="text"]{
+    width: 200px;
+    height: 30px;
+    font-size: 14px;
+}
+
+#pageBodySub .search input[type="submit"]{
+    text-align: left;
+    margin: 10px;
+}
+
+#page #pageBody {
+    width: 470px;
+    height: 500px;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: #F2F2E5;
+}
+
+#page #pageBody .userInfo p{
+    background-color: #F2F2E5;
+}
+
+
+
+
+

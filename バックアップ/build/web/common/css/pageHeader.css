@@ -1,0 +1,23 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/06/04, 19:25:28
+    Author     : gest
+*/
+
+/*フォント*/
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,400italic);
+
+/* サイトタイトル */
+#page #siteTitle h1{
+    font-size: 30px;
+    background-color: #F2F2E5;
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+    border-bottom-color: #E3E4D9;
+    font-family: 'Arimo', sans-serif; 
+}
+

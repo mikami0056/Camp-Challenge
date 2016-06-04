@@ -1,0 +1,105 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/06/04, 19:36:36
+    Author     : gest
+*/
+#login{
+    background-color: #ffffff;/* ログインの範囲確認 */
+    border: solid 10px #f5f5f5;
+    width: 480px;
+    margin: 30px auto;
+}
+
+/*   
+#login .title{
+    background-color: aqua;
+    margin: 10px auto;
+    font-size: 24px;
+}
+*/
+
+p{margin: 0;}
+
+#login .title{
+    /*background-color: aqua;*/
+    margin: 20px;
+    text-align: center;
+    font-size: 24px;
+    /*
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #CCCCCC;
+    */
+}
+
+#login .title p{
+    margin: 10px;
+}
+
+p.username,
+p.password{
+    /*background-color: aqua;*/
+    margin: 0 auto 10px;
+    width: 256px;
+}
+
+p.username input[type="text"], 
+p.password input[type="password"]{
+    width: 250px;
+    height: 30px;
+    font-size: 18px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+section#g{
+    width: 300px;
+    margin: 20px auto;
+    font-size: 12px;
+}
+#g .g-recaptcha{
+    text-align: center;
+    font-size: 12px;
+}
+
+
+input#submit_buttom{
+    width: 250px;
+    font-size: 40px;
+    
+}
+/*
+p input[type="submit"]{
+
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    line-height: 52px;
+    background-color: #00CCFF;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 3px 0 #0099FF;
+    text-shadow: 0px 1px 1px rgba(0,0,0, .3);
+    -webkit-transition: none;
+    transition: none;
+}
+
+p input[type="submit"]:hover{
+    opacity: 0.7;
+    box-shadow: 0 3px 0 #0099FF;
+}
+
+p input[type="submit"]:active{
+    top: 3px;
+    box-shadow: none;
+}
+*/
+
+p#regist{
+}

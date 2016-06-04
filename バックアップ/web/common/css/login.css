@@ -7,33 +7,30 @@ and open the template in the editor.
     Created on : 2016/06/04, 19:36:36
     Author     : gest
 */
+
+p{
+    font-family: 'Arimo', sans-serif;
+    color: #333333;
+}
+
 #login{
     background-color: #ffffff;/* ログインの範囲確認 */
     border: solid 10px #f5f5f5;
     width: 480px;
     margin: 30px auto;
+    -webkit-box-shadow: 0 10px 8px -6px #8d8c8c;
+    -moz-box-shadow: 0 10px 8px -6px #8d8c8c;
+    box-shadow: 0 10px 8px -6px #8d8c8c;
 }
-
-/*   
-#login .title{
-    background-color: aqua;
-    margin: 10px auto;
-    font-size: 24px;
-}
-*/
 
 p{margin: 0;}
 
 #login .title{
-    /*background-color: aqua;*/
-    margin: 20px;
+    margin: 20px auto;
     text-align: center;
     font-size: 24px;
-    /*
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #CCCCCC;
-    */
+    width: 300px;
+    border-bottom: solid 1px #f5f5f5;
 }
 
 #login .title p{
@@ -42,14 +39,14 @@ p{margin: 0;}
 
 p.username,
 p.password{
-    /*background-color: aqua;*/
     margin: 0 auto 10px;
-    width: 256px;
+    width: 300px;
 }
 
 p.username input[type="text"], 
 p.password input[type="password"]{
-    width: 250px;
+    text-align: center;
+    width: 296px;
     height: 30px;
     font-size: 18px;
     -webkit-border-radius: 3px;
@@ -68,38 +65,32 @@ section#g{
 }
 
 
-input#submit_buttom{
-    width: 250px;
-    font-size: 40px;
-    
-}
-/*
-p input[type="submit"]{
-
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
-    line-height: 52px;
-    background-color: #00CCFF;
-    padding: 10px 20px;
+.buttom{
     border-radius: 4px;
-    box-shadow: 0 3px 0 #0099FF;
-    text-shadow: 0px 1px 1px rgba(0,0,0, .3);
-    -webkit-transition: none;
-    transition: none;
+    text-align:center;
+}
+.buttom input[type="submit"]{
+    width: 306px;
+    font-size: 24px;
+    margin: 0 auto 10px;
+    padding: auto;
+    background-color: #f5f5f5;
+    border-color: #f5f5f5;
+    border-radius: 5px;
 }
 
-p input[type="submit"]:hover{
-    opacity: 0.7;
-    box-shadow: 0 3px 0 #0099FF;
+.buttom input[type="submit"]:hover{
+    background-color: #dcdcdc;
 }
 
-p input[type="submit"]:active{
-    top: 3px;
-    box-shadow: none;
+p.regist{
+    text-align: right;
+    margin: 0 10px 5px 0;
 }
-*/
 
-p#regist{
+.icon-enter:before {
+    content: "\ea13";
 }
+
+a{ color: #999966; }
+a:hover{ color: #996600; }

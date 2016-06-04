@@ -33,9 +33,12 @@
             <input type="password" name="password"></p>
             <% if("error".equals(request.getParameter("flag"))){out.print("ログインに失敗しました");} %>
             <section id="g">
-            <div class="g-recaptcha" data-sitekey="6Ldh7yATAAAAAFXQSTDIvh6WOkkP0TXRcB12KZR9"></div>
+            <div class="g-recaptcha" data-sitekey="6Ldh7yATAAAAAFXQSTDIvh6WOkkP0TXRcB12KZR9">
+            </div>
             </section>
-            <p><input type="submit" value="ログイン" id="submit_buttom"></p>
+            <div class="buttom" >
+            <input type="submit" value="ログイン">
+            </div>
             </form>
             <p class="regist">新規登録される方は<a href="Registration">こちら</a></p>
         </div>

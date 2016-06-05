@@ -204,7 +204,7 @@ public class PictureDataDAO {
         Connection con = null;
         PreparedStatement pst = null;
         Map<Integer, PictureDataDTO> pdtoMap = new HashMap<Integer, PictureDataDTO>();
-        String selectSqlFromPicture = "SELECT * FROM picture_t ORDER BY " + mainSearch + " DESC LIMIT 10";
+        String selectSqlFromPicture = "SELECT * FROM picture_t ORDER BY " + mainSearch + " DESC";
         System.out.println("getPictureDataByEval start");
         
         try{
@@ -222,6 +222,7 @@ public class PictureDataDAO {
                 dto.setPicturePath(rs.getString("picturePath"));
                 dto.setOwnerComment(rs.getString("ownerComment"));
                 dto.setSubmitDate(rs.getDate("submitDate"));
+                System.out.println("確認/" + dto.getSubmitDate());
                 dto.setBeautiful(rs.getInt("beautiful"));
                 dto.setCool(rs.getInt("cool"));
                 dto.setStylish(rs.getInt("stylish"));

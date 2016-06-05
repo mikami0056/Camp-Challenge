@@ -19,13 +19,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WorkSpaces</title>
-        <link rel="stylesheet" href="common/css/style.css">
+        <!--<link rel="stylesheet" href="common/css/style.css">-->
+        <link rel="stylesheet" href="common/css/standard.css">
+        <link rel="stylesheet" href="common/css/mypicturemanager.css">
     </head>
     <body>
         <div id="page">
         <header id="pageHead">
             <h1 id="siteTitel">WorkSpaces</h1>
-            <hr>
             <nav class="global">
                 <ul>
                 <li><a href="/WorkSpacesProto/WorkSpaces">ホーム</a></li>
@@ -43,25 +44,16 @@
                 for(String pictureName : pictures.keySet()){
                     PictureDataBeans picture = pictures.get(pictureName);
         %>
-                    <img src="<%=picture.getPath()%>">
-                    <p>題名：<%=picture.getName()%></p>
-                    <p>投稿者：${loginAccount.userName}</p>
-                    <p>パス：<%=picture.getPath()%></p>
-                    <p>投稿者コメント：<%=picture.getComment()%></p>
-                    <p>投稿日：<%=picture.getDateTime()%></p>
-                    <form action="/WorkSpacesProto/Manage" method="GET">
-                        <input type="submit" value="投稿情報を変更">
-                        <input type="hidden" name="option" value="Update">
-                        <input type="hidden" name="id" value="<%=picture.getName()%>">
-                    </form>
-                    <form action="/WorkSpacesProto/Manage" method="GET">
-                        <input type="submit" value="投稿情報を削除">
-                        <input type="hidden" name="option" value="Delete">
-                        <input type="hidden" name="id" value="<%=picture.getName()%>">
-                    </form>
-                    <hr>
-                <%}
-        } else {%>
+            <div id="outline">
+                <img src="<%=picture.getPath()%>" class="picture">
+                <p class="subject"><%=picture.getName()%> / <%=picture.getDateTime()%></p>
+                <p class="commenttitle">投稿者コメント</p>
+                <p class="commentblock"><%=picture.getComment()%></p>
+                <a class="update" ref="WorkSpacesProto/Manage?option=Update&id=<%=picture.getName()%>">投稿情報を変更</a>
+                <a class="delete" ref="WorkSpacesProto/Manage?option=Delete&id=<%=picture.getName()%>">投稿情報を削除</a>
+            </div>    
+            <%}%>
+        <%} else {%>
             <p>投稿された写真はありません</p>
         <%}%>
         <%--

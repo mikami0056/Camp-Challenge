@@ -10,8 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WorkSpaces</title>
-        <!--<link rel="stylesheet" href="common/css/style.css">-->
-        <link rel="stylesheet" href="common/css/pageHeader.css">
         <link rel="stylesheet" href="common/css/standard.css">
         <link rel="stylesheet" href="common/css/login.css">
         <script src="https://www.google.com/recaptcha/api.js?hl=ja"></script>

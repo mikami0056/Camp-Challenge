@@ -6,6 +6,7 @@
 package controller;
 
 import Logic.PictureGetLogic;
+import Logic.SomeLogics;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,7 @@ public class WorkSpaces extends HttpServlet {
                 
             case "MyPage"://ユーザー管理画面遷移用
             destination = option;
+            request.setAttribute("view", "mypage");
             break;
                 
             case "Logout"://ログアウト画面遷移用
@@ -83,6 +86,12 @@ public class WorkSpaces extends HttpServlet {
                 ///新着の写真
                 Map<Integer, PictureDataBeans> pictureByTime = pgl.getPicturesByMethod("Date");
                 if(!pictureByTime.isEmpty()){
+                    int i = 1;
+                    for(Integer key : pictureByTime.keySet()){
+                        PictureDataBeans p = pictureByTime.get(key);
+                        System.out.println(i+"/"+p.getDateTime());
+                        i++;
+                    }
                     session.setAttribute("picturesByDate", pictureByTime);
                 }else{
                     session.setAttribute("Date", "empty");
@@ -121,7 +130,7 @@ public class WorkSpaces extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        ServletContext application = this.getServletContext();
         HttpSession session = request.getSession(); 
         //ホーム画面からユーザーの行動内容をパラメータとして取得し, 各担当のコントローラに遷移.
         //パラメータがなければホーム画面に遷移.
@@ -155,6 +164,11 @@ public class WorkSpaces extends HttpServlet {
                 //写真を1〜10まで取得
                 //評価の高い写真
                 Map<Integer, PictureDataBeans> pictureByRank = pgl.getPicturesByMethod("Rank");
+                //写真情報に変更があるかを判別する
+                //boolean flag = (Boolean)application.getAttribute("flag");
+                //セッション内に
+                //boolean isExist = SomeLogics.getInstance().checkExistInSession(session, "picturesByRank");
+                
                 if(!pictureByRank.isEmpty()){
                     session.setAttribute("picturesByRank", pictureByRank);
                 }else{

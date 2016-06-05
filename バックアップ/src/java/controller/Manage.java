@@ -47,16 +47,11 @@ public class Manage extends HttpServlet {
             UserDataBeans loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
             String contextPath = this.getServletContext().getContextPath();
             
-            String option = request.getParameter("option");
-            System.out.println(option);
+            String option = (String)request.getAttribute("option");
             String name = "";
             switch(option){
                 
-                case "11":
-                    /*/テスト用
-                    Map<String, PictureDataBeans> picturesf = PictureGetLogic.getInstance().PictureGetTest(loginAccount, contextPath);
-                    session.setAttribute("pictures", picturesf);
-                    */
+                case "mypicturemanage":
                     //本番用
                     Map<String, PictureDataBeans> pictures = PictureGetLogic.getInstance().PictureGet(loginAccount, contextPath);
                     session.setAttribute("pictures", pictures);
@@ -84,14 +79,14 @@ public class Manage extends HttpServlet {
                 break;
             }
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
-            dispatcher.forward(request, response);
+            //RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+            //dispatcher.forward(request, response);
             
         } catch(Exception e){
             System.out.println("エラーが発生しました / "+e.getMessage());
         }
-            //RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mypicturemanager.jsp");
-            //dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+            dispatcher.forward(request, response);
    
         }
 

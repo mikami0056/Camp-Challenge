@@ -11,29 +11,39 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WorkSpaces</title>
-        <link rel="stylesheet" href="common/css/style.css">
+        <link rel="stylesheet" href="common/css/standard.css">
+        <link rel="stylesheet" href="common/css/mypage.css">
     </head>
     <body>
         <div id="page">
         <header id="pageHead">
             <h1 id="siteTitel">WorkSpaces</h1>
-            <hr>
             <nav class="global">
                 <ul>
                 <li><a href="/WorkSpacesProto/WorkSpaces">ホーム</a></li>
-                <li class="current"><a href="/WorkSpacesProto/WorkSpaces?option=Mypage">マイページ</a></li>
+                <li class="current"><a href="/WorkSpacesProto/WorkSpaces?option=MyPage">マイページ</a></li>
                 <li><a href="/WorkSpacesProto/WorkSpaces?option=Logout">ログアウト</a></li>
                 <li><a href="/WorkSpacesProto/WorkSpaces?option=Contact">お問い合わせ</a></li>
                 </ul>
             </nav>
         </header>
         <section id="pageBody">
+            <p class="title">ユーザー情報</p>
             <section class="userInfo">
-                <p>ユーザー名：<c:out value="${loginAccount.userName}"/></p>
-                <p>メールアドレス：<c:out value="${loginAccount.mail}"/></p>
-                <p>投稿写真総計：<c:out value="${loginAcoount.pictureSum}"/></p>
+                <ul>
+                    <li><p>ユーザー名：<c:out value="${loginAccount.userName}"/></p></li>
+                    <li><p>メールアドレス：<c:out value="${loginAccount.mail}"/></p></li>
+                    <li><p>投稿写真総計：<c:out value="${loginAcoount.pictureSum}"/></p></li>
+                </ul>
             </section>
-            <section class="buttom">
+            <section class="buttoms">
+                <ul>
+                    <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=Upload">写真を投稿</a></li>
+                    <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=Manage">写真を管理</a></li>
+                    <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=MyDataUpdate">ユーザー情報を変更</a></li>
+                    <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=MyDataDelete">ユーザー情報を削除</a></li>
+                </ul>
+                <!--
                 <form action="/WorkSpacesProto/MyPage" method="POST">    
                     <input type="submit" value="写真を投稿" >
                     <input type="hidden" name="option" value="Upload">
@@ -50,6 +60,7 @@
                     <input type="submit" value="ユーザー情報を削除">
                     <input type="hidden" name="option" value="MyDataDelete">
                 </form>
+                -->
             </section>
         </section>
         </div>

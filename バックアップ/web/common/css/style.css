@@ -109,6 +109,7 @@ input[type="password"]{
 }
 
 /*グローバルナビ*/
+/*
 #pageHead .global{
     border: solid #CCCCCC;
     border-width: 1px 0;
@@ -155,7 +156,7 @@ input[type="password"]{
 #pageHead .global ul li.current a{
     background-color: #F2F2E5;
 }
-
+*/
 #pageBodySub{
     margin: 10px 0;
     width: 245px;

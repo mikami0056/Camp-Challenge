@@ -34,6 +34,7 @@ public class UserDataBeans implements Serializable{
         this.mail = mail;
         this.questionID = questionID;
         this.answer = answer;
+        this.pictureSum = 0;
     }
     
     //ユーザーID

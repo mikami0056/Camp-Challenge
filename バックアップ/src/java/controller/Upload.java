@@ -37,9 +37,30 @@ public class Upload extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.setContentType("text/html; charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        //ユーザー管理画面から遷移してきた場合, 変数viewにuploadpictureが入る
+        String view = (String)request.getAttribute("view");
+        String destination = "";
         
-        //System.out.println("[お知らせ]マイページ画面からアップロードサーブレットに遷移してきました");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/uploadpictures.jsp");
+        //写真をデータベースとサーバに保存
+        if(view == null || !view.equals("uploadpicture")){
+            
+            HttpSession session = request.getSession();
+            UserDataBeans loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+            //写真情報に格納するためのパスを取得
+            String contextPath = this.getServletContext().getContextPath();
+            //パスとログイン情報, 洗濯された写真情報をもとに, データベースにそれらを保存
+            UploadLogic.getInstance().pictureUpload(request, loginAccount, contextPath);
+            destination = "/WEB-INF/jsp/uploadpicturescomplete.jsp";
+            
+        } else {
+            
+            destination = "/WEB-INF/jsp/uploadpictures.jsp";
+            
+        }
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
         dispatcher.forward(request, response);
         
     }

@@ -30,47 +30,48 @@ public class MyPage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mypage.jsp");
-        dispatcher.forward(request, response);
-        
-        /*
         String view = (String)request.getAttribute("view");
+        String option = request.getParameter("option");
         String destination = "";
         
-        if(view != null){
-            switch(view){
-                
-                case "mypage":
-                destination = "/WEB-INF/jsp/mypage.jsp";
-                break;
-                
-            }
-        }
-        /*
-        int option = Integer.parseInt(request.getParameter("option"));
-        
-        String destination = "";
-        
-        //遷移分岐
-        switch(option){
-            case 0://マイページ画面遷
+        if(view != null && view.equals("mypage")){
+            
             destination = "/WEB-INF/jsp/mypage.jsp";
-            break;
+            
+        } else if(option != null){
+            
+            switch(option){
 
-            case 11:
-            destination = "Upload";
+            case "Upload":
+            destination = option;
+            request.setAttribute("view", "uploadpicture");
             break;
             
-            case 12:
-            destination = "Manage?option=11";
+            case "Manage":
+            destination = option;
+            request.setAttribute("option", "mypicturemanage");
+            //destination = "Manage?option=11";
             break;
                 
-            case 13://ユーザー情報変更画
-            destination = "MyData";
+            case "MyDataUpldate"://ユーザー情報変更画
+            destination = option;
             break;
+            
+            //ユーザー情報削除遷移
+            case "MyDataDelete":
+            destination = option;
+            break;
+            
+            }
+            
+        } else {
+            
+            destination = "/WorkSpacesProto/index.jsp";
+            
         }
-        */
         
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+        dispatcher.forward(request, response);
     }
 
     /**

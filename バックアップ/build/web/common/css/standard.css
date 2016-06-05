@@ -8,6 +8,23 @@ and open the template in the editor.
     Author     : gest
 */
 
+/*フォント*/
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,400italic);
+
+/* サイトタイトル */
+#page #siteTitle h1{
+    font-size: 30px;
+    background-color: #F2F2E5;
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+    border-bottom-color: #E3E4D9;
+    font-family: 'Arimo', sans-serif;
+}
+
+h1{
+    margin: 0 0 5px 10px;
+}
+
 #page{
     width: 980px;
     margin: 10px auto;
@@ -19,3 +36,53 @@ body{
     background-image: url("../image/03-light-carpet.png");
 }
 
+/* グローバルナビ */
+#pageHead .global{
+    border: solid #CCCCCC;
+    border-width: 1px 0;
+    padding: 10px 0;
+}
+
+#pageHead .global ul {
+    margin: 0;
+    padding: 0;
+}
+
+#pageHead .global ul:after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+#pageHead .global ul li{
+    list-style: none;
+    width: 245px;
+    float: left;
+    border-left: solid 1px #CCCCCC;
+    padding: 0 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.429;
+}
+
+#pageHead .global ul li:first-child{
+    border-left: none;
+}
+
+#pageHead .global ul li a{
+    color: #333333;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+#pageHead .global ul li a:hover{
+    background-color: #F2F2E5;
+}
+#pageHead .global ul li.current a{
+    background-color: #F2F2E5;
+}
+
+a{ color: #999966; }
+a:hover{ color: #996600; }

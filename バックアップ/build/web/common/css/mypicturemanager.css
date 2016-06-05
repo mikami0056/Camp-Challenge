@@ -1,0 +1,94 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/06/05, 17:24:27
+    Author     : gest
+*/
+#outline{
+    width: 460px;
+    border: solid 10px #f5f5f5;
+    background-color: #ffffff;
+    margin: 10px 5px;
+    -webkit-box-shadow: 0 10px 8px -6px #8d8c8c;
+    -moz-box-shadow: 0 10px 8px -6px #8d8c8c;
+    box-shadow: 0 10px 8px -6px #8d8c8c;
+    float: left;
+}
+
+#outline img.picture{
+    max-width: 440px;
+    margin: 10px 10px 0 10px;
+} 
+
+#outline p.subject{
+    margin: 0px;
+    text-align: center;
+}
+
+#outline p.commenttitle{
+    margin: 0 10px;
+    
+}
+
+#outline p.commentblock{
+    background-color: #f5f5f5;
+    width: 428px;
+    height: 50px;
+    margin: 0 10px 0 10px;
+    border: dotted 1px #ffffff;
+    padding: 5px;
+}
+
+#outline a.update{
+    color: #696969;
+    position: relative;
+    height: 40px;
+    width: 210px;
+    background-color: #98fb98;
+    display: inline-block;
+    margin: 5px 5px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 45px;
+    border-radius: 5px;
+    box-shadow: 0 3px 0 #32cd32;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+#outline a.update:hover{
+    opacity: 0.7;
+}
+
+#outline a.update:action{
+    top: 3px;
+    box-shadow: none;
+}
+
+
+#outline a.delete{
+    color: #696969;
+    position: relative;
+    height: 40px;
+    width: 210px;
+    background-color: #ffc0cb;
+    display: inline-block;
+    margin: 5px 5px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 45px;
+    border-radius: 5px;
+    box-shadow: 0 3px 0 #ffa07a;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+#outline a.delete:hover{
+    opacity: 0.7;
+}
+
+#outline a.delete:action{
+    top: 3px;
+    box-shadow: none;
+}

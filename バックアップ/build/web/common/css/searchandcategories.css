@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/06/05, 1:27:18
+    Author     : gest
+*/
+
+#pageBodySub{
+    /*background-color: activeborder;*/
+    margin: 10px 0;
+    width: 245px;
+    height: 1000px;
+    float: left;
+    border-right: solid 1px #CCCCCC;
+}
+#pageBodySub section.search p input[type="text"]{
+    width: 200px;
+    height: 30px;
+    font-size: 14px;
+}
+
+#pageBodySub section.search input[type="submit"]{
+    margin: 0 20px 10px;
+    width: 100px;
+    height: 20px;
+}
+
+#pageBodySub section.search input[type="text"]{
+    border-radius: 5px;
+    margin: 5px auto;
+}
+
+#pageBodySub section.search p{
+    text-align: center;
+    margin: 5px 10px 0;
+}
+
+section.category{
+   margin: 5px;
+}
+section.category p{
+    margin: 5px 5px 5px 15px;
+    border-left: solid 5px #CCCCCC;
+}
+

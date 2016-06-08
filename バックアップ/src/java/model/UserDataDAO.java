@@ -143,18 +143,19 @@ public class UserDataDAO {
         
         Connection con = null;
         PreparedStatement pst = null;
-        String updateSql = "UPDATE user_t SET userName = ?, passWord = ?, mail = ? WHERE userID = ?";
+        String updateSql4User = "UPDATE user_t SET userName = ?, passWord = ?, mail = ? WHERE userID = ?";
         System.out.println("updateUserData start");
         
         try{
             
             con = dbmanager.getConnection();
-            pst = con.prepareStatement(updateSql);
+            pst = con.prepareStatement(updateSql4User);
             pst.setString(1, dto.getUserName());
             pst.setString(2, dto.getPassWord());
             pst.setString(3, dto.getMail());
             pst.setInt(4, dto.getUserID());
             pst.executeUpdate();
+            
             System.out.println("updateUserData completed");
             
         }catch(ClassNotFoundException classError){

@@ -45,13 +45,17 @@ section#pageBody section.userInfo ul li{
     margin: 5px 0;
     /*margin: 20px auto;*/
 }
+
+/*
 section#pageBody section.bottoms{
     border-bottom: solid 1px #000000;
 }
+*/
+
 section#pageBody section.buttoms a{
-    font-weight: bold;
+    /*font-weight: bold;*/
     text-decoration: none;
-    color: #FFFFFF;
+    color: #696969;;
     background-color: #f5f5dc;
     padding: 5px 10px;
     width: 250px;
@@ -61,19 +65,20 @@ section#pageBody section.buttoms a{
 
 section#pageBody section.buttoms ul li {
     list-style: none;
-    margin: 10px;
+    margin: 10px 0;
     text-align: center;
 }
 
 section#pageBody section.buttoms ul{
     width: 300px;
     padding: 0 10px;
+    margin: 5px auto;
 }
 
 #pageBody section.buttoms a.buttom{
     position: relative;
     display: inline-block;
-    width: 200px;
+    width: 280px;
     text-align: center;
     text-decoration: none;
     line-height: 30px;

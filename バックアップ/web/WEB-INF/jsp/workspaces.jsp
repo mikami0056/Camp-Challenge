@@ -43,7 +43,7 @@
             <input type="submit" value="検索">
             </section>
             <section class="category">
-            <p>カテゴリー</p>
+            <p class="categorytitle">カテゴリー</p>
             <ul>
                 <li><a href="/WorkSpaces/Search">自宅</a></li>
                 <li><a href="/WorkSpaces/Search">会社</a></li>
@@ -61,13 +61,13 @@
             PictureDataBeans picture = picturesByRank.get(pictureID);
         %>
             <p class="rank">総合<%=i%>位</p>
-            <p class="img"><a href=<%=jumper +  picture.getPictureID() + "&option=Rank"%>><img src="<%=picture.getPath()%>"></a></p>
+            <p class="img"><a href=<%=jumper +  picture.getPictureID() + "&option=Rank"%>><span class="img" style="background-image: url('<%=picture.getPath()%>')"></span></a></p>
             <p class="subject">題名:<a href=<%=jumper +  picture.getPictureID() + "&option=Rank"%>><%=picture.getName()%></a></p>
             <p class="sum">総評価獲得数：<%=picture.getSum()%></p>
             <% i++;}%>
             <%}else{%>
             <p>まだ誰も評価していません...</p>
-            <a href="/WorkSpacesProto/Upload">写真を投稿する</a>
+            <p class="link"><a href="/WorkSpacesProto/Upload">写真を投稿する</a></p>
             <%}%>
         </section>
         <section class="newpicture">
@@ -80,16 +80,15 @@
             PictureDataBeans picture = picturesByTime.get(pictureID);
         %>
         <p class="rank">総合<%=i%>位</p>
-        <p class="img"><a href=<%=jumper +  picture.getPictureID() + "&option=Date"%>><img src="<%=picture.getPath()%>"></a></p>
+        <p class="img"><a href=<%=jumper +  picture.getPictureID() + "&option=Date"%>><span class="img" style="background-image: url('<%=picture.getPath()%>')"></span></a></p>
         <p class="subject"><a href=<%=jumper +  picture.getPictureID() + "&option=Date"%>>題名：<%=picture.getName()%></a></p>
         <p class="date">投稿日：<%=picture.getDateTime()%></p>
         <% i++;}%>
         <%}else{%>
         <p>まだ誰も投稿していません...</p>
-        <a href="/WorkSpacesProto/Upload">写真を投稿する</a>
+        <p class="link"><a href="/WorkSpacesProto/Upload">写真を投稿する</a></p>
         <%}%>    
         </section>
-        
         <section class="newcomment">
         <p><h1 class="title">新着コメント</h1></p>
         <%
@@ -100,7 +99,7 @@
             PictureDataBeans picture = picturesByComment.get(pictureID);
         %>
         <p>総合<%=i%>位</p>
-        <p><a href=<%=jumper +  picture.getPictureID() + "&option=Comment"%>><img src="<%=picture.getPath()%>"></a></p>
+        <p><a href=<%=jumper +  picture.getPictureID() + "&option=Comment"%>><span class="img" style="background-image: url('<%=picture.getPath()%>')"></span></a></p>
         <p><a href=<%=jumper +  picture.getPictureID() + "&option=Comment"%>>題名：<%=picture.getName()%></a></p>
         <p>投稿者コメント：<%=picture.getComment()%></p>
         <% i++;}%>
@@ -109,7 +108,6 @@
         <p class="link"><a href="/WorkSpacesProto/Upload">写真を投稿する</a></p>
         <%}%>    
         </section>
-        
         </div>
     </body>
 </html>

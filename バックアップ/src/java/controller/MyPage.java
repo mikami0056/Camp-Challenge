@@ -53,7 +53,7 @@ public class MyPage extends HttpServlet {
             //destination = "Manage?option=11";
             break;
                 
-            case "MyDataUpldate"://ユーザー情報変更画
+            case "MyDataUpdate"://ユーザー情報変更画
             destination = option;
             break;
             
@@ -66,7 +66,7 @@ public class MyPage extends HttpServlet {
             
         } else {
             
-            destination = "/WorkSpacesProto/index.jsp";
+            destination = "/WEB-INF/jsp/mypage.jsp";
             
         }
         

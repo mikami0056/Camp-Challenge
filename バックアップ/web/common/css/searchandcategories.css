@@ -41,8 +41,15 @@ and open the template in the editor.
 section.category{
    margin: 5px;
 }
+
+section.category p.categorytitle{
+    border-bottom: solid 1px #CCCCCC;
+    text-align: center;
+}
+
+/*
 section.category p{
     margin: 5px 5px 5px 15px;
     border-left: solid 5px #CCCCCC;
 }
-
+*/

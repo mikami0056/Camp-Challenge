@@ -17,7 +17,7 @@
     <body>
         <div id="page">
         <header id="pageHead">
-            <h1 id="siteTitel">WorkSpaces</h1>
+        <h1 id="siteTitel">WorkSpaces</h1>
             <nav class="global">
                 <ul>
                 <li><a href="/WorkSpacesProto/WorkSpaces">ホーム</a></li>
@@ -43,24 +43,6 @@
                     <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=MyDataUpdate">ユーザー情報を変更</a></li>
                     <li><a class="buttom" href="/WorkSpacesProto/MyPage?option=MyDataDelete">ユーザー情報を削除</a></li>
                 </ul>
-                <!--
-                <form action="/WorkSpacesProto/MyPage" method="POST">    
-                    <input type="submit" value="写真を投稿" >
-                    <input type="hidden" name="option" value="Upload">
-                </form>
-                <form action="/WorkSpacesProto/MyPage" method="POST">
-                    <input type="submit" value="写真を管理">
-                    <input type="hidden" name="option" value="Manage">
-                </form>
-                <form action="/WorkSpacesProto/MyPage" method="POST">
-                    <input type="submit" value="ユーザー情報を変更">
-                    <input type="hidden" name="option" value="MyDataUpdate">
-                </form>
-                <form action="/WorkSpacesProto/MyPage" method="POST">
-                    <input type="submit" value="ユーザー情報を削除">
-                    <input type="hidden" name="option" value="MyDataDelete">
-                </form>
-                -->
             </section>
         </section>
         </div>

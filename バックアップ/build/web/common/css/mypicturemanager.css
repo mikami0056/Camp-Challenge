@@ -18,11 +18,25 @@ and open the template in the editor.
     float: left;
 }
 
+/*
 #outline img.picture{
     max-width: 440px;
+    max-height: 400px;
     margin: 10px 10px 0 10px;
 } 
+*/
 
+#outline span.contain{
+    display: inline-block;
+    background-color: #ccc;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 10px 10px 0 10px;
+    width: 440px;
+    height: 400px;
+    border: 1px solid #ccc;
+    background-size: cover;
+}
 #outline p.subject{
     margin: 0px;
     text-align: center;

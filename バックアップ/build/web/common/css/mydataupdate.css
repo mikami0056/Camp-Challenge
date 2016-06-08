@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016/06/05, 21:19:16
+    Author     : gest
+*/
+p{
+    font-size: 12px;
+    margin: 0;
+}
+
+#page section#pageBody input[type="text"],
+#page section#pageBody input[type="password"]{
+    margin: 0 auto 5px;
+    border-radius: 5px;
+    width: 300px;
+    height: 24px;
+}
+
+#page section#pageBody p.username,
+#page section#pageBody p.password,
+#page section#pageBody p.repassword,
+#page section#pageBody p.mail{
+    margin: 0 auto;
+    width: 300px;
+    
+}
+
+.buttom{
+    border-radius: 4px;
+    text-align:center;
+}
+.buttom input[type="submit"]{
+    width: 306px;
+    font-size: 24px;
+    margin: 10px auto 20px;
+    padding: auto;
+    background-color: #f5f5f5;
+    border-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.buttom input[type="submit"]:hover{
+    background-color: #dcdcdc;
+}

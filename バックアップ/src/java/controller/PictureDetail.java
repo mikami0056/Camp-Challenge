@@ -5,8 +5,9 @@
  */
 package controller;
 
+import Logic.CountLogic;
 import java.io.IOException;
-import java.util.Enumeration;
+import java.io.PrintWriter;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.CountDataBeans;
 import model.PictureDataBeans;
+import model.UserDataBeans;
+import net.arnx.jsonic.JSON;
 
 /**
  *
@@ -37,36 +41,48 @@ public class PictureDetail extends HttpServlet {
         
         HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
-        Integer ID = Integer.parseInt(request.getParameter("ID"));
+        
+        String strID = request.getParameter("ID");
+        Integer ID = Integer.parseInt(strID);
         String option = request.getParameter("option");
+        UserDataBeans loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
         PictureDataBeans picture = new PictureDataBeans();
+        
+        
+        CountDataBeans countData = (CountDataBeans)session.getAttribute(strID);
+        if(countData == null){
+            countData = new CountDataBeans();
+            CountLogic.getInstance().getDataFromDB(countData);
+        }
         
         switch(option){
             
             case "Rank":
             Map<Integer, PictureDataBeans> pictureByRank = (Map<Integer, PictureDataBeans>)session.getAttribute("picturesByRank");
-            Enumeration names  = session.getAttributeNames();
-            while(names.hasMoreElements()){
-                System.out.println(names.nextElement());
-            }
             picture = pictureByRank.get(ID);
+            countData.setUserID(loginAccount.getUserID());
+            countData.setPictureID(picture.getPictureID());
             System.out.println(picture.getUserName());
             break;
             
             case "Time":
             Map<Integer, PictureDataBeans> pictureByTime = (Map<Integer, PictureDataBeans>)session.getAttribute("pictureByTime");
             picture = pictureByTime.get(ID);
-            
+            countData.setUserID(loginAccount.getUserID());
+            countData.setPictureID(picture.getPictureID());
             break;
             
             case "Comment":
             Map<Integer, PictureDataBeans> pictureByComment = (Map<Integer, PictureDataBeans>)session.getAttribute("pictureByComment");
             picture = pictureByComment.get(ID);
+            countData.setUserID(loginAccount.getUserID());
+            countData.setPictureID(picture.getPictureID());
             break;
             
         }
-        
+        CountLogic.getInstance().getDataFromDB(countData);
         session.setAttribute("picture4Detail", picture);
+        session.setAttribute(strID, countData);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/picturedetail.jsp");
         dispatcher.forward(request, response);
         
@@ -83,6 +99,20 @@ public class PictureDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json; charset=utf-8");
+        
+        HttpSession session = request.getSession();
+        
+        /*
+        UserDataBeans loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+        */
+        PictureDataBeans picture4Detail = (PictureDataBeans)session.getAttribute("picture4Detail");
+        String strID = request.getParameter("pictureID");
+        CountDataBeans countData = (CountDataBeans)session.getAttribute(strID);
+        String param = request.getParameter("param");
+        int returnParam = CountLogic.getInstance().countAndGetDataFromDB(countData, param, picture4Detail);
+        out.print(JSON.encode(returnParam));
     }
 
     /**

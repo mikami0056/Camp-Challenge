@@ -38,7 +38,7 @@ public class PictureDataDAO {
         
         Connection con = null;
         PreparedStatement pst = null;
-        String selectSql = "INSERT INTO picture_t(pictureID, pictureName, picturePath, ownerComment, submitDate, categoryID, userID, userName) VALUES(?,?,?,?,?,?,?,?)";
+        String selectSql = "INSERT INTO picture_t VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         System.out.println("setPictueData start");
         
         try{
@@ -53,6 +53,11 @@ public class PictureDataDAO {
             pst.setInt(6, dto.getCategoryID());
             pst.setInt(7, dto.getUserID());
             pst.setString(8, dto.getUserName());
+            pst.setInt(9,dto.getBeautiful());
+            pst.setInt(10, dto.getCool());
+            pst.setInt(11, dto.getStylish());
+            pst.setInt(12, dto.getSum());
+            
             pst.executeUpdate();
 
             System.out.println("setPictureData completed");
@@ -412,28 +417,30 @@ public class PictureDataDAO {
             String updateSql = "UPDATE picture_t SET userName = ? WHERE userID = ?";
             
             try{
+                
                 con = dbmanager.getConnection();
                 pst = con.prepareStatement(updateSql);
                 pst.setString(1, dto.getUserName());
                 pst.setInt(2, dto.getUserID());
                 pst.executeUpdate();
+                
             }catch(ClassNotFoundException classError){
             
             System.out.println(classError.getMessage());
             classError.printStackTrace();
             throw new ClassNotFoundException(classError.getMessage());
             
-        }catch(SQLException sqlError){
+            }catch(SQLException sqlError){
             
             System.out.println(sqlError.getMessage());
             sqlError.printStackTrace();
             throw new SQLException(sqlError.getMessage());
             
-        }finally{
-            if(con != null){
-                con.close();
+            }finally{
+                if(con != null){
+                    con.close();
+                }
             }
-        }
         }
     }
     

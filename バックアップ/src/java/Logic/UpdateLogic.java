@@ -6,6 +6,7 @@
 package Logic;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import model.PictureDataBeans;
 import model.PictureDataDAO;
@@ -26,13 +27,28 @@ public class UpdateLogic {
         return new UpdateLogic();
     }
     
-    public void updateUserData(UserDataBeans loginAccount) throws ClassNotFoundException, SQLException{
+    /*
+    @ユーザー情報を更新するためのメソッド
+    @
+    */
+    public void updateUserData(UserDataBeans loginAccount, String oldName) throws ClassNotFoundException, SQLException{
         UserDataDTO dto = new UserDataDTO();
         loginAccount.UDB2DTOMapping(dto);
+        //ユーザー情報を更新
         UserDataDAO.getInstance().updateUserData(dto);
+        //写真情報を更新
         PictureDataDAO.getInstance().updatePictureData(dto);
+        //写真保存用ディレクトリの名前を更新
+        String basePath = "/Users/gest/NetBeansProjects/WorkSpacesProto/web/common/image/";
+        String oldPath = basePath + oldName;
+        String newPath = basePath + loginAccount.getUserName();
+        File oldDirectory = new File(oldPath);
+        if(oldDirectory.exists() && oldDirectory.isDirectory()){
+            File newDirectory = new File(newPath);
+            oldDirectory.renameTo(newDirectory);
+        }
     }
-    
+        
     /*
     @データベース内の写真情報を更新するメソッド
     @更新される情報は

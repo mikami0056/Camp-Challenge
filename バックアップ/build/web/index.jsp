@@ -31,7 +31,7 @@
             <input type="password" name="password"></p>
             <% if("error".equals(request.getParameter("flag"))){out.print("ログインに失敗しました");} %>
             <section id="g">
-            <div class="g-recaptcha" data-sitekey="6Ldh7yATAAAAAFXQSTDIvh6WOkkP0TXRcB12KZR9">
+            <div class="g-recaptcha" data-sitekey="6Ldh7yATAAAAAFXQSTDIvh6WOkkP0TXRcB12KZR9" disable="false">
             </div>
             </section>
             <div class="buttom" >

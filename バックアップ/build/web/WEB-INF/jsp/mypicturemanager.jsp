@@ -19,7 +19,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WorkSpaces</title>
-        <!--<link rel="stylesheet" href="common/css/style.css">-->
         <link rel="stylesheet" href="common/css/standard.css">
         <link rel="stylesheet" href="common/css/mypicturemanager.css">
     </head>
@@ -30,7 +29,7 @@
             <nav class="global">
                 <ul>
                 <li><a href="/WorkSpacesProto/WorkSpaces">ホーム</a></li>
-                <li class="current"><a href="/WorkSpacesProto/MyPage?option=0">マイページ</a></li>
+                <li class="current"><a href="/WorkSpacesProto/WorkSpaces?option=MyPage">マイページ</a></li>
                 <li><a href="/WorkSpacesProto/Logout">ログアウト</a></li>
                 <li><a href="/WorkSpacesProto/Contact">お問い合わせ</a></li>
                 </ul>
@@ -45,7 +44,7 @@
                     PictureDataBeans picture = pictures.get(pictureName);
         %>
             <div id="outline">
-                <img src="<%=picture.getPath()%>" class="picture">
+                <span class="contain" style="background-image: url('<%=picture.getPath()%>')"></span>
                 <p class="subject"><%=picture.getName()%> / <%=picture.getDateTime()%></p>
                 <p class="commenttitle">投稿者コメント</p>
                 <p class="commentblock"><%=picture.getComment()%></p>

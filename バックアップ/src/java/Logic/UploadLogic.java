@@ -44,7 +44,8 @@ public class UploadLogic {
         
         //写真保存用ディレクトリ
         System.out.println("パス" + request.getRequestURI());
-        File newDirectry = new File("/Users/gest/NetBeansProjects/WorkSpacesProto/web/common/image/" + loginAccount.getUserName());        
+        String path = "/Users/gest/NetBeansProjects/WorkSpacesProto/web/common/image/";
+        File newDirectry = new File(path + loginAccount.getUserName());        
         
         //存在しなければ作成
         if(!newDirectry.exists()|| newDirectry == null){

@@ -9,9 +9,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="common/css/standard.css">
         <title>WorkSpaces</title>
     </head>
     <body>
+        <div id="page">
+        <header id="pageHead">
+        <h1 id="siteTitel">WorkSpaces</h1>
+            <nav class="global">
+                <ul>
+                <li><a href="/WorkSpacesProto/WorkSpaces">ホーム</a></li>
+                <li class="current"><a href="/WorkSpacesProto/WorkSpaces?option=MyPage">マイページ</a></li>
+                <li><a href="/WorkSpacesProto/WorkSpaces?option=Logout">ログアウト</a></li>
+                <li><a href="/WorkSpacesProto/WorkSpaces?option=Contact">お問い合わせ</a></li>
+                </ul>
+            </nav>
+        </header>
         <h1>写真情報更新</h1>
         <img src="${picture4Update.path}">
         <form action="Manage" method="POST">
@@ -23,5 +36,6 @@
         <input type="hidden" name="option" value="Update">
         <input type="submit" value="更新">
         </form>
+        </div>
     </body>
 </html>

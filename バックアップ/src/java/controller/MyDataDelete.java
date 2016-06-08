@@ -37,7 +37,9 @@ public class MyDataDelete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mydatadelete.jsp");
+        dispatcher.forward(request, response);
+        /*
         try {
             HttpSession session = request.getSession();
             //ログインしているユーザー情報を取得
@@ -55,6 +57,7 @@ public class MyDataDelete extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(MyDataDelete.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
         
     }
 
@@ -70,8 +73,25 @@ public class MyDataDelete extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mydatadelete.jsp");
-        dispatcher.forward(request, response);
+        
+        
+         try {
+            HttpSession session = request.getSession();
+            //ログインしているユーザー情報を取得
+            UserDataBeans loginAccount = (UserDataBeans)session.getAttribute("loginAccount");
+            //ユーザー情報をもとにデータベースからユーザー情報を削除
+            DeleteLogic.getInstance().deleteUserData(loginAccount);
+            //セッションを削除
+            session.invalidate();
+            request.setAttribute("detail", "ユーザー情報削除");
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/complete.jsp");
+            dispatcher.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MyDataDelete.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MyDataDelete.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

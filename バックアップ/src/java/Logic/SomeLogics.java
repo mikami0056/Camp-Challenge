@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
  * @author gest
  */
 public class SomeLogics {
-    public SomeLogics(){}
     public static SomeLogics getInstance(){
         return new SomeLogics();
     }

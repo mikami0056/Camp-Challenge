@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>メニュー</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <span id="userid"></span>
+            <section id="inout">
+                <button id="in">出勤</button><span id="in_hour">__</span>:<span id="in_minute">__</span>
+                <button id="out">退勤</button><span id="out_hour">__</span>:<span id="out_minute">__</span>
+            </section>
+            <section id="links">
+                <ol>
+                    <li><a href="event.html">イベント</a></li>
+                    <li><a href="inout.html">勤怠管理</a></li>
+                    <li><a href="insert.html">社員登録</a></li>
+                    <li><a href="allemployee.html">社員一覧</a></li>
+                </ol>
+            </section>
+        </div>
+        <script>
+            window.onload = function(){
+                var userid = window.sessionStorage.getItem('userid');
+                document.getElementById('userid').textContent = userid;
+            }
+            document.getElementById('in').onclick = function(){
+                setworkHour('in_hour');
+                setworkMinutes('in_minute');
+            };
+            document.getElementById('out').onclick = function(){
+                setworkHour('out_hour');
+                setworkMinutes('out_minute');
+            };
+            
+            var setworkHour = function(idname){
+                var d = new Date();
+                d.setHours(0);
+                if(idname === 'in_hour' && document.getElementById('out_hour').textContent < d.getHours){
+                    window.alert('出勤時刻が退勤時刻より遅くなっています');
+                    return false;
+                }
+                if(d.getHours() < 10){
+                    document.getElementById(idname).textContent = '0' + d.getHours();
+                }else{
+                    document.getElementById(idname).textContent = d.getHours();
+                }
+            }
+            var setworkMinutes = function(idname){
+                var d = new Date();
+                if(d.getMinutes() < 10){
+                    document.getElementById(idname).textContent = '0' + d.getMinutes();
+                }else{
+                    document.getElementById(idname).textContent = d.getMinutes();
+                }
+            }
+        </script>
+    </body>
+</html>

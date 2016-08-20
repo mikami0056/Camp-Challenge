@@ -44,7 +44,7 @@ public class MenuController extends HttpServlet {
         String option = request.getParameter("option");
         
         switch(controller){
-            case "Events":
+            case "events":
                 request.setAttribute("option",option);
                 request.getRequestDispatcher("EventsController").forward(request,response);
                 break;

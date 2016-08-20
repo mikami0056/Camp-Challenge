@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("MenuController").forward(request,response);
+        request.getRequestDispatcher("MenuController?controller=menu").forward(request,response);
         }
 
     /**

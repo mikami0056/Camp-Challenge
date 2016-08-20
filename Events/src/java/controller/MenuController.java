@@ -40,15 +40,6 @@ public class MenuController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String controller = request.getParameter("controller");
-        String option = request.getParameter("option");
-        
-        switch(controller){
-            case "events":
-                request.setAttribute("option",option);
-                request.getRequestDispatcher("EventsController").forward(request,response);
-                break;
-        }
     }
 
     /**
@@ -62,7 +53,24 @@ public class MenuController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("menu.jsp").forward(request,response);
+        String controller = request.getParameter("controller");
+        String option = request.getParameter("option");
+        
+        switch(controller){
+            case "events":
+                System.out.println("events");
+                request.setAttribute("option",option);
+                request.getRequestDispatcher("EventsController").forward(request,response);
+                break;
+                
+            case "menu":
+                request.getRequestDispatcher("menu.jsp").forward(request,response);
+                break;
+            default:
+                request.getRequestDispatcher("menu.jsp").forward(request,response);
+                break;
+        }
+        
     }
 
     /**

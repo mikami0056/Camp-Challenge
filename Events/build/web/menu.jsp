@@ -15,6 +15,10 @@
         <h1>メニュー画面</h1>
         <button id="in_time">出勤</button>
         <button id="out_time">退勤</button>
-        <a href="MenuController?controller=events?option=list">イベント</a>
+        <form action="MenuController" method="post">
+            <input type="submit" value="イベント">
+            <input type="hidden" name="controller" value="events">
+            <input type="hidden" name="option"     value="list"> 
+        </form>
     </body>
 </html>

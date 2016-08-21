@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import net.arnx.jsonic.JSON;
 
 import model.beans.EmployeeBeans;
+import model.dao.WorkStatusDAO;
 import model.dto.EmployeesDTO;
 import model.dto.WorkStatusDTO;
 import model.logic.WorkStatusLogic;
@@ -54,24 +57,46 @@ public class WorkController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        EmployeesDTO employee = (EmployeesDTO)session.getAttribute("employee");
+        
         String option = request.getParameter("option");
         if(option == null){option="ajax";}
         switch(option){
             case "list":
-                request.getRequestDispatcher("workstatuslist.jsp").forward(request, response);
+                Integer empId = employee.getEmp_id();
+                Map<Integer,WorkStatusDTO> workStatusList = WorkStatusDAO.getInstance().selectAllWorkStatusByEmpId(empId);
+                session.setAttribute("workStatusList",workStatusList);
+                request.getRequestDispatcher("WEB-INF/workstatuslist.jsp").forward(request, response);
+                break;
+            
+            case "edit":
+                //編集対象の勤怠情報を持つDTOを特定するためにMapのキーを取得
+                String  strStatusKey            = request.getParameter("statusKey");
+                Integer statusKey               = Integer.parseInt(strStatusKey);
+                
+                //キーを元に編集対象の勤怠情報をDBから取得
+                WorkStatusDTO tempDTO           = ((Map<Integer,WorkStatusDTO>)session.getAttribute("workStatusList")).get(statusKey);
+                WorkStatusDTO workStatusForEdit = WorkStatusDAO.getInstance().selectWorkStatusByEmpIdAndWorkDate(tempDTO);
+                session.setAttribute("workStatusForEdit", workStatusForEdit);
+                request.getRequestDispatcher("WEB-INF/workstatusedit.jsp").forward(request, response);
+                break;
+                
+            case "update":
+                break;
+                
+            case "delete":
                 break;
                 
             case "ajax":
                 try{
                     PrintWriter out = response.getWriter();
                     response.setContentType("application/json; charset=utf-8");
-                    HttpSession session = request.getSession();
 
                     String param = request.getParameter("param");
                     String type  = request.getParameter("type");
 
                     //ログインしている社員の情報を取得
-                    EmployeesDTO employee = (EmployeesDTO)session.getAttribute("employee");
                     WorkStatusLogic Logic = new WorkStatusLogic();
 
                     switch(type){

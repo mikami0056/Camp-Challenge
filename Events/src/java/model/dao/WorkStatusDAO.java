@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.dto.WorkStatusDTO;
 
 /**
@@ -25,10 +27,11 @@ public class WorkStatusDAO {
         return new WorkStatusDAO();
     }
     
-    public List<WorkStatusDTO> selectAllWorkStatusByEmpId(Integer emp_id){
+    public Map<Integer,WorkStatusDTO> selectAllWorkStatusByEmpId(Integer emp_id){
         Connection        con       = null;
         PreparedStatement statement = null;
-        List<WorkStatusDTO> workStatusList = new ArrayList<>();
+        //List<WorkStatusDTO> workStatusList = new ArrayList<>();
+        Map<Integer,WorkStatusDTO> workStatusList = new HashMap<>();
         
         try{
             //DB接続からkaraSQL作成まで
@@ -41,7 +44,9 @@ public class WorkStatusDAO {
             
             //SQLをDBMSに渡し、実行結果をリストに保存
             ResultSet result = statement.executeQuery();
+            Integer keyCounter = 0;
             while(result.next()){
+                keyCounter++;
                 WorkStatusDTO workStatus = new WorkStatusDTO();
                 workStatus.setWork_date  (result.getDate   ("work_date"));
                 workStatus.setEmp_id     (result.getInt    ("emp_id"));
@@ -51,7 +56,7 @@ public class WorkStatusDAO {
                 workStatus.setWork_time  (result.getTime   ("work_time"));
                 workStatus.setStatus     (result.getString ("status"));
                 workStatus.setDelete_flag(result.getBoolean("delete_flag"));
-                workStatusList.add(workStatus);
+                workStatusList.put(keyCounter,workStatus);
             }
             if(workStatusList.isEmpty()){
                 workStatusList = null;

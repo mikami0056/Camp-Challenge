@@ -28,12 +28,12 @@
             <%for(Integer statusKey : workStatusList.keySet()){%>
             <%WorkStatusDTO workStatus = workStatusList.get(statusKey);%>
             <tr>
-                <th><%=workStatus.getWork_date()%></th>
-                <th><%=workStatus.getWork_in()%></th>
-                <th><%=workStatus.getWork_out()%></th>
-                <th><%=workStatus.getRest_time_str()%></th>
-                <th><%=workStatus.getWork_time_str()%></th>
-                <th><%=workStatus.getStatus()%></th>
+                <td><%=workStatus.getWork_date()%></td>
+                <td><%=workStatus.getWork_in()%></td>
+                <td><%=workStatus.getWork_out()%></td>
+                <td><%=workStatus.getRest_time_str()%></td>
+                <td><%=workStatus.getWork_time_str()%></td>
+                <td><%=workStatus.getStatus()%></td>
                 <form action="WorkController?option=edit" method="post">
                     <input type="submit" value="編集">
                     <input type="hidden" name="statusKey" value="<%=statusKey%>">

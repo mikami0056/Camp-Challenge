@@ -62,9 +62,11 @@ public class MenuController extends HttpServlet {
                 request.setAttribute("option",option);
                 request.getRequestDispatcher("EventsController").forward(request,response);
                 break;
-                
             case "menu":
-                request.getRequestDispatcher("menu.jsp").forward(request,response);
+                request.getRequestDispatcher("WEB-INF/menu.jsp").forward(request,response);
+                break;
+            case "workstatus":
+                request.getRequestDispatcher("WorkController?option="+option).forward(request,response);
                 break;
             default:
                 request.getRequestDispatcher("menu.jsp").forward(request,response);

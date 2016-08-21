@@ -12,6 +12,10 @@
         <servlet-name>MenuController</servlet-name>
         <servlet-class>controller.MenuController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WorkController</servlet-name>
+        <servlet-class>controller.WorkController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>MenuController</servlet-name>
         <url-pattern>/MenuController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WorkController</servlet-name>
+        <url-pattern>/WorkController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

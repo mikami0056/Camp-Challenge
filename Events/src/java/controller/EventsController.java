@@ -91,9 +91,10 @@ public class EventsController extends HttpServlet {
             //社員のイベント参加
             case "join":
                 String  strEmpId   = request.getParameter("empId");
+                Integer empId      = Integer.parseInt(strEmpId);
                         strEventId = request.getParameter("eventId");//case detailで宣言済み
                         eventId    = Integer.parseInt(strEventId);   //case detailで宣言済み
-                Integer empId      = Integer.parseInt(strEmpId);
+                
                 Boolean isResult   = EventJoinDAO.getInstance().insertEmpIdWithEventId(empId,eventId);
                 if(isResult){
                     request.setAttribute("isResult", isResult);

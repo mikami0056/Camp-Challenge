@@ -5,6 +5,8 @@
  */
 package model.logic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -31,7 +33,7 @@ public class ConvertingTimeLogic {
         java.util.Date uDate = new java.util.Date(sqlDate.getTime());
         return uDate;
     }
-    
+        
     public java.sql.Time toSqlTime(java.util.Date uDate){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(uDate);
@@ -40,5 +42,16 @@ public class ConvertingTimeLogic {
         calendar.set(Calendar.DATE,1);
         java.sql.Time time = new java.sql.Time(calendar.getTimeInMillis());
         return time;
+    }
+    
+    public java.util.Date toUtilDateFromSqlDateAndSqlTime(java.sql.Date sqlDate,java.sql.Time sqlTime) throws ParseException{
+        final String dateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat f = new SimpleDateFormat(dateFormat);
+        try{
+            java.util.Date date = f.parse(sqlDate.toString() + " " + sqlTime.toString());
+            return date;
+        }catch(ParseException pe){
+            throw new ParseException("この位置でエラーが発生しました",pe.getErrorOffset());
+        }
     }
 }

@@ -20,7 +20,6 @@
         <%EmployeesDTO employee = (EmployeesDTO)session.getAttribute("employee");%>
         <%Map<Integer,WorkStatusDTO> workStatusList = (Map<Integer,WorkStatusDTO>)session.getAttribute("workStatusList");%>
         <%=employee.getEmp_name()%>さんの勤怠情報
-        
         <table>
             <tr>
                 <th>年月日</th><th>出勤時刻</th><th>退勤時刻</th><th>休憩時間</th><th>勤務時間</th><th>状況</th><th>編集</th>

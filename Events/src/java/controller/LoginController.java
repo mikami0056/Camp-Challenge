@@ -7,10 +7,17 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.logic.ConvertingTimeLogic;
 
 /**
  *
@@ -53,7 +60,42 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+                    HttpSession session = request.getSession();
+
+        String test = request.getParameter("test");
+        String abc  = request.getParameter("abc");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+        Date d = sdf.parse(test);
+        Date t = sdf2.parse(abc);
+        
+        ConvertingTimeLogic ctl = new ConvertingTimeLogic();
+        java.sql.Date tt1 = ctl.toSqlDate(d);
+        java.sql.Time tt2 = ctl.toSqlTime(t);
+        
+        //Date aa = ctl.toUtilDateFromSqlDateAndSqlTime(tt1, tt2);
+        
+        //Date bb = ctl.toUtilDateFromSqlDate(tt1);
+        String bb = ctl.toStringFromSqlDate(tt1);
+        session.setAttribute("test",bb);
+        //Date cc = ctl.toUtilDateFromSqlTime(tt2);
+        String cc = ctl.toStringFromSqlTime(tt2);
+        session.setAttribute("abc",cc);
+        Date date = null;
+        try {
+            date = sdf.parse((test + " " + abc));
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(date);
+        //session.setAttribute("test",test);
+        //session.setAttribute("abc",abc);
         request.getRequestDispatcher("MenuController?controller=menu").forward(request,response);
+        } catch (ParseException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
 
     /**

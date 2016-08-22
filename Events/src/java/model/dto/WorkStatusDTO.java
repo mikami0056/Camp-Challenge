@@ -31,9 +31,7 @@ public class WorkStatusDTO {
     private Time    work_in;        //出勤時刻
     private Time    work_out;       //退勤時刻
     private Time    rest_time;      //休憩時間
-    private String  rest_time_str;  //文字列型休憩時間
     private Time    work_time;      //勤務時間
-    private String  work_time_str;  //文字列型勤務
     private String  status;         //状態(出勤、欠勤、早退、遅刻、忌引、有給)
     private Boolean delete_flag;    //論理削除フラグ
     
@@ -91,39 +89,5 @@ public class WorkStatusDTO {
     }
     public Boolean getDelete_flag(){
         return this.delete_flag;
-    }
-    
-    public void setRest_time_str(Long rest_time){
-        long minutes  = (rest_time/1000/60)%60;
-        long hours    = (rest_time/1000/60/60)%24;
-        
-        String strMinutes = null;
-        if(10 > minutes){
-            strMinutes = "0" + String.valueOf(minutes);
-        }else{
-            strMinutes = String.valueOf(minutes);
-        }
-        
-        String strHours= null;
-        if(10 > hours){
-            strHours = "0" + String.valueOf(hours);
-        }else{
-            strHours = String.valueOf(hours);
-        }
-        
-        this.rest_time_str = strHours + ":" + strMinutes;
-    }
-    
-    public String getRest_time_str(){
-        return this.rest_time_str;
-    }
-    
-    public void setWork_time_str(String work_time_str){
-        this.work_time_str = work_time_str;
-        
-    }
-    
-    public String getWork_time_str(){
-        return this.work_time_str;
     }
 }

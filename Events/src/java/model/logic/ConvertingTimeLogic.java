@@ -34,6 +34,11 @@ public class ConvertingTimeLogic {
         return uDate;
     }
         
+    public java.util.Date toUtilDateFromSqlTime(java.sql.Time sqlTime){
+        java.util.Date uDate = new java.util.Date(sqlTime.getTime());
+        return uDate;
+    }
+    
     public java.sql.Time toSqlTime(java.util.Date uDate){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(uDate);
@@ -53,5 +58,19 @@ public class ConvertingTimeLogic {
         }catch(ParseException pe){
             throw new ParseException("この位置でエラーが発生しました",pe.getErrorOffset());
         }
+    }
+    
+    public String toStringFromSqlDate(java.sql.Date sqlDate){
+        java.util.Date date = toUtilDateFromSqlDate(sqlDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String s = sdf.format(date);
+        return s;
+    }
+    
+    public String toStringFromSqlTime(java.sql.Time sqlTime){
+        java.util.Date date = toUtilDateFromSqlTime(sqlTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:ss");
+        String s = sdf.format(date);
+        return s;
     }
 }

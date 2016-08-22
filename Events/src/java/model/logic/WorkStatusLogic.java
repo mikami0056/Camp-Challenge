@@ -96,8 +96,8 @@ public class WorkStatusLogic {
             strHours = String.valueOf(hours);
         }
         
-        workStatus.setWork_time_str(strHours + ":" + strMinutes);
-        workStatus.setRest_time_str(3600000L);
+        //workStatus.setWork_time_str(strHours + ":" + strMinutes);
+        //workStatus.setRest_time_str(3600000L);
     }
     
     public void calculateWorkTime(WorkStatusDTO workStatus, Long rest_time) throws ParseException{
@@ -149,8 +149,8 @@ public class WorkStatusLogic {
         if(dto.getEmp_id()        == null){return false;}
         if(dto.getWork_in()       == null){return false;}
         if(dto.getWork_out()      == null){return false;}
-        if(dto.getRest_time_str() == null){return false;}
-        if(dto.getWork_time_str() == null){return false;}
+        //if(dto.getRest_time_str() == null){return false;}
+        //if(dto.getWork_time_str() == null){return false;}
         if(dto.getStatus()        == null){return false;}
         if(dto.getDelete_flag()   == null){return false;}
         return true;

@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/gest/NetBeansProjects/Events/src/java/controller/MenuController.java</file>
             <file>file:/Users/gest/NetBeansProjects/Events/src/java/model/dto/WorkStatusDTO.java</file>
             <file>file:/Users/gest/NetBeansProjects/Events/web/WEB-INF/menu.jsp</file>
-            <file>file:/Users/gest/NetBeansProjects/Events/src/java/controller/WorkController.java</file>
             <file>file:/Users/gest/NetBeansProjects/Events/src/java/controller/LoginController.java</file>
-            <file>file:/Users/gest/NetBeansProjects/Events/src/java/model/dao/WorkStatusDAO.java</file>
+            <file>file:/Users/gest/NetBeansProjects/Events/src/java/model/logic/WorkStatusLogic.java</file>
+            <file>file:/Users/gest/NetBeansProjects/Events/src/java/model/logic/ConvertingTimeLogic.java</file>
+            <file>file:/Users/gest/NetBeansProjects/Events/web/WEB-INF/workdetail.jsp</file>
+            <file>file:/Users/gest/NetBeansProjects/Events/web/login.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -58,13 +58,17 @@ public class WorkController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        EmployeesDTO employee = (EmployeesDTO)session.getAttribute("employee");
+        //ログインしている社員の情報を取得
+        //この変数は後々使用,スコープの範囲が広いので注意
+        EmployeesDTO loginEmployee = (EmployeesDTO)session.getAttribute("employee");
         
         String option = request.getParameter("option");
-        if(option == null){option="ajax";}
+        if(option == null){
+            option="ajax";
+        }
         switch(option){
             case "list":
-                Integer empId = employee.getEmp_id();
+                Integer empId = loginEmployee.getEmp_id();
                 Map<Integer,WorkStatusDTO> workStatusList = WorkStatusDAO.getInstance().selectAllWorkStatusByEmpId(empId);
                 session.setAttribute("workStatusList",workStatusList);
                 request.getRequestDispatcher("WEB-INF/workstatuslist.jsp").forward(request, response);
@@ -92,23 +96,23 @@ public class WorkController extends HttpServlet {
                 try{
                     PrintWriter out = response.getWriter();
                     response.setContentType("application/json; charset=utf-8");
-
+                    //現在時刻(param)と勤怠判断用パラメータ(type)を取得
                     String param = request.getParameter("param");
                     String type  = request.getParameter("type");
 
-                    //ログインしている社員の情報を取得
+                    //時刻登録用ロジックインスタンス
                     WorkStatusLogic Logic = new WorkStatusLogic();
 
                     switch(type){
                     case "in":
                         //社員情報と出勤時刻を登録
-                        WorkStatusDTO workStatusIn = Logic.setWorkInToDB(param,employee);
+                        WorkStatusDTO workStatusIn = Logic.setWorkInToDB(param,loginEmployee);
                         session.setAttribute("workStatus",workStatusIn);
                         out.print(JSON.encode(workStatusIn.getWork_in()));
                         break;
 
                     case "out":
-                        WorkStatusDTO workStatusOut = Logic.setWorkOutToDB(param,employee);
+                        WorkStatusDTO workStatusOut = Logic.setWorkOutToDB(param,loginEmployee);
                         Boolean isExist= Logic.checkWorkStatusPropatiesIsExist(workStatusOut);
                         if(isExist){
                             session.setAttribute("workStatus",workStatusOut);

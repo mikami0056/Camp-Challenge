@@ -16,8 +16,8 @@
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="scripts/WorkStatusScript.js"></script>
         <h1>メニュー画面</h1>
-        <input type="date" value="<%=(String)session.getAttribute("test")%>">
-        <input type="time" value="<%=(String)session.getAttribute("abc")%>">
+        <input type="date" value="<%=(String)session.getAttribute("date")%>">
+        <input type="time" value="<%=(String)session.getAttribute("time")%>">
         <span id="userid"></span>
             <span id="date"></span>
             <section id="inout">

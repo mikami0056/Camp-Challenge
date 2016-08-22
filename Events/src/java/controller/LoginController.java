@@ -63,35 +63,27 @@ public class LoginController extends HttpServlet {
         try {
                     HttpSession session = request.getSession();
 
-        String test = request.getParameter("test");
-        String abc  = request.getParameter("abc");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
-        Date d = sdf.parse(test);
-        Date t = sdf2.parse(abc);
+        //日付と時刻のパラメータを取得
+        //日付 yyyy-MM-dd
+        //時刻 HH:mm
+        String strDate = request.getParameter("date");
+        String strTime = request.getParameter("time");
         
-        ConvertingTimeLogic ctl = new ConvertingTimeLogic();
-        java.sql.Date tt1 = ctl.toSqlDate(d);
-        java.sql.Time tt2 = ctl.toSqlTime(t);
+        //これで、String⇨java.sql.Date,Timeへの変換が終了
+        ConvertingTimeLogic ctl = new ConvertingTimeLogic();   
+        java.sql.Date sqlDate = ctl.toSqlDateFromString(strDate);
+        java.sql.Time sqlTime = ctl.toSqlTimeFromString(strTime);
         
-        //Date aa = ctl.toUtilDateFromSqlDateAndSqlTime(tt1, tt2);
+        //ここでjava.sql.Date,TimeからStringへの変換が終了
+        String strDate2 = ctl.toStringFromSqlDate(sqlDate);
+        session.setAttribute("date",strDate2);
+        String strTime2 = ctl.toStringFromSqlTime(sqlTime);
+        session.setAttribute("time",strTime2);
         
-        //Date bb = ctl.toUtilDateFromSqlDate(tt1);
-        String bb = ctl.toStringFromSqlDate(tt1);
-        session.setAttribute("test",bb);
-        //Date cc = ctl.toUtilDateFromSqlTime(tt2);
-        String cc = ctl.toStringFromSqlTime(tt2);
-        session.setAttribute("abc",cc);
-        Date date = null;
-        try {
-            date = sdf.parse((test + " " + abc));
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(date);
-        //session.setAttribute("test",test);
-        //session.setAttribute("abc",abc);
+        Date ddd = new Date();
+        String logicTest1 = ctl.toStringDateFromUtilDate(ddd);
+        String logicTest2 = ctl.toStringTimeFromUtilDate(ddd);
+        
         request.getRequestDispatcher("MenuController?controller=menu").forward(request,response);
         } catch (ParseException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

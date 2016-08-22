@@ -14,8 +14,8 @@
     <body>
         <h1>ログイン画面</h1>
         <form action="LoginController" method="post">
-            <input type="date" name="test">
-            <input type="time" name="abc">
+            <input type="date" name="date">
+            <input type="time" name="time">
         <input type="text" name="username" placeholder="ユーザー名">
         <input type="password" name="password" placeholder="パスワード">
         <input type="submit" value="ログイン">
